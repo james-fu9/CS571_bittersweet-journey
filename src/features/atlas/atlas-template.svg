@@ -1,0 +1,152 @@
+<svg
+          class="china-map"
+          data-min-type="off"
+          viewBox="46 98 944 590"
+          role="img"
+          data-aria="map-aria"
+          aria-label="未完全显影的中国故事地图"
+        >
+
+          <defs>
+            <filter id="atlas-bleed" x="-15%" y="-15%" width="130%" height="130%">
+              <feTurbulence baseFrequency=".012 .07" numOctaves="2" seed="17" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.8" />
+            </filter>
+            <filter id="atlas-soft" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="7" />
+            </filter>
+            <radialGradient id="story-glow">
+              <stop offset="0%" stop-color="#a44735" stop-opacity=".7" />
+              <stop offset="38%" stop-color="#a44735" stop-opacity=".18" />
+              <stop offset="100%" stop-color="#a44735" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+
+          <g class="river-skeleton" filter="url(#atlas-bleed)">
+            <g class="yellow-river">
+              <path id="global-yellow" d="M213 342C275 312 302 255 363 274C419 292 394 357 454 364C533 373 557 300 629 300C719 300 766 358 858 346C917 338 972 302 1086 314" />
+              <text id="global-yellow-label-cn" x="707" y="314" class="map-text cn" lang="zh">黄河</text>
+              <text id="global-yellow-label-en" x="708" y="329" class="map-text en" lang="en">Yellow River</text>
+            </g>
+            <g class="yangtze-river">
+              <path id="global-yangtze" d="M164 503C259 466 342 524 430 502C512 481 551 521 630 530C733 543 781 489 859 510C947 534 1006 568 1132 553" />
+              <text id="global-yangtze-label-cn" x="696" y="539" class="map-text cn" lang="zh">长江</text>
+              <text id="global-yangtze-label-en" x="697" y="554" class="map-text en" lang="en">Yangtze</text>
+            </g>
+            <g id="global-secondary-rivers" class="secondary-rivers" aria-hidden="true"></g>
+          </g>
+
+          <g class="ancient-routes" aria-hidden="true">
+            <path class="silk-road" d="M127 315C226 270 298 286 363 274C457 256 523 233 635 216" />
+            <path class="tea-road" d="M171 505C241 552 338 561 430 503C456 487 462 473 474 458" />
+            <text x="337" y="246" class="route-label silk-road-label cn" lang="zh">古丝路</text>
+            <text x="337" y="260" class="route-label silk-road-label en" lang="en">Silk Road</text>
+            <text x="275" y="575" class="route-label cn" lang="zh">西南古道</text>
+            <text x="276" y="589" class="route-label en" lang="en">Southwestern Road</text>
+          </g>
+          <!-- One image seal per read chapter, placed next to its dot by atlas.js (layoutAtlas). -->
+          <g class="chapter-seals" aria-hidden="true"></g>
+          <g class="story-points">
+            <!-- 《我的山河》谈的是整片土地，因此用黄河与长江之间的文学坐标，不伪装成精确故乡地点。 -->
+            <g class="story-point available" role="button" tabindex="0" data-story="my-hometown" data-aria="point-my-hometown-aria" aria-label="进入我的山河">
+              <circle class="point-glow" cx="606" cy="414" r="38" />
+              <circle class="point-pulse" cx="606" cy="414" r="12" />
+              <circle class="point-core" cx="606" cy="414" r="4" />
+              <text x="620" y="397" class="point-number">03</text>
+              <text x="620" y="421" class="point-clue unread cn" lang="zh">从山河出发</text>
+              <text x="620" y="421" class="point-clue unread en" lang="en">Begin with the land</text>
+              <text x="620" y="421" class="point-clue complete cn" lang="zh">我的山河</text>
+              <text x="620" y="421" class="point-clue complete en" lang="en">My Hometown</text>
+            </g>
+
+            <g class="story-point available" role="button" tabindex="0" data-story="kashgar" aria-label="有人把来世，选在这里。">
+              <circle class="point-glow" cx="118" cy="327" r="35" />
+              <circle class="point-pulse" cx="118" cy="327" r="11" />
+              <circle class="point-core" cx="118" cy="327" r="3" />
+              <text x="128" y="313" class="point-number">09</text>
+              <text x="108" y="335" text-anchor="end" class="point-clue unread cn" lang="zh">有人把来世，选在这里</text>
+              <text x="108" y="335" text-anchor="end" class="point-clue unread en" lang="en">Someone chose to be reborn here</text>
+              <text x="108" y="335" text-anchor="end" class="point-clue complete cn" lang="zh">西域喀什</text>
+              <text x="108" y="335" text-anchor="end" class="point-clue complete en" lang="en">Kashgar</text>
+            </g>
+
+            <g class="story-point available" role="button" tabindex="0" data-story="yangguan" data-aria="point-yangguan-aria" aria-label="进入阳关雪">
+              <circle class="point-glow" cx="235" cy="304" r="31" />
+              <circle class="point-pulse" cx="235" cy="304" r="11" />
+              <circle class="point-core" cx="235" cy="304" r="3.5" />
+              <text x="245" y="291" class="point-number">08</text>
+              <text x="245" y="314" class="point-clue unread cn" lang="zh">冒雪，寻阳关</text>
+              <text x="245" y="314" class="point-clue unread en" lang="en">Through snow, seeking Yangguan</text>
+              <text x="245" y="314" class="point-clue complete cn" lang="zh">阳关雪</text>
+              <text x="245" y="314" class="point-clue complete en" lang="en">Snow on the Southern Pass</text>
+            </g>
+
+            <g class="story-point available cluster" role="button" tabindex="0" data-story="secret-spring" data-aria="point-secret-spring-aria" aria-label="进入沙原隐泉">
+              <circle class="point-glow" cx="286" cy="272" r="42" />
+              <circle class="point-pulse" cx="286" cy="272" r="14" />
+              <circle class="point-core" cx="286" cy="272" r="4" />
+              <text x="275" y="260" class="point-number">07</text>
+              <text x="275" y="280" class="point-clue unread cn" lang="zh">沙山后的一弯泉</text>
+              <text x="275" y="280" class="point-clue unread en" lang="en">A crescent spring beyond the dunes</text>
+              <text x="275" y="280" class="point-clue complete cn" lang="zh">沙原隐泉</text>
+              <text x="275" y="280" class="point-clue complete en" lang="en">The Secret Spring</text>
+            </g>
+
+            <g class="story-point available archive-cluster" role="button" tabindex="0" data-story="taoist-tower" data-aria="point-taoist-tower-aria" aria-label="进入道士塔">
+              <circle class="point-glow" cx="314" cy="245" r="39" />
+              <circle class="point-pulse" cx="314" cy="245" r="13" />
+              <circle class="point-core" cx="314" cy="245" r="4" />
+              <text x="325" y="218" class="point-number">05</text>
+              <text x="325" y="242" class="point-clue unread cn" lang="zh">洞门开，经卷散</text>
+              <text x="325" y="242" class="point-clue unread en" lang="en">The door opens; the scrolls scatter</text>
+              <text x="325" y="242" class="point-clue complete cn" lang="zh">道士塔</text>
+              <text x="325" y="242" class="point-clue complete en" lang="en">The Taoist Priest’s Tower</text>
+            </g>
+
+            <g class="story-point primary" role="button" tabindex="0" data-story="dujiangyan" data-aria="point-dujiangyan-aria" aria-label="进入都江堰">
+              <circle class="point-glow" cx="455" cy="476" r="47" />
+              <circle class="point-pulse" cx="455" cy="476" r="14" />
+              <circle class="point-core" cx="455" cy="476" r="4.5" />
+              <text x="420" y="460" class="point-number">04</text>
+              <text x="440" y="480" class="point-clue unread cn" lang="zh">水，在这里被分开</text>
+              <text x="440" y="480" class="point-clue unread en" lang="en">Here, the water divides</text>
+              <text x="440" y="480" class="point-clue complete complete-location cn" lang="zh">都江堰</text>
+              <text x="440" y="480" class="point-clue complete complete-location en" lang="en">Dujiangyan</text>
+            </g>
+
+            <g class="story-point available" role="button" tabindex="0" data-story="chengde" data-aria="point-chengde-aria" aria-label="进入山庄背影">
+              <circle class="point-glow" cx="856" cy="252" r="32" />
+              <circle class="point-pulse" cx="856" cy="252" r="12" />
+              <circle class="point-core" cx="856" cy="252" r="4" />
+              <text x="869" y="237" class="point-number">10</text>
+              <text x="869" y="260" class="point-clue unread cn" lang="zh">王朝退场</text>
+              <text x="869" y="260" class="point-clue unread en" lang="en">A dynasty exits</text>
+              <text x="869" y="260" class="point-clue complete cn" lang="zh">山庄背影</text>
+              <text x="869" y="260" class="point-clue complete en" lang="en">The Villa from Behind</text>
+            </g>
+
+            <!-- Mogao Caves: anchored geographically by atlas-camera.js. -->
+            <g class="story-point available" role="button" tabindex="0" data-story="mogao-caves" data-aria="point-mogao-caves-aria" aria-label="进入莫高窟">
+              <circle class="point-glow" cx="300" cy="300" r="31" />
+              <circle class="point-pulse" cx="300" cy="300" r="11" />
+              <circle class="point-core" cx="300" cy="300" r="3.5" />
+              <text x="310" y="287" class="point-number">06</text>
+              <text x="310" y="310" class="point-clue unread cn" lang="zh">一座山包，半部艺术史</text>
+              <text x="310" y="310" class="point-clue unread en" lang="en">A hill holding half an art history</text>
+              <text x="310" y="310" class="point-clue complete cn" lang="zh">莫高窟</text>
+              <text x="310" y="310" class="point-clue complete en" lang="en">Mogao Caves</text>
+            </g>
+
+            <!-- Pokhara, Nepal: Albers position fitted to the projected places in real-geography.js. -->
+            <g class="story-point available" role="button" tabindex="0" data-story="fish-tail-lodge" data-aria="point-fish-tail-lodge-aria" aria-label="进入鱼尾山屋">
+              <circle class="point-glow" cx="351.5" cy="496.8" r="31" />
+              <circle class="point-pulse" cx="351.5" cy="496.8" r="11" />
+              <circle class="point-core" cx="351.5" cy="496.8" r="3.5" />
+              <text x="361" y="484" class="point-number">11</text>
+              <text x="361" y="507" class="point-clue unread cn" lang="zh">雪峰下，回望中国</text>
+              <text x="361" y="507" class="point-clue unread en" lang="en">Beneath snow peaks</text>
+              <text x="361" y="507" class="point-clue complete cn" lang="zh">鱼尾山屋</text>
+              <text x="361" y="507" class="point-clue complete en" lang="en">Fish Tail Lodge</text>
+            </g>
+          </g>
+        </svg>

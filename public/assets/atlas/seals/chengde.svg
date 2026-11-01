@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+<title>山庄背影 · 峰影印记</title>
+<desc>章节象征印记，非地理图形：山脊上的棒槌峰与湖边楼阁，一并倒映在水里，只剩背影。</desc>
+<path d="M8 8L93 7L93 93L7 92Z" stroke="#944b39" stroke-width="3"/>
+<path d="M15 15L86 14L86 85L14 85Z" stroke="#944b39" stroke-width=".8"/>
+<path d="M17 42C27 36 36 38 46 34C55 30 68 32 84 39" stroke="#944b39" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M61 33C59 26 59 21 62 16C66 14 69 17 68.5 23C68 28 67 31 66.5 33Z" fill="#944b39"/>
+<path d="M22 53C28 49 40 49 46 53" stroke="#944b39" stroke-width="2.3" stroke-linecap="round"/>
+<path d="M26 53V62M42 53V62M34 53V62M22 62H46M31 49.5L34 46.5L37 49.5" stroke="#944b39" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 66H84" stroke="#944b39" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M24 72H44M28 72V77M40 72V77M24 80Q34 85 44 80M62 72L63 82H66L68 72" stroke="#944b39" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

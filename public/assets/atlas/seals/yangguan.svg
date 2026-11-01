@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+<title>阳关雪 · 烽燧印记</title>
+<desc>章节象征图章，非地理图形：缺损的夯土烽燧立于雪坡上，风雪越过空旷的地平线。</desc>
+<path d="M7 7L93 8L92 94L6 92Z" stroke="#944b39" stroke-width="3"/>
+<path d="M14 14L86 15L85 86L14 85Z" stroke="#944b39" stroke-width=".8"/>
+<path d="M19 70C31 63 39 59 50 58C62 59 71 64 82 70" stroke="#944b39" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M37 59L41 31H47V36L53 33L57 36L62 60" stroke="#944b39" stroke-width="2.8" stroke-linejoin="round"/>
+<path d="M40 49H59M42 41H55" stroke="#944b39" stroke-width="1.5"/>
+<path d="M65 42L79 38" stroke="#944b39" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M19 78C28 74 36 80 45 76C54 72 62 79 71 75C76 73 79 74 82 75" stroke="#944b39" stroke-width="1.6" stroke-linecap="round"/>
+<g fill="#944b39">
+<circle cx="24" cy="26" r="1.7"/><circle cx="33" cy="20" r="1.4"/><circle cx="29" cy="37" r="1.5"/>
+<circle cx="66" cy="20" r="1.4"/><circle cx="78" cy="25" r="1.7"/><circle cx="77" cy="52" r="1.4"/>
+<circle cx="22" cy="51" r="1.3"/>
+</g>
+</svg>

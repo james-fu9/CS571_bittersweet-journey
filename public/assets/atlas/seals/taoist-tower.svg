@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+<title>道士塔 · 空窟印记</title>
+<desc>章节象征印记，非地理图形：一座道士塔立在空了的洞窟前，经卷散成纸页，向远方飘去。</desc>
+<path d="M7 8L93 7L92 93L8 94Z" stroke="#944b39" stroke-width="3"/>
+<path d="M14 15L86 14L85 86L15 85Z" stroke="#944b39" stroke-width=".8"/>
+<path d="M50 79V53C50 41 76 41 76 53V79" stroke="#944b39" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M56 79V55C56 48 70 48 70 55V79" stroke="#944b39" stroke-width="1" stroke-dasharray="2 2.6"/>
+<path d="M25 71C22 62 25 56 31 53C37 56 40 62 37 71Z" fill="#944b39"/>
+<path d="M31 53V38M27.5 48H34.5M28.5 44H33.5M29.5 40.5H32.5" stroke="#944b39" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="31" cy="35.5" r="1.8" fill="#944b39"/>
+<path d="M23 71H39V76H23Z" stroke="#944b39" stroke-width="1.6"/>
+<path d="M63 44C66 36 72 30 82 24" stroke="#944b39" stroke-width="1" stroke-dasharray="1.5 3" stroke-linecap="round"/>
+<path d="M68 31L73 29.5L74 33.5L69 35Z" fill="#944b39"/>
+<path d="M76 22.5L80.5 20L82.5 23.8L78 26.3Z" fill="#944b39"/>
+<path d="M58 23L62.5 22.8L62.7 26.8L58.2 27Z" stroke="#944b39" stroke-width="1.2"/>
+<path d="M18 81C28 79 38 82 50 80C62 78 72 82 82 80" stroke="#944b39" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

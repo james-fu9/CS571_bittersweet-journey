@@ -1,0 +1,1560 @@
+/* Original atlas styles by Yanbing Chen and Eugenie Huang, scoped to the React atlas. */
+.journey-atlas {
+  color-scheme: light;
+  --paper: #ece7db;
+  --paper-light: #f3efe5;
+  --ink: #20251f;
+  --ink-soft: #64675c;
+  --water: #345d6e;
+  --water-light: #75939c;
+  --moss: #747c6e;
+  --sand: #b7a47f;
+  --seal: #9d3d31;
+  --line: rgba(32, 37, 31, 0.2);
+  --cn: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --en: "Caudex", Georgia, serif;
+  --label: "Ysabeau", "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+}
+
+.journey-atlas * { box-sizing: border-box; }
+
+.journey-atlas,
+.journey-atlas {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+.journey-atlas {
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 45% 46%, rgba(255, 255, 255, .55), transparent 34rem),
+    var(--paper);
+  font-family: var(--cn);
+}
+
+.journey-atlas[data-language="en"] {
+  font-family: var(--en);
+}
+
+.journey-atlas button,
+.journey-atlas a { color: inherit; }
+
+.journey-atlas button { font: inherit; }
+
+.journey-atlas .paper-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: .085;
+  background: url("/assets/atlas/paper-grain.svg");
+  mix-blend-mode: multiply;
+}
+
+.journey-atlas .atlas-experience {
+  position: relative;
+  height: 100vh;
+  padding-top: 72px;
+}
+
+.journey-atlas .atlas-intro {
+  position: absolute;
+  z-index: 7;
+  top: 100px;
+  left: 5vw;
+  width: min(1000px, 90vw);
+  pointer-events: none;
+}
+
+.journey-atlas .cta-callout {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  max-width: 390px;
+  margin: 20px 0 0;
+  padding: 17px 50px 18px 18px;
+  border: 1px solid rgba(157, 61, 49, .3);
+  border-radius: 4px 22px 9px 17px;
+  background: linear-gradient(135deg, rgba(250, 247, 240, .97), rgba(240, 231, 214, .92));
+  box-shadow: 0 16px 38px rgba(70, 50, 34, .12), inset 0 1px rgba(255, 255, 255, .45);
+  pointer-events: auto;
+  transition: opacity .28s ease, transform .28s ease;
+}
+
+.journey-atlas .cta-callout[hidden] { display: none; }
+
+.journey-atlas .cta-callout::after {
+  content: "";
+  position: absolute;
+  right: 17px;
+  bottom: -5px;
+  width: 38px;
+  height: 9px;
+  border-bottom: 1px solid rgba(157, 61, 49, .28);
+  border-radius: 50%;
+  transform: rotate(-5deg);
+}
+
+.journey-atlas .cta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.journey-atlas .cta-text strong {
+  color: var(--seal);
+  font: 700 13.5px var(--label);
+  font-style: normal;
+  letter-spacing: .1em;
+}
+
+.journey-atlas .cta-text em {
+  color: var(--ink-soft);
+  font: 13.5px var(--label);
+  font-style: normal;
+  letter-spacing: .07em;
+}
+
+.journey-atlas .cta-text small {
+  margin-top: 5px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(157, 61, 49, .2);
+  color: var(--seal);
+  font: 600 12px/1.55 var(--label);
+  letter-spacing: .07em;
+}
+
+.journey-atlas .cta-close {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-soft);
+  font: 20px/1 var(--label);
+  cursor: pointer;
+}
+
+.journey-atlas .cta-close:hover,
+.journey-atlas .cta-close:focus-visible { background: rgba(157, 61, 49, .1); color: var(--seal); }
+
+.journey-atlas .cta-reopen {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  margin-top: 18px;
+  padding: 4px 13px 4px 6px;
+  border: 1px solid rgba(157, 61, 49, .28);
+  border-radius: 20px 20px 20px 7px;
+  background: rgba(250, 247, 240, .9);
+  color: var(--ink-soft);
+  box-shadow: 0 8px 24px rgba(70, 50, 34, .1);
+  font: 600 13px/1 var(--label);
+  letter-spacing: .08em;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.journey-atlas .cta-reopen[hidden] { display: none; }
+.journey-atlas .cta-reopen i {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--seal);
+  color: #f6efe2;
+  font: 600 14px/1 var(--en);
+}
+.journey-atlas .cta-reopen:hover,
+.journey-atlas .cta-reopen:focus-visible { border-color: var(--seal); color: var(--seal); transform: translateY(-1px); }
+.journey-atlas .cta-close:focus-visible,
+.journey-atlas .cta-reopen:focus-visible { outline: 1px solid var(--seal); outline-offset: 3px; }
+
+.journey-atlas .atlas-intro h1 {
+  margin: 0;
+  font-size: clamp(22px, 5.2vw, 52px);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.journey-atlas .atlas-intro h1 span { display: inline; }
+
+.journey-atlas .atlas-intro h1 .question-accent {
+  color: var(--seal);
+  position: relative;
+  display: inline-block;
+}
+
+.journey-atlas .title-fireflies { position: absolute; inset: 0; pointer-events: none; }
+.journey-atlas .chapter-label-leader {
+  fill: none; stroke: #8b1820; stroke-width: 1;
+  vector-effect: non-scaling-stroke; opacity: .85; pointer-events: none;
+}
+.journey-atlas .title-fireflies i {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: #ffe3a2; box-shadow: 0 0 6px 2px #e6b96199;
+  opacity: .25; animation: title-firefly 4.8s ease-in-out infinite;
+}
+.journey-atlas .title-fireflies i:nth-child(1) { left: 8%; top: 8%; animation-delay: -1s; }
+.journey-atlas .title-fireflies i:nth-child(2) { left: 68%; top: -12%; animation-delay: -3.4s; }
+.journey-atlas .title-fireflies i:nth-child(3) { left: 96%; top: 66%; animation-delay: -4.8s; }
+.journey-atlas .title-fireflies i:nth-child(4) { left: 35%; top: 95%; animation-delay: -2.2s; }
+@keyframes title-firefly {
+  0%, 100% { opacity: .12; transform: translate(-4px, 4px) scale(.7); }
+  35% { opacity: .95; transform: translate(3px, -5px) scale(1); }
+  65% { opacity: .45; transform: translate(10px, -12px) scale(.8); }
+  82% { opacity: .8; transform: translate(2px, -3px) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-atlas .atlas-intro h1 .title-fireflies { display: none; }
+}
+
+.journey-atlas[data-language="en"] .atlas-intro h1 {
+  font-family: var(--en);
+  font-size: clamp(15px, 3.2vw, 46px);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.05;
+  letter-spacing: -.025em;
+}
+
+.journey-atlas[data-language="en"] .atlas-intro .question-tail::before {
+  content: " ";
+}
+
+.journey-atlas .atlas-map-stage {
+  position: absolute;
+  inset: 72px 0 28px;
+  overflow: hidden;
+}
+
+.journey-atlas .china-map {
+  position: absolute;
+  inset: 3% 1% -2% 1%;
+  width: 98%;
+  height: 99%;
+  overflow: visible;
+  transform-origin: 53% 64%;
+  transition:
+    transform 1.25s cubic-bezier(.72, 0, .25, 1),
+    opacity .7s ease;
+}
+
+.journey-atlas .river-skeleton path {
+  fill: none;
+  stroke: rgba(52, 93, 110, .44);
+  stroke-linecap: round;
+}
+
+.journey-atlas .yellow-river path { stroke-width: 4; }
+.journey-atlas .yangtze-river path { stroke-width: 6; }
+.journey-atlas .secondary-rivers path {
+  stroke-width: 1.35;
+  opacity: .1;
+  transition: opacity 1.2s ease, stroke-width 1.2s ease;
+}
+
+.journey-atlas.dujiangyan-complete .secondary-rivers path[data-river="min"] {
+  stroke-width: 2.5;
+  opacity: .58;
+}
+
+.journey-atlas .map-text,
+.journey-atlas .route-label {
+  fill: var(--ink-soft);
+  font-family: var(--cn);
+  font-size: 16px;
+  letter-spacing: .18em;
+  paint-order: stroke;
+  stroke: rgba(236, 231, 219, .94);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.journey-atlas .map-text.en,
+.journey-atlas .route-label.en {
+  font-family: var(--label);
+  font-size: 12px;
+  letter-spacing: .16em;
+}
+
+.journey-atlas .vertical { writing-mode: vertical-rl; }
+
+.journey-atlas .ancient-routes path {
+  fill: none;
+  stroke: rgba(92, 83, 64, .27);
+  stroke-width: 1.2;
+  stroke-dasharray: 2 8;
+}
+
+.journey-atlas .route-label { font-size: 13px; }
+.journey-atlas .route-label.en { font-size: 11px; }
+
+.journey-atlas .story-point {
+  cursor: pointer;
+  outline: none;
+}
+
+.journey-atlas .story-point .point-glow {
+  fill: url("#story-glow");
+  opacity: .22;
+  transition: opacity .4s ease;
+}
+
+.journey-atlas .story-point .point-core {
+  fill: var(--seal);
+  stroke: var(--paper);
+  stroke-width: 1.5;
+}
+
+.journey-atlas .story-point .point-pulse,
+.journey-atlas .story-point .point-orbit {
+  fill: none;
+  stroke: var(--seal);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.journey-atlas .point-archive-mark {
+  fill: none;
+  stroke: var(--seal);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.journey-atlas .story-point .point-pulse {
+  animation: atlas-pulse 2.4s ease-out infinite;
+}
+
+@keyframes atlas-pulse {
+  0% { opacity: .7; transform: scale(.45); }
+  100% { opacity: 0; transform: scale(2.6); }
+}
+
+.journey-atlas .point-number {
+  fill: var(--seal);
+  font: 10px var(--label);
+  letter-spacing: .14em;
+  paint-order: stroke;
+  stroke: rgba(236, 231, 219, .94);
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
+}
+
+.journey-atlas .point-clue {
+  fill: var(--ink);
+  font-family: var(--cn);
+  font-size: 15px;
+  letter-spacing: .13em;
+  paint-order: stroke;
+  stroke: rgba(236, 231, 219, .96);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.journey-atlas .point-clue.en {
+  font: 12px var(--label);
+  letter-spacing: .15em;
+}
+
+/* One language at a time. Every paired label carries lang="zh" or lang="en"; the one for the other
+   language is removed whatever else styles it, so both can never show together. */
+.journey-atlas[data-language="zh"] [lang="en"],
+.journey-atlas[data-language="en"] [lang="zh"] {
+  display: none !important;
+}
+
+.journey-atlas .story-point.quiet .point-clue,
+.journey-atlas .story-point.quiet .point-number {
+  opacity: .18;
+  transition: opacity .35s ease;
+}
+
+.journey-atlas .story-point.quiet .point-core { opacity: .42; }
+
+.journey-atlas .story-point:hover .point-glow { opacity: .72; }
+.journey-atlas .story-point.quiet:hover .point-clue,
+.journey-atlas .story-point.quiet:hover .point-number { opacity: .8; }
+
+.journey-atlas .story-point.primary .point-clue {
+  font-size: 17px;
+}
+
+.journey-atlas .story-point.available .point-clue {
+  font-size: 16px;
+}
+
+.journey-atlas .story-point.available .point-glow {
+  opacity: .34;
+}
+
+.journey-atlas .story-point .complete { display: none; }
+
+.journey-atlas.my-hometown-complete .story-point[data-story="my-hometown"] .unread {
+  display: none;
+}
+
+.journey-atlas.my-hometown-complete .story-point[data-story="my-hometown"] .complete {
+  display: block;
+}
+
+.journey-atlas.dujiangyan-complete .story-point[data-story="dujiangyan"] .unread {
+  display: none;
+}
+
+.journey-atlas.dujiangyan-complete .story-point[data-story="dujiangyan"] .complete {
+  display: block;
+}
+
+.journey-atlas.secret-spring-complete .story-point[data-story="secret-spring"] .unread {
+  display: none;
+}
+
+.journey-atlas.secret-spring-complete .story-point[data-story="secret-spring"] .complete {
+  display: block;
+}
+
+.journey-atlas.taoist-tower-complete .story-point[data-story="taoist-tower"] .unread {
+  display: none;
+}
+
+.journey-atlas.taoist-tower-complete .story-point[data-story="taoist-tower"] .complete {
+  display: block;
+}
+
+.journey-atlas.chengde-complete .story-point[data-story="chengde"] .unread {
+  display: none;
+}
+
+.journey-atlas.chengde-complete .story-point[data-story="chengde"] .complete {
+  display: block;
+}
+
+.journey-atlas.yangguan-complete .story-point[data-story="yangguan"] .unread {
+  display: none;
+}
+
+.journey-atlas.yangguan-complete .story-point[data-story="yangguan"] .complete {
+  display: block;
+}
+
+.journey-atlas.mogao-caves-complete .story-point[data-story="mogao-caves"] .unread {
+  display: none;
+}
+
+.journey-atlas.mogao-caves-complete .story-point[data-story="mogao-caves"] .complete {
+  display: block;
+}
+
+.journey-atlas.fish-tail-lodge-complete .story-point[data-story="fish-tail-lodge"] .unread {
+  display: none;
+}
+
+.journey-atlas.fish-tail-lodge-complete .story-point[data-story="fish-tail-lodge"] .complete {
+  display: block;
+}
+
+/* Chapter callout: placed next to the hovered dot by atlas.js (left/top, data-side, --tip). It takes no layout space. */
+.journey-atlas .chapter-preview {
+  --callout-bg: rgba(243, 239, 229, .97);
+  --callout-line: rgba(157, 61, 49, .38);
+  position: absolute;
+  z-index: 9;
+  left: 0;
+  top: 0;
+  width: min(280px, calc(100% - 24px));
+  padding: 14px 18px 12px;
+  border: 1px solid var(--callout-line);
+  background: var(--callout-bg);
+  box-shadow: 0 16px 44px rgba(41, 38, 29, .14);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition:
+    opacity .28s ease,
+    transform .28s ease,
+    visibility .28s;
+}
+
+.journey-atlas .chapter-preview[data-side="above"] { transform: translateY(-6px); }
+.journey-atlas .chapter-preview[data-side="left"] { transform: translateX(6px); }
+.journey-atlas .chapter-preview[data-side="right"] { transform: translateX(-6px); }
+
+.journey-atlas .chapter-preview.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* touch: a card may sit on top of a neighbouring dot, so only its button captures taps */
+@media (hover: none) {
+  .journey-atlas .chapter-preview.is-visible { pointer-events: none; }
+  .journey-atlas .chapter-preview.is-visible .enter-story { pointer-events: auto; }
+}
+
+/* pointer toward the dot: a rotated square showing two borders */
+.journey-atlas .chapter-preview::before {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  background: var(--callout-bg);
+  border: 0 solid var(--callout-line);
+  transform: rotate(45deg);
+}
+
+.journey-atlas .chapter-preview[data-side="below"]::before {
+  top: -6px;
+  left: var(--tip, 50%);
+  margin-left: -6px;
+  border-width: 1px 0 0 1px;
+}
+
+.journey-atlas .chapter-preview[data-side="above"]::before {
+  bottom: -6px;
+  left: var(--tip, 50%);
+  margin-left: -6px;
+  border-width: 0 1px 1px 0;
+}
+
+.journey-atlas .chapter-preview[data-side="left"]::before {
+  right: -6px;
+  top: var(--tip, 50%);
+  margin-top: -6px;
+  border-width: 1px 1px 0 0;
+}
+
+.journey-atlas .chapter-preview[data-side="right"]::before {
+  left: -6px;
+  top: var(--tip, 50%);
+  margin-top: -6px;
+  border-width: 0 0 1px 1px;
+}
+
+/* dotted leader from the pointer to the dot, only when the card sits farther off (--lead > 0) */
+.journey-atlas .chapter-preview::after {
+  content: "";
+  position: absolute;
+  border: 0 dotted var(--callout-line);
+}
+
+.journey-atlas .chapter-preview[data-side="below"]::after {
+  left: var(--tip, 50%);
+  bottom: 100%;
+  height: var(--lead, 0px);
+  margin-bottom: 6px;
+  border-left-width: 1px;
+}
+
+.journey-atlas .chapter-preview[data-side="above"]::after {
+  left: var(--tip, 50%);
+  top: 100%;
+  height: var(--lead, 0px);
+  margin-top: 6px;
+  border-left-width: 1px;
+}
+
+.journey-atlas .chapter-preview[data-side="left"]::after {
+  top: var(--tip, 50%);
+  left: 100%;
+  width: var(--lead, 0px);
+  margin-left: 6px;
+  border-top-width: 1px;
+}
+
+.journey-atlas .chapter-preview[data-side="right"]::after {
+  top: var(--tip, 50%);
+  right: 100%;
+  width: var(--lead, 0px);
+  margin-right: 6px;
+  border-top-width: 1px;
+}
+
+.journey-atlas .preview-index {
+  margin: 0;
+  color: var(--seal);
+  font: 13.5px var(--label);
+  letter-spacing: .16em;
+}
+
+.journey-atlas .chapter-preview h2 {
+  margin: 8px 0 7px;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: .1em;
+}
+
+.journey-atlas[data-language="en"] .chapter-preview h2 {
+  font: 21px var(--en);
+  letter-spacing: -.02em;
+}
+
+.journey-atlas .chapter-preview > p:not(.preview-index) {
+  margin: 0 0 12px;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  line-height: 1.8;
+  letter-spacing: .08em;
+}
+
+.journey-atlas[data-language="en"] .chapter-preview > p:not(.preview-index) {
+  font: 14px/1.55 var(--en);
+  letter-spacing: 0;
+}
+
+.journey-atlas .enter-story {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  background: none;
+  font-size: 13.5px;
+  letter-spacing: .15em;
+  cursor: pointer;
+}
+
+.journey-atlas .enter-story svg {
+  width: 45px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+
+.journey-atlas .unavailable-note {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  bottom: 65px;
+  padding: 10px 16px;
+  color: var(--paper);
+  background: var(--ink);
+  font-size: 13.5px;
+  letter-spacing: .14em;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.journey-atlas .unavailable-note.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.journey-atlas .reveal-receipt {
+  position: fixed;
+  z-index: 55;
+  top: calc(var(--site-header-height, 72px) + 22px);
+  right: 30px;
+  display: grid;
+  grid-template-columns: 54px minmax(190px, 1fr);
+  gap: 14px;
+  align-items: center;
+  width: min(390px, calc(100vw - 40px));
+  min-height: 86px;
+  padding: 14px 20px 14px 16px;
+  border: 1px solid rgba(118, 75, 53, .72);
+  border-radius: 3px 12px 12px 3px;
+  background:
+    radial-gradient(circle at 16% 22%, rgba(255,255,255,.38), transparent 24%),
+    repeating-linear-gradient(0deg, rgba(114,76,53,.045) 0 1px, transparent 1px 4px),
+    #e8ddc5;
+  box-shadow: 0 18px 32px rgba(25, 28, 25, .22), inset 0 0 0 2px rgba(255,255,255,.18), inset 0 0 22px rgba(105, 70, 44, .17);
+  opacity: 0;
+  transform: translateX(0) scaleX(1);
+  transform-origin: right center;
+  pointer-events: none;
+  overflow: visible;
+  will-change: transform, opacity;
+  transition: opacity .35s ease;
+}
+
+.journey-atlas .reveal-receipt::before,
+.journey-atlas .reveal-receipt::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  bottom: -7px;
+  width: 17px;
+  border: 1px solid rgba(104, 65, 43, .65);
+  background: linear-gradient(90deg, #b78a62, #ead9ba 48%, #9a6848);
+  box-shadow: 0 5px 9px rgba(45, 34, 27, .2);
+  z-index: -1;
+}
+
+.journey-atlas .reveal-receipt::before {
+  left: -9px;
+  border-radius: 50% 4px 4px 50%;
+  transform: rotate(-1deg);
+}
+
+.journey-atlas .reveal-receipt::after {
+  right: -9px;
+  border-radius: 4px 50% 50% 4px;
+  transform: rotate(1deg);
+}
+
+.journey-atlas.is-returning .reveal-receipt {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  animation: scroll-unfurl 1s cubic-bezier(.2,.78,.22,1) both;
+}
+
+@keyframes scroll-unfurl {
+  0% { opacity: 0; transform: translateX(115%) scaleX(.18); }
+  58% { opacity: 1; transform: translateX(-3%) scaleX(1.035); }
+  78% { transform: translateX(1%) scaleX(.985); }
+  100% { opacity: 1; transform: translateX(0) scaleX(1); }
+}
+
+.journey-atlas .receipt-mark {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 2px solid var(--seal);
+  color: var(--seal);
+  font-size: 25px;
+}
+
+.journey-atlas .reveal-receipt p {
+  margin: 0 0 5px;
+  color: var(--seal);
+  font-size: 14px;
+  letter-spacing: .15em;
+}
+
+.journey-atlas .reveal-receipt strong {
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: .07em;
+}
+
+.journey-atlas[data-seal-collection="flying"] .site-progress {
+  animation: seal-target-pulse .45s ease-in-out infinite alternate;
+}
+
+@keyframes seal-target-pulse {
+  from { transform: translateX(0); }
+  to { transform: translateX(3px); }
+}
+
+.journey-atlas .stamp-overlay {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(32, 37, 31, .55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity .26s ease;
+}
+
+.journey-atlas .stamp-overlay:not(.is-visible) { pointer-events: none; }
+
+.journey-atlas .stamp-overlay.is-visible { opacity: 1; }
+
+.journey-atlas .stamp-modal {
+  position: relative;
+  width: min(560px, 100%);
+  min-width: 0;
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: 34px 30px 30px;
+  border: 1px solid var(--line);
+  background: var(--paper-light);
+  box-shadow: 0 24px 70px rgba(41, 38, 29, .25);
+  transform: translateY(14px) scale(.98);
+  transition: transform .3s ease;
+}
+
+.journey-atlas .stamp-overlay.is-visible .stamp-modal {
+  transform: none;
+}
+
+.journey-atlas .stamp-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  appearance: none;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.journey-atlas .stamp-close:hover,
+.journey-atlas .stamp-close:focus-visible {
+  color: var(--seal);
+}
+
+.journey-atlas .stamp-kicker {
+  margin: 0 0 10px;
+  color: var(--seal);
+  font: 600 13.5px var(--label);
+  letter-spacing: .16em;
+}
+
+.journey-atlas .stamp-modal h2 {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: .12em;
+}
+
+.journey-atlas .stamp-desc {
+  max-width: 40em;
+  margin: 0 0 6px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: .06em;
+}
+
+.journey-atlas .stamp-count {
+  margin: 0 0 22px;
+  color: var(--ink-soft);
+  font: 600 13.5px var(--label);
+  letter-spacing: .12em;
+}
+
+.journey-atlas .stamp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 18px;
+}
+
+.journey-atlas .stamp-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.journey-atlas .stamp-mark {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 2px dashed var(--line);
+  color: var(--ink-soft);
+  font-size: 26px;
+}
+
+.journey-atlas .stamp-card.is-unlocked .stamp-mark {
+  border-style: solid;
+  border-color: var(--seal);
+  background: rgba(157, 61, 49, .06);
+  color: var(--seal);
+}
+
+.journey-atlas .stamp-name {
+  font-size: 14px;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.journey-atlas .stamp-card:not(.is-unlocked) .stamp-name {
+  color: var(--ink-soft);
+}
+
+.journey-atlas .stamp-line {
+  font-size: 13.5px;
+  line-height: 1.6;
+  letter-spacing: .05em;
+  color: var(--ink-soft);
+}
+
+.journey-atlas .stamp-card:not(.is-unlocked) .stamp-line {
+  font-style: italic;
+  opacity: .9;
+}
+
+.journey-atlas .view-stamps {
+  display: none;
+}
+
+.journey-atlas .atlas-footer {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 26px;
+  height: 38px;
+  padding: 0 38px;
+  border-top: 1px solid var(--line);
+  background: rgba(236, 231, 219, .9);
+  color: var(--ink-soft);
+  font: 13.5px var(--label);
+  letter-spacing: .07em;
+}
+
+.journey-atlas .atlas-citation {
+  margin-right: auto;
+}
+
+.journey-atlas .atlas-map-source {
+  color: var(--ink-soft);
+  font-family: var(--label);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.journey-atlas .reset-progress {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .journey-atlas { overflow-y: auto; }
+
+  .journey-atlas .atlas-experience {
+    height: auto;
+    min-height: 100vh;
+    padding-top: 64px;
+  }
+
+  .journey-atlas .atlas-intro {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    padding: 25px 22px 0;
+  }
+
+  .journey-atlas .cta-callout { padding: 15px 46px 16px 15px; }
+
+  .journey-atlas .atlas-map-stage {
+    position: relative;
+    inset: auto;
+    height: 76vh;
+    min-height: 560px;
+    margin-top: -10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-color: var(--ink-soft) transparent;
+    scrollbar-width: thin;
+  }
+
+  .journey-atlas .china-map {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .journey-atlas .atlas-footer {
+    position: static;
+    justify-content: flex-end;
+    gap: 16px;
+    height: 40px;
+    padding: 0 18px;
+    font-size: 13.5px;
+  }
+
+  .journey-atlas .atlas-citation {
+    display: none;
+  }
+
+  .journey-atlas .view-stamps {
+    display: block;
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--seal);
+    cursor: pointer;
+  }
+
+  .journey-atlas .reveal-receipt {
+    position: fixed;
+    top: calc(var(--site-header-height, 64px) + 16px);
+    right: 14px;
+    bottom: auto;
+    width: min(360px, calc(100vw - 28px));
+    grid-template-columns: 44px minmax(0, 1fr);
+    padding: 12px 15px 12px 12px;
+  }
+
+  .journey-atlas .stamp-modal {
+    padding: 28px 20px 24px;
+  }
+}
+
+@media (max-width: 520px) {
+
+  .journey-atlas .atlas-map-stage {
+    height: 66vh;
+    min-height: 480px;
+  }
+
+  /* A phone keeps the map near the desktop scale, so its labels stay at 10pt without crowding,
+     and the map scrolls sideways (atlas.js starts it centred on the chapters). */
+  .journey-atlas .atlas-map-stage {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .journey-atlas .atlas-map-stage::-webkit-scrollbar { display: none; }
+
+  .journey-atlas .china-map {
+    inset: 0 auto 0 0;
+    width: 880px;
+  }
+
+  .journey-atlas .chapter-preview {
+    width: min(232px, calc(100% - 24px));
+    padding: 12px 14px 10px;
+  }
+
+  .journey-atlas .chapter-preview h2 {
+    margin: 6px 0 5px;
+    font-size: 21px;
+  }
+
+  .journey-atlas[data-language="en"] .chapter-preview h2 { font-size: 19px; }
+
+  .journey-atlas .reset-progress,
+  .journey-atlas .view-stamps { font-size: 13.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-atlas *,
+  .journey-atlas *::before,
+  .journey-atlas *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* English typography: Caudex for editorial text, Ysabeau for interface text. */
+.journey-atlas[data-language="en"] :is(
+  .enter-story,
+  .unavailable-note,
+  .reset-progress,
+  .reveal-receipt button,
+  .view-stamps,
+  .stamp-kicker,
+  .stamp-count,
+  .stamp-close
+) {
+  font-family: var(--label);
+  font-weight: 600;
+}
+
+.journey-atlas[data-language="en"] :is(
+  .atlas-progress,
+  .atlas-language,
+  .map-text.en,
+  .route-label.en,
+  .point-number,
+  .point-clue.en,
+  .preview-index,
+  .enter-story,
+  .unavailable-note,
+  .atlas-footer
+) {
+  letter-spacing: .08em;
+}
+
+/* Readable type scale based on Material's label/body hierarchy. */
+.journey-atlas .route-label.en {
+  font-size: 13px;
+}
+
+.journey-atlas .point-number {
+  font-size: 12px;
+}
+
+.journey-atlas .point-clue.en {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.journey-atlas .preview-index,
+.journey-atlas .unavailable-note {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.journey-atlas .chapter-preview > p:not(.preview-index) {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.journey-atlas[data-language="en"] .chapter-preview > p:not(.preview-index) {
+  font: 15px/1.6 var(--en);
+}
+
+.journey-atlas .enter-story {
+  min-height: 40px;
+  font-size: 14px;
+}
+
+.journey-atlas .reveal-receipt p,
+.journey-atlas .reveal-receipt strong {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.journey-atlas .atlas-footer {
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .journey-atlas .atlas-intro {
+    width: 100%;
+  }
+
+  .journey-atlas .atlas-footer {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .journey-atlas .reset-progress,
+  .journey-atlas .view-stamps {
+    font-size: 14px;
+  }
+}
+
+/* Kashgar remains visible after reading. */
+.journey-atlas.kashgar-complete [data-story="kashgar"] .point-core { fill: var(--cinnabar, #944b39); r: 6px; }
+.journey-atlas.kashgar-complete [data-story="kashgar"] .point-glow { opacity: .3; }
+
+.journey-atlas [data-story="kashgar"] .complete,.journey-atlas.kashgar-complete [data-story="kashgar"] .unread{display:none}
+.journey-atlas.kashgar-complete[data-language="zh"] [data-story="kashgar"] .complete.cn,.journey-atlas.kashgar-complete[data-language="en"] [data-story="kashgar"] .complete.en{display:block}
+
+.journey-atlas .receipt-mark.has-seal{border:0;background:none;flex-shrink:0}.journey-atlas .receipt-mark.has-seal img{width:50px;height:50px;display:block}
+
+/* Homepage previews contain only a question and its invitation. */
+.journey-atlas .chapter-preview > p[data-copy="preview-text"] { font-size: 17px; line-height: 1.75; letter-spacing: .025em; margin: 0 0 22px; }
+.journey-atlas[data-language="en"] .chapter-preview > p[data-copy="preview-text"] { font-size: 19px; line-height: 1.5; }
+.journey-atlas .stamp-mark.has-seal { border: 0; background: none; }
+.journey-atlas .stamp-mark.has-seal img { display: block; width: 52px; height: 52px; }
+
+.journey-atlas .stamp-overlay[hidden] { display: none; }
+
+/* 阳关雪: the drawn seal stays on the map after reading, as with Kashgar. */
+
+/* A read chapter's dot settles like Kashgar's: a larger, still cinnabar dot, no pulse. */
+.journey-atlas.my-hometown-complete [data-story="my-hometown"] .point-core,
+.journey-atlas.dujiangyan-complete [data-story="dujiangyan"] .point-core,
+.journey-atlas.secret-spring-complete [data-story="secret-spring"] .point-core,
+.journey-atlas.taoist-tower-complete [data-story="taoist-tower"] .point-core,
+.journey-atlas.chengde-complete [data-story="chengde"] .point-core,
+.journey-atlas.yangguan-complete [data-story="yangguan"] .point-core,
+.journey-atlas.fish-tail-lodge-complete [data-story="fish-tail-lodge"] .point-core,
+.journey-atlas.mogao-caves-complete [data-story="mogao-caves"] .point-core {
+  fill: var(--cinnabar, #944b39);
+  r: 6px;
+}
+.journey-atlas.my-hometown-complete [data-story="my-hometown"] .point-glow,
+.journey-atlas.dujiangyan-complete [data-story="dujiangyan"] .point-glow,
+.journey-atlas.secret-spring-complete [data-story="secret-spring"] .point-glow,
+.journey-atlas.taoist-tower-complete [data-story="taoist-tower"] .point-glow,
+.journey-atlas.chengde-complete [data-story="chengde"] .point-glow,
+.journey-atlas.yangguan-complete [data-story="yangguan"] .point-glow,
+.journey-atlas.fish-tail-lodge-complete [data-story="fish-tail-lodge"] .point-glow,
+.journey-atlas.mogao-caves-complete [data-story="mogao-caves"] .point-glow {
+  opacity: .3;
+}
+.journey-atlas.my-hometown-complete [data-story="my-hometown"] .point-pulse,
+.journey-atlas.kashgar-complete [data-story="kashgar"] .point-pulse,
+.journey-atlas.dujiangyan-complete [data-story="dujiangyan"] .point-pulse,
+.journey-atlas.secret-spring-complete [data-story="secret-spring"] .point-pulse,
+.journey-atlas.taoist-tower-complete [data-story="taoist-tower"] .point-pulse,
+.journey-atlas.chengde-complete [data-story="chengde"] .point-pulse,
+.journey-atlas.yangguan-complete [data-story="yangguan"] .point-pulse,
+.journey-atlas.fish-tail-lodge-complete [data-story="fish-tail-lodge"] .point-pulse,
+.journey-atlas.dujiangyan-complete [data-story="dujiangyan"] .point-orbit,
+.journey-atlas.secret-spring-complete [data-story="secret-spring"] .point-orbit,
+.journey-atlas.taoist-tower-complete [data-story="taoist-tower"] .point-orbit,
+.journey-atlas.chengde-complete [data-story="chengde"] .point-orbit,
+.journey-atlas.yangguan-complete [data-story="yangguan"] .point-orbit,
+.journey-atlas.fish-tail-lodge-complete [data-story="fish-tail-lodge"] .point-orbit,
+.journey-atlas.dujiangyan-complete [data-story="dujiangyan"] .point-archive-mark,
+.journey-atlas.secret-spring-complete [data-story="secret-spring"] .point-archive-mark,
+.journey-atlas.taoist-tower-complete [data-story="taoist-tower"] .point-archive-mark,
+.journey-atlas.chengde-complete [data-story="chengde"] .point-archive-mark,
+.journey-atlas.yangguan-complete [data-story="yangguan"] .point-archive-mark,
+.journey-atlas.fish-tail-lodge-complete [data-story="fish-tail-lodge"] .point-archive-mark,
+.journey-atlas.mogao-caves-complete [data-story="mogao-caves"] .point-pulse,
+.journey-atlas.mogao-caves-complete [data-story="mogao-caves"] .point-orbit {
+  display: none;
+  animation: none;
+}
+
+/* 莫高窟 */
+
+/* 鱼尾山屋 */
+
+
+/* One seal per read chapter (docs/map-guidance.md M-4, M-7): the same image seal the chapter uses, placed by
+   atlas.js next to its dot where it covers no label, dot or other seal; stamped in when the reader returns. */
+.journey-atlas .chapter-seal { opacity: 0; pointer-events: none; transition: opacity 1.3s; }
+.journey-atlas .chapter-seal.is-shown { opacity: .9; }
+
+.journey-atlas .chapter-seal { transform-box:fill-box; transform-origin:center; }
+.journey-atlas .chapter-seal.is-reveal-pending { opacity:0; transition:none; }
+.journey-atlas .chapter-seal.is-stamping { transition:none; }
+
+
+.journey-atlas .reset-confirmation {
+  width: min(470px, calc(100vw - 32px));
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgba(198, 165, 107, .32);
+  border-radius: 5px 22px 10px 18px;
+  color: #e3dccd;
+  background: linear-gradient(145deg, #3c2c23, #2b211b);
+  box-shadow: 0 30px 100px rgba(20, 12, 8, .48), inset 0 1px rgba(240, 214, 170, .08);
+}
+.journey-atlas .reset-confirmation::backdrop { background: rgba(35, 26, 20, .58); backdrop-filter: blur(3px); }
+.journey-atlas .reset-confirmation form { padding: 32px 34px 30px; }
+.journey-atlas .reset-confirmation-kicker {
+  margin: 0 0 10px;
+  color: #d5b77e;
+  font: 600 12px/1.4 var(--label);
+  letter-spacing: .18em;
+}
+.journey-atlas .reset-confirmation h2 {
+  margin: 0 0 14px;
+  font: 400 27px/1.35 var(--cn);
+  letter-spacing: .08em;
+}
+.journey-atlas[data-language="en"] .reset-confirmation h2 { font-family: var(--en); letter-spacing: .025em; }
+.journey-atlas .reset-confirmation #reset-confirmation-description {
+  margin: 0;
+  color: #bfc0b3;
+  font: 14px/1.75 var(--label);
+  letter-spacing: .045em;
+}
+.journey-atlas .reset-confirmation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(198, 165, 107, .18);
+}
+.journey-atlas .reset-confirmation-actions button {
+  min-height: 42px;
+  padding: 0 17px;
+  border-radius: 10px 10px 4px 10px;
+  font: 600 13px/1 var(--label);
+  letter-spacing: .07em;
+  cursor: pointer;
+}
+.journey-atlas .reset-cancel { border: 1px solid rgba(198, 165, 107, .25); background: transparent; color: #d2cbbb; }
+.journey-atlas .reset-cancel:hover,
+.journey-atlas .reset-cancel:focus-visible { border-color: rgba(213, 183, 126, .7); color: #f0dfbf; }
+.journey-atlas .reset-confirm { border: 1px solid #aa5145; background: #923e34; color: #f7eee2; box-shadow: 0 8px 22px rgba(53, 20, 16, .28); }
+.journey-atlas .reset-confirm:hover,
+.journey-atlas .reset-confirm:focus-visible { background: #aa4a3d; }
+.journey-atlas .reset-confirmation-actions button:focus-visible { outline: 1px solid #e2bd82; outline-offset: 3px; }
+@media (max-width: 520px) {
+  .journey-atlas .reset-confirmation form { padding: 27px 22px 22px; }
+  .journey-atlas .reset-confirmation-actions { align-items: stretch; flex-direction: column-reverse; }
+  .journey-atlas .reset-confirmation-actions button { width: 100%; }
+}
+
+/* A geographic drawing on paper: every terrain stroke is data anchored. */
+.journey-atlas .paper-noise { background-image: url('/assets/atlas/atlas-paper.svg'); opacity: .12; }
+.journey-atlas .atlas-map-stage { isolation: isolate; overflow: hidden; }
+.journey-atlas .china-map {
+  inset: 0; width: 100%; height: 100%; overflow: hidden;
+  touch-action: none; cursor: grab; user-select: none;
+  transition: none; background: #eee9dc;
+}
+.journey-atlas .china-map.is-panning { cursor: grabbing; }
+.journey-atlas .china-map:focus-visible { outline: 1px solid #944b39; outline-offset: -4px; }
+.journey-atlas .atlas-sea { fill: #dce3df; }
+.journey-atlas .atlas-land { fill: #f0e9d9; stroke: #738a83; stroke-width: .8; vector-effect: non-scaling-stroke; }
+.journey-atlas .atlas-region { stroke: none; }
+.journey-atlas .atlas-region-mountain { fill: #777d61; opacity: .04; }
+.journey-atlas .atlas-region-plateau { fill: #b4a17a; opacity: .065; }
+.journey-atlas .atlas-region-basin { fill: #c5b58c; opacity: .06; }
+.journey-atlas .atlas-region-desert { fill: #c5a76d; opacity: .21; }
+.journey-atlas .atlas-hachures { fill: none; stroke: #746e54; stroke-width: .65; opacity: .32; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.journey-atlas .atlas-hachures.weight-1 { stroke-width: .8; opacity: .4; }
+.journey-atlas .atlas-hachures.weight-2 { stroke-width: .9; opacity: .46; }
+.journey-atlas .atlas-contour { fill: none; stroke: #807953; stroke-width: .65; opacity: .23; vector-effect: non-scaling-stroke; }
+.journey-atlas .atlas-stream { fill: none; stroke: #6d9194; stroke-width: .75; opacity: .62; vector-effect: non-scaling-stroke; }
+.journey-atlas .atlas-lake { fill: #94b2b1; fill-opacity: .55; stroke: #739697; stroke-width: .65; vector-effect: non-scaling-stroke; }
+.journey-atlas .china-map .river-skeleton { filter: none; }
+.journey-atlas .china-map .river-skeleton path { stroke: #62878c; stroke-width: 1.7; opacity: .76; vector-effect: non-scaling-stroke; }
+.journey-atlas .china-map .secondary-rivers path { opacity: .45; stroke-width: 1; }
+.journey-atlas .china-map .ancient-routes path { stroke-width: 1; opacity: .6; vector-effect: non-scaling-stroke; }
+.journey-atlas .physical-label { fill: #727760; font-family: var(--cn); paint-order: stroke; stroke: #f0e9d9ee; stroke-linejoin: round; pointer-events: none; }
+.journey-atlas .physical-label.sea { fill: #708e91; stroke: #dce3dfee; }
+.journey-atlas .physical-label.lake,.journey-atlas .physical-label.local { fill: #5f7d7b; }
+.journey-atlas[data-language="en"] .physical-label { font-family: var(--en); font-style: italic; }
+.journey-atlas .china-map[data-detail="1"] [data-level="2"],
+.journey-atlas .china-map[data-detail="1"] [data-level="3"],
+.journey-atlas .china-map[data-detail="2"] [data-level="3"] { display: none; }
+.journey-atlas .story-point .point-glow,.journey-atlas .story-point .point-pulse { pointer-events: none; }
+.journey-atlas .atlas-intro h1 { text-shadow: 0 1px 14px #f5eedf,0 1px 5px #f5eedf; }
+.journey-atlas .atlas-intro { position: fixed; top: calc(var(--site-header-height,72px) + 22px); left: 3.5vw; }
+.journey-atlas .cta-callout { max-width: 410px; background: #f6f0e2d9; border-color: #a995704d; }
+.journey-atlas .atlas-navigation {
+  position: absolute; right: 28px; bottom: 24px; z-index: 8;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 9px;
+}
+.journey-atlas .atlas-zoom-controls {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #958b7030;
+  border-radius: 13px 13px 5px 13px;
+  background: #f3ecddc9;
+  box-shadow: 0 8px 24px #54493416, inset 0 1px #fff8;
+  backdrop-filter: blur(8px);
+}
+.journey-atlas .atlas-zoom-controls button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 44px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #565c4e;
+  cursor: pointer;
+  font: 0/0 var(--sans);
+}
+.journey-atlas .atlas-zoom-controls button + button { box-shadow: inset 1px 0 #958b7018; }
+.journey-atlas .atlas-zoom-controls button[data-camera="in"]::before,
+.journey-atlas .atlas-zoom-controls button[data-camera="in"]::after,
+.journey-atlas .atlas-zoom-controls button[data-camera="out"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 1.25px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+.journey-atlas .atlas-zoom-controls button[data-camera="in"]::after { transform: translate(-50%, -50%) rotate(90deg); }
+.journey-atlas .atlas-zoom-controls button.atlas-home { width: 52px; font: 14px/1 var(--cn); letter-spacing: .05em; }
+.journey-atlas .atlas-zoom-controls button:disabled { opacity: .3; cursor: default; }
+.journey-atlas .atlas-zoom-controls button:hover:not(:disabled) { background: #e4dac7a6; }
+.journey-atlas .atlas-zoom-controls button:focus-visible,.journey-atlas .atlas-notes-toggle:focus-visible,.journey-atlas .atlas-notes-close:focus-visible { outline: 1px solid #944b39; outline-offset: 2px; }
+.journey-atlas .atlas-scale {
+  padding: 4px 8px;
+  border: 1px solid #958b7026;
+  border-radius: 8px 3px 8px 8px;
+  background: #f3ecddbd;
+  color: #646c5f;
+  box-shadow: 0 5px 16px #54493412;
+  font: 13.5px var(--label);
+  backdrop-filter: blur(7px);
+}
+.journey-atlas .atlas-footer-source { display: flex; align-items: center; gap: 22px; margin-right: auto; min-width: 0; }
+.journey-atlas .atlas-footer-source .atlas-citation { margin-right: 0; }
+.journey-atlas .atlas-notes-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
+.journey-atlas .atlas-notes-toggle:hover,.journey-atlas .atlas-notes-close:hover { color: var(--seal); }
+.journey-atlas .atlas-geography-notes { position: fixed; left: 24px; bottom: 50px; z-index: 45; width: min(480px,calc(100vw - 48px)); max-height: calc(100dvh - 140px); overflow-y: auto; padding: 30px; font: 14px/1.8 var(--cn); color: #626955; background: #f3efe5fa; border: 1px solid var(--line); box-shadow: 0 24px 70px #29261d38; }
+.journey-atlas .atlas-geography-notes[hidden] { display: none; }
+.journey-atlas .atlas-geography-notes h2 { margin: 0 28px 18px 0; font-size: 22px; font-weight: 400; letter-spacing: .08em; color: var(--ink); }
+.journey-atlas .atlas-notes-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border: 0; background: none; font-size: 22px; color: inherit; cursor: pointer; }
+.journey-atlas .atlas-geography-notes p { margin: 10px 0; }
+.journey-atlas .atlas-geography-notes a { text-underline-offset: 3px; }
+.journey-atlas .chapter-preview {
+  /* a deeper, warmer parchment: closer to the lamp-lit ground, so the bubble no longer glares on the dark map */
+  --callout-bg: rgba(222, 209, 185, .96);
+  --callout-line: rgba(132, 92, 58, .38);
+  padding: 24px 28px 22px;
+  border: 1px solid var(--callout-line);
+  border-radius: 16px;
+  box-shadow: 0 5px 18px #93806b10;
+}
+.journey-atlas .chapter-preview,
+.journey-atlas .chapter-preview[data-side],
+.journey-atlas .chapter-preview.is-visible { transition: none; transform: none; }
+/* on the deeper parchment the question needs a darker grey to stay at 4.5:1 (map-guidance A-1) */
+.journey-atlas .chapter-preview > p:not(.preview-index) { color: #4d4f46; }
+.journey-atlas .chapter-preview::before,.journey-atlas .chapter-preview::after { content: none; }
+.journey-atlas .thought-trail { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.journey-atlas .thought-trail circle { fill: var(--callout-bg); stroke: var(--callout-line); stroke-width: 1px; }
+.journey-atlas .chapter-preview, .journey-atlas .chapter-preview * { transition: none !important; }
+.journey-atlas .flying-collection-seal { position: fixed; left: 0; top: 0; z-index: 65; width: 48px; height: 48px; pointer-events: none; transform-origin: center; }
+.journey-atlas .seal-collection-status { position: fixed; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.journey-atlas .site-progress.is-receiving { box-shadow: 0 0 0 7px #944b3912; background: #944b3914; }
+@media (max-width: 900px) {
+  .journey-atlas .atlas-intro { position: fixed; top: calc(var(--site-header-height,64px) + 16px); left: 22px; width: calc(100% - 44px); padding: 0; }
+  .journey-atlas .atlas-map-stage { margin-top: calc(var(--atlas-intro-height,130px) + 34px); height: 70vh; min-height: 440px; overflow: hidden; }
+  .journey-atlas .china-map { inset: 0; width: 100%; height: 100%; }
+  .journey-atlas .atlas-footer { height: auto; min-height: 44px; flex-wrap: wrap; padding: 8px 18px; gap: 8px 16px; }
+  .journey-atlas .atlas-footer-source { flex-basis: 100%; flex-wrap: wrap; gap: 6px 18px; }
+  .journey-atlas .atlas-footer-source .atlas-citation { display: inline; }
+  .journey-atlas .atlas-geography-notes { left: 16px; bottom: 20px; width: calc(100vw - 32px); padding: 26px 22px; }
+  .journey-atlas .atlas-navigation { right: 16px; bottom: 16px; }
+  .journey-atlas .cta-callout { margin-top: 12px; }
+}
+@media (max-width: 520px) {
+  .journey-atlas .atlas-map-stage { height: 63vh; min-height: 420px; }
+  .journey-atlas .chapter-preview { padding: 22px 24px 20px; }
+}
+
+/* Phones (2026-10-09): one screen, no page scroll. The map fills everything between the intro and the footer,
+   and the footer stays at the bottom (it used to sit below a fixed 63-70vh map, out of sight). */
+@media (max-width: 900px) {
+  .journey-atlas { --atlas-footer-h: 0px; }
+  .journey-atlas, .journey-atlas { height: 100%; overflow: hidden; }
+  .journey-atlas .atlas-experience { height: 100dvh; min-height: 0; }
+  .journey-atlas .atlas-map-stage {
+    height: calc(100dvh - var(--site-header-height, 64px) - var(--atlas-intro-height, 130px) - 34px - var(--atlas-footer-h));
+    min-height: 260px;
+  }
+  .journey-atlas .atlas-footer { position: fixed; inset: auto 0 0; z-index: 30; min-height: var(--atlas-footer-h); align-content: center; }
+}
+@media (max-width: 520px) {
+  .journey-atlas .atlas-map-stage { height: calc(100dvh - var(--site-header-height, 64px) - var(--atlas-intro-height, 130px) - 34px - var(--atlas-footer-h)); min-height: 260px; }
+}
+/* the language buttons and the sound button sit side by side in their wrapper */
+.journey-atlas .site-masthead .site-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+@media (max-width: 900px) {
+  .journey-atlas .atlas-map-source { font-size: 13.5px; }
+  .journey-atlas .atlas-footer .view-stamps, .journey-atlas .atlas-footer .reset-progress { min-height: 36px; }
+}
+/* Phones (2026-10-09): no footer - the map gets the space. The seals open from the header's seal count. */
+@media (max-width: 900px) {
+  .journey-atlas .atlas-footer { display: none; }
+}
+
+/* The interface stays readable above a dark, explorable map. */
+.journey-atlas.journey-ready { background: #302219; }
+.journey-atlas.journey-ready:not(.journey-mounted) .china-map { visibility: hidden; }
+.journey-atlas.journey-ready .paper-noise { opacity: .035; }
+.journey-atlas.journey-ready .site-masthead,
+.journey-atlas.journey-ready .atlas-footer { background: #32251eed; color: #dfd8c8; border-color: #b69a6633; }
+.journey-atlas.journey-ready .site-wordmark,
+.journey-atlas.journey-ready .site-language,
+.journey-atlas.journey-ready .site-language button,
+.journey-atlas.journey-ready .site-progress { color: #dfd8c8; }
+.journey-atlas.journey-ready .site-progress b,
+.journey-atlas.journey-ready .site-progress i,
+.journey-atlas.journey-ready .site-language button[aria-pressed="true"] { color: #e8bd7b; }
+.journey-atlas.journey-ready .atlas-intro h1 { color: #e3dccd; text-shadow: 0 2px 16px #302219; }
+.journey-atlas.journey-ready .atlas-intro .question-accent { color: #d9b57c; }
+.journey-atlas.journey-ready .cta-callout {
+  max-width: 410px;
+  background: linear-gradient(135deg, #3c2c23f5, #2d221ceb);
+  border-color: #c6a56b52;
+  box-shadow: 0 18px 48px #160e0a42, inset 0 1px #f0d6aa12;
+}
+.journey-atlas.journey-ready .cta-text strong { color: #e2bd82; }
+.journey-atlas.journey-ready .cta-text em { color: #b6b9aa; line-height: 1.6; }
+.journey-atlas.journey-ready .cta-text small { border-color: #c6a56b30; color: #d5b77e; }
+.journey-atlas.journey-ready .cta-close { color: #b6b9aa; }
+.journey-atlas.journey-ready .cta-close:hover,
+.journey-atlas.journey-ready .cta-close:focus-visible { color: #f0c989; background: #d9b57c18; }
+.journey-atlas.journey-ready .cta-reopen { color: #c9c3b5; background: #38291fe8; border-color: #b69a6648; box-shadow: 0 12px 30px #160e0a38; }
+.journey-atlas.journey-ready .cta-reopen i { color: #38291f; background: #d9b57c; }
+.journey-atlas.journey-ready .cta-reopen:hover,
+.journey-atlas.journey-ready .cta-reopen:focus-visible { color: #e2bd82; border-color: #d9b57c; }
+.journey-atlas.journey-ready .atlas-zoom-controls {
+  background: linear-gradient(145deg, #3b2d24dc, #30241dd4);
+  border-color: #c3a46b2d;
+  box-shadow: 0 12px 32px #160e0a34, inset 0 1px #f0d6aa0d;
+}
+.journey-atlas.journey-ready .atlas-zoom-controls button { color: #ddd4c2; }
+.journey-atlas.journey-ready .atlas-zoom-controls button + button { box-shadow: inset 1px 0 #d8bb8620; }
+.journey-atlas.journey-ready .atlas-zoom-controls button:hover:not(:disabled) { background: #c09b6330; }
+.journey-atlas.journey-ready .atlas-scale {
+  background: #382b22c9;
+  border-color: #c3a46b24;
+  color: #b8b9a9;
+  box-shadow: 0 8px 22px #160e0a28;
+}
+.journey-atlas.journey-ready .china-map:focus-visible { outline-color: #e2bd82; }
+.journey-atlas .journey-fog { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+.journey-atlas .journey-traveler { position: absolute; left: 0; top: 0; width: 80px; height: 64px; z-index: 4; pointer-events: none; overflow: visible; filter: drop-shadow(0 3px 3px #0008); }
+.journey-atlas .journey-facing { transform-origin: 60px 85px; }
+.journey-atlas .journey-leg { transform-box: fill-box; transform-origin: 50% 0; }
+.journey-atlas .journey-traveler.is-walking .journey-leg { animation: horse-stride 1.1s ease-in-out infinite alternate; }
+.journey-atlas .journey-traveler.is-walking .journey-leg:nth-child(even) { animation-direction: alternate-reverse; }
+.journey-atlas .journey-traveler.is-walking .journey-rider { animation: poet-ride 1.1s ease-in-out infinite alternate; }
+.journey-atlas .journey-traveler.is-running .journey-leg,
+.journey-atlas .journey-traveler.is-running .journey-rider { animation-duration: .3s; }
+.journey-atlas .journey-status { position: absolute; top: calc(100% + 6px); left: 0; padding: 3px 6px; background: #38291fe8; color: #ead2a7; font: 13.5px/1.5 var(--label); }
+.journey-atlas .journey-status:empty { display: none; }
+.journey-atlas.is-journey-running .china-map { pointer-events: none; }
+.journey-atlas .journey-dust { display: none; }
+.journey-atlas .journey-traveler.is-walking .journey-dust { display: block; animation: road-dust 1.8s ease-out infinite; }
+.journey-atlas .journey-traveler.is-walking .journey-robe { transform-origin: 48px 28px; animation: robe-sway 1.5s ease-in-out infinite alternate; }
+@keyframes road-dust { from { opacity: .3; transform: translateX(0); } to { opacity: 0; transform: translateX(-8px); } }
+@keyframes robe-sway { to { transform: rotate(3deg); } }
+.journey-atlas.journey-illuminated { background: #ece7db; }
+.journey-atlas.journey-illuminated .atlas-intro h1 { color: #423529; text-shadow: 0 1px 12px #f4ecdb; }
+.journey-atlas.journey-illuminated .atlas-intro .question-accent { color: #944b39; }
+.journey-atlas .atlas-finale { width: min(620px,calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow: auto; padding: 42px 36px; border: 1px solid #aa8a5955; color: #493c2e; background: #f1e8d7; box-shadow: 0 24px 100px #36231755; text-align: center; }
+.journey-atlas .atlas-finale::backdrop { background: #37261933; backdrop-filter: blur(2px); }
+.journey-atlas .finale-kicker { margin: 0 0 16px; color: #927348; font: 14px var(--label); letter-spacing: .22em; }
+.journey-atlas .atlas-finale h2 { margin: 0; font-weight: 400; font-size: clamp(25px,3vw,38px); line-height: 1.5; letter-spacing: .08em; }
+.journey-atlas .finale-message { font-size: 16px; line-height: 1.8; margin: 20px auto 26px; max-width: 34em; }
+/* nine chapters: a 3 × 3 grid of seals */
+.journey-atlas .finale-seals { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 18px; max-width: 480px; margin: 0 auto; }
+.journey-atlas .finale-seals figure { margin: 0; }
+.journey-atlas .finale-seals img { width: 70px; height: 70px; }
+.journey-atlas .finale-seals figcaption { margin-top: 7px; font-size: 13.5px; line-height: 1.5; }
+.journey-atlas .finale-return { margin-top: 28px; padding: 12px 6px; background: none; border: 0; border-bottom: 1px solid #967142; font: inherit; color: inherit; cursor: pointer; }
+.journey-atlas .finale-return:focus-visible { outline: 2px solid #944b39; outline-offset: 5px; }
+@keyframes horse-stride { from { transform: rotate(-13deg); } to { transform: rotate(13deg); } }
+@keyframes poet-ride { from { transform: translateY(0); } to { transform: translateY(-1.5px); } }
+@media (max-width: 900px) {
+  .journey-atlas.journey-ready .atlas-intro { background: linear-gradient(#302219 75%,#30221900); padding-bottom: 12px; }
+  .journey-atlas.journey-ready .cta-callout { margin-top: 10px; padding: 14px 46px 15px 14px; }
+  .journey-atlas.journey-illuminated .atlas-intro { background: linear-gradient(#ece7db 75%,#ece7db00); }
+  .journey-atlas .atlas-finale { padding: 28px 20px; }
+  .journey-atlas .finale-seals { gap: 20px 10px; }
+  .journey-atlas .finale-seals img { width: 54px; height: 54px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-atlas .journey-traveler * { animation: none !important; }
+}

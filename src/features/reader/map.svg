@@ -1,0 +1,91 @@
+<svg class="story-map hometown-map" viewBox="120 65 960 608" role="img" aria-labelledby="svg-title svg-desc" data-map="reader" data-scene="earth">
+          <title id="svg-title" data-copy="map-svg-title">我的山河 · 三条天地之线</title>
+          <desc id="svg-desc" data-copy="map-svg-desc">黄河、长江和约四百毫米年降水量分界的文学地理示意。</desc>
+          <defs>
+            <clipPath id="reader-globe-clip"><rect x="170" y="150" width="860" height="430" rx="8" /></clipPath>
+            <filter id="reader-region-wash" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".6" /></filter>
+            <pattern id="reader-sand" width="7" height="9" patternUnits="userSpaceOnUse"><path d="M1 3q1.5-1 3 0M4 7h.3" fill="none" stroke="#a88b57" stroke-width=".4" opacity=".45" /></pattern>
+            <linearGradient id="reader-globe-ocean" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#edf0e9" /><stop offset="1" stop-color="#c8d7d3" /></linearGradient>
+          </defs>
+
+          <g class="reader-globe" aria-hidden="true">
+            <rect class="reader-globe-shadow" x="164" y="157" width="872" height="436" rx="12" />
+            <rect class="reader-globe-ocean" x="170" y="150" width="860" height="430" rx="8" />
+            <g clip-path="url(#reader-globe-clip)">
+              <path class="reader-graticule" data-reader-world-graticule />
+              <path class="reader-globe-land" data-reader-globe-land />
+              <g class="reader-world-focus">
+                <circle class="world-focus-ring" cx="851" cy="281" r="27" />
+                <circle class="world-focus-core" cx="851" cy="281" r="4" />
+              </g>
+            </g>
+            <rect class="reader-globe-ring" x="170" y="150" width="860" height="430" rx="8" />
+          </g>
+
+          <g class="reader-atlas" aria-hidden="true">
+            <g class="reader-atlas-physical" data-reader-physical></g>
+            <rect class="reader-climate-veil climate-cold" x="0" y="0" width="1200" height="760" />
+            <rect class="reader-climate-veil climate-warm" x="0" y="0" width="1200" height="760" />
+
+            <g class="reader-geography-labels">
+              <text class="geography-landform" x="450" y="295" data-map-zh="西北沙漠" data-map-en="Northwestern deserts">Northwestern deserts</text>
+              <text class="geography-landform" x="510" y="524" data-map-zh="青藏高原" data-map-en="Tibetan Plateau">Tibetan Plateau</text>
+              <text class="geography-ocean" x="934" y="470" data-map-zh="太平洋" data-map-en="Pacific Ocean">Pacific Ocean</text>
+            </g>
+
+            <g class="reader-thematic-lines">
+            <path class="rain-line" data-rain-contour />
+            <path class="great-wall-line" data-great-wall />
+            <path class="river river-yellow" data-river="yellow" pathLength="100" />
+            <path class="river river-yangtze" data-river="yangtze" pathLength="100" />
+            <path class="river river-pearl" data-river="pearl" pathLength="100" />
+            <text class="map-label yellow-label" x="687" y="380" data-map-zh="黄河" data-map-en="Yellow River">Yellow River</text>
+            <text class="map-label yangtze-label" x="702" y="524" data-map-zh="长江" data-map-en="Yangtze">Yangtze</text>
+            <text class="map-label pearl-label" x="778" y="566" data-map-zh="珠江" data-map-en="Pearl River">Pearl River</text>
+            <text class="map-label rain-label" data-rain-label>400 毫米等降水量线</text>
+            <text class="map-label great-wall-label" x="740" y="325" data-map-zh="万里长城" data-map-en="Great Wall">Great Wall</text>
+            </g>
+
+            <g class="reader-focus focus-yellow-source">
+              <circle cx="512" cy="419" r="5" />
+              <text x="494" y="400" text-anchor="end" data-map-zh="黄河源头" data-map-en="Yellow River source">Yellow River source</text>
+            </g>
+            <g class="reader-focus focus-dongying">
+              <circle cx="771" cy="373" r="5" />
+              <circle class="focus-pulse" cx="771" cy="373" r="13" />
+              <text x="788" y="358" data-map-zh="山东东营 · 入海口" data-map-en="Dongying · estuary">Dongying · estuary</text>
+            </g>
+            <g class="reader-focus focus-yangtze-source">
+              <circle cx="599" cy="517" r="5" />
+              <text x="579" y="538" text-anchor="end" data-map-zh="长江上游" data-map-en="Upper Yangtze">Upper Yangtze</text>
+            </g>
+            <g class="reader-focus focus-yangtze-mouth">
+              <circle cx="787" cy="453" r="5" />
+              <circle class="focus-pulse" cx="787" cy="453" r="13" />
+              <text x="804" y="438" data-map-zh="长江入海口" data-map-en="Yangtze estuary">Yangtze estuary</text>
+            </g>
+
+            <g class="reader-heritage heritage-yinxu" data-place="yinxu">
+              <circle r="4" />
+              <text x="9" y="-8" data-map-zh="殷墟" data-map-en="Yinxu">Yinxu</text>
+            </g>
+            <g class="reader-heritage heritage-sanxingdui" data-place="sanxingdui">
+              <circle r="4" />
+              <text x="-9" y="-8" text-anchor="end" data-map-zh="三星堆" data-map-en="Sanxingdui">Sanxingdui</text>
+            </g>
+            <g class="reader-heritage heritage-three-gorges" data-place="threeGorges">
+              <circle r="4" />
+              <text x="9" y="-8" data-map-zh="三峡" data-map-en="Three Gorges">Three Gorges</text>
+            </g>
+            <g class="reader-heritage heritage-liangzhu" data-place="liangzhu">
+              <circle r="4" />
+              <text x="9" y="-8" data-map-zh="良渚" data-map-en="Liangzhu">Liangzhu</text>
+            </g>
+
+            <g class="reader-boundary-labels">
+              <text x="540" y="265" data-map-zh="游牧文明" data-map-en="Nomadic civilization">Nomadic civilization</text>
+              <text x="705" y="455" data-map-zh="农耕文明" data-map-en="Agrarian civilization">Agrarian civilization</text>
+              <text class="maritime-civilization" x="920" y="510" text-anchor="end" data-map-zh="海洋文明" data-map-en="Maritime civilization">Maritime civilization</text>
+            </g>
+          </g>
+        </svg>

@@ -1,0 +1,16 @@
+<svg class="tour-map atlas-prologue-map" viewBox="46 98 944 590" role="img" aria-labelledby="tour-svg-title tour-svg-desc" data-map="tour">
+            <title id="tour-svg-title">China · a literary atlas</title>
+            <desc id="tour-svg-desc">The atlas basemap appears before the Yellow River is illuminated.</desc>
+            <defs>
+              <filter id="prologue-wash" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.4" /></filter>
+              <pattern id="prologue-sand" width="7" height="9" patternUnits="userSpaceOnUse"><path d="M1 3q1.5-1 3 0M4 7h.3" fill="none" stroke="#a88b57" stroke-width=".4" opacity=".45" /></pattern>
+              <radialGradient id="prologue-story-glow"><stop offset="0%" stop-color="#a44735" stop-opacity=".55" /><stop offset="100%" stop-color="#a44735" stop-opacity="0" /></radialGradient>
+            </defs>
+            <g class="atlas-prologue-physical" aria-hidden="true"></g>
+            <g class="atlas-prologue-rivers" aria-hidden="true">
+              <g class="prologue-river prologue-yellow" data-tour-river="yellow"></g>
+              <g class="prologue-river prologue-yangtze" data-tour-river="yangtze"></g>
+              <text class="prologue-river-label prologue-yellow-label" x="711" y="400" data-atlas-zh="黄河" data-atlas-en="Yellow River">Yellow River</text>
+              <text class="prologue-river-label prologue-yangtze-label" x="726" y="480" data-atlas-zh="长江" data-atlas-en="Yangtze">Yangtze</text>
+            </g>
+          </svg>

@@ -1,0 +1,80 @@
+/* React shell layout; original geography, color, and drawing styles are retained. */
+.journey-atlas {
+  --paper: #ece7db; --paper-light: #f3efe5; --ink: #20251f;
+  --ink-soft: #64675c; --water: #345d6e; --water-light: #75939c;
+  --moss: #747c6e; --sand: #b7a47f; --seal: #9d3d31;
+  --line: #20251f33; --cn: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+  --en: "Caudex", Georgia, serif; --label: "Ysabeau", "Songti SC", Georgia, serif;
+  position: relative; isolation: isolate; min-width: 0; min-height: 430px;
+  height: calc(100dvh - var(--site-header-height,72px));
+  overflow: hidden; margin: 0; color: #e3dccd; background: #302219;
+  font-family: var(--en);
+}
+.journey-atlas[data-language="zh"] { font-family: var(--cn); }
+.journey-atlas button, .journey-atlas summary { cursor: pointer; font-family: inherit; }
+.journey-atlas button:disabled { cursor: wait; opacity: .7; }
+.journey-atlas button:focus-visible, .journey-atlas summary:focus-visible { outline: 2px solid #edc48b; outline-offset: 4px; }
+.journey-atlas .paper-noise { position: absolute; z-index: 5; }
+.journey-atlas .atlas-map-stage { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; overflow: hidden; }
+.journey-atlas .china-map { position: absolute; inset: 0; width: 100%; min-width: 0; height: 100%; }
+.journey-atlas .atlas-intro { position: absolute; left: 4%; top: 34px; width: min(680px,87%); z-index: 7; pointer-events: none; background: none; padding: 0; }
+.journey-atlas .atlas-eyebrow { margin: 0 0 14px; font-size: 11px; letter-spacing: .22em; color: #ccb792; }
+.journey-atlas .atlas-intro h1 { font-size: clamp(28px,3.45vw,50px); font-weight: 400; line-height: 1.17; margin: 0 0 18px; letter-spacing: -.035em; }
+.journey-atlas[data-language="zh"] .atlas-intro h1 { line-height: 1.4; letter-spacing: .08em; }
+.journey-atlas .atlas-guide-toggle { pointer-events: auto; padding: 6px 0; color: #d9cbb5; background: none; border: 0; border-bottom: 1px solid #aa8b5d88; font-size: 13px; }
+.journey-atlas .cta-callout { margin-top: 10px; padding: 16px 20px; max-width: 360px; }
+.journey-atlas .cta-callout::after { display: none; }
+.journey-atlas .cta-text strong { font-size: 14px; letter-spacing: 0; }
+.journey-atlas .cta-text em { font-size: 14px; font-style: normal; }
+.journey-atlas .cta-text small { font-size: 12px; }
+.journey-atlas .atlas-chapter-index { position: absolute; bottom: 28px; left: 4%; z-index: 8; width: min(335px,80%); color: #eadcc5; background: #33261ff0; border: 1px solid #b89b634d; border-radius: 4px; box-shadow: 0 10px 30px #0002; }
+.journey-atlas .atlas-chapter-index summary { padding: 13px 15px; font-size: 14px; letter-spacing: .03em; }
+.journey-atlas .atlas-chapter-index summary > span { float: right; color: #bea277; font-size: 12px; }
+.journey-atlas .atlas-chapter-index ol { margin: 0; padding: 0 10px 9px; list-style: none; max-height: min(49dvh,390px); overflow-y: auto; }
+.journey-atlas .atlas-chapter-index li { border-top: 1px solid #c6a46d22; }
+.journey-atlas .atlas-chapter-index button { display: flex; width: 100%; align-items: center; gap: 12px; padding: 10px 6px; text-align: left; background: transparent; border: 0; color: #eee0c9; font-size: 14px; }
+.journey-atlas .atlas-chapter-index button > span:first-child { color: #c6a46d; font-size: 11px; }
+.journey-atlas .atlas-chapter-index button:hover, .journey-atlas .atlas-chapter-index button[aria-pressed="true"] { background: #d1ac6d18; }
+.journey-atlas .atlas-location-panel { position: absolute; top: 32px; right: 3%; width: min(340px,43%); z-index: 9; padding: 28px; border: 1px solid #b4996c88; border-radius: 4px 18px 4px 4px; color: #34291f; background: #f1e8d8f7; box-shadow: 0 20px 80px #0004; outline: none; }
+.journey-atlas .atlas-panel-close { position: absolute; top: 5px; right: 10px; border: 0; background: none; color: #69533b; font-size: 25px; padding: 4px 8px; }
+.journey-atlas .atlas-location-number { margin: 0 0 12px; font-size: 11px; letter-spacing: .18em; color: #8f593b; }
+.journey-atlas .atlas-location-panel h2 { font-size: 28px; line-height: 1.2; font-weight: 400; margin: 0 0 16px; }
+.journey-atlas .atlas-location-panel p:not(.atlas-location-number) { font-size: 15px; line-height: 1.65; margin: 12px 0; }
+.journey-atlas .atlas-location-panel .atlas-completed-note { color: #8e3c30; font-size: 13px; }
+.journey-atlas .atlas-enter { display: flex; width: 100%; justify-content: space-between; gap: 10px; padding: 14px 0 6px; border: 0; border-top: 1px solid #8c6b4255; color: #8e3c30; background: transparent; font-size: 15px; text-align: left; }
+.journey-atlas .atlas-location-panel button:focus-visible { outline-color: #8e3c30; }
+.journey-atlas .atlas-legend { position: absolute; bottom: 7px; right: 28px; z-index: 5; margin: 0; color: #c3b79f; font-size: 10px; letter-spacing: .08em; pointer-events: none; }
+.journey-atlas .atlas-navigation { bottom: 34px; }
+.journey-atlas .story-point:focus-visible .point-core, .journey-atlas .story-point[aria-pressed="true"] .point-core { stroke: #fff3c5; stroke-width: 3; }
+.journey-atlas .journey-status { top: auto; bottom: -28px; }
+@media (max-width: 900px) {
+  .journey-atlas .atlas-intro { top: 20px; }
+  .journey-atlas .atlas-eyebrow { font-size: 9px; margin-bottom: 8px; }
+  .journey-atlas .atlas-intro h1 { font-size: 29px; }
+  .journey-atlas .atlas-chapter-index { bottom: 24px; width: min(270px,47%); }
+  .journey-atlas .atlas-location-panel { top: 20px; right: 3%; width: min(330px,45%); padding: 22px; }
+  .journey-atlas .atlas-location-panel h2 { font-size: 24px; }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .journey-atlas { min-height: 240px; }
+  .journey-atlas .atlas-intro { top: 12px; }
+  .journey-atlas .atlas-eyebrow { display: none; }
+  .journey-atlas .atlas-intro h1 { font-size: 23px; margin-bottom: 5px; }
+  .journey-atlas .atlas-guide-toggle { font-size: 12px; }
+  .journey-atlas .atlas-chapter-index { bottom: 16px; }
+  .journey-atlas .atlas-chapter-index summary { padding: 9px 13px; }
+  .journey-atlas .atlas-chapter-index ol { max-height: 45dvh; }
+  .journey-atlas .atlas-location-panel { top: 12px; max-height: calc(100% - 132px); overflow-y: auto; overscroll-behavior: contain; padding: 16px 20px; }
+  .journey-atlas .atlas-location-panel h2 { font-size: 23px; margin-bottom: 8px; }
+  .journey-atlas .atlas-location-panel p:not(.atlas-location-number) { margin: 8px 0; font-size: 14px; }
+  .journey-atlas .cta-callout { max-width: 290px; max-height: 48dvh; overflow: auto; }
+  .journey-atlas .atlas-navigation { right: 16px; bottom: 27px; }
+}
+@media (max-width: 550px) and (orientation: portrait) {
+  .journey-atlas .atlas-location-panel { top: auto; bottom: 84px; left: 5%; right: 5%; width: 90%; }
+  .journey-atlas .atlas-intro h1 { font-size: 28px; }
+}
+.journey-atlas.journey-ready .atlas-intro { background: none; }
+@media (orientation: landscape) and (max-height: 600px) {
+  .journey-atlas .atlas-intro { width: min(345px,55%); }
+}

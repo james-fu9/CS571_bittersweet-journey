@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+<title>莫高窟 · 崖壁楼阁图章</title>
+<desc>以崖壁、拱形窟龛和层叠屋檐表现莫高窟，省去人物，保持小尺寸下的清楚轮廓。章节象征图形，非建筑测绘。</desc>
+<path d="M7 7L93 8L92 93L8 94Z" stroke="#944b39" stroke-width="3"/>
+<path d="M14 14L86 15L85 86L14 85Z" stroke="#944b39" stroke-width=".8"/>
+<g stroke="#944b39" stroke-linejoin="round" stroke-linecap="round">
+<path d="M18 77V40L29 35L37 37M64 36L73 32L82 36V77M18 78H82" stroke-width="2.2"/>
+<path d="M41 34L50 25L59 34ZM38 47L50 39L62 47ZM35 60L50 52L65 60Z" stroke-width="2.2"/>
+<path d="M44 34V42M56 34V42M42 47V56M58 47V56M40 60V78M60 60V78" stroke-width="2"/>
+</g>
+<g fill="#944b39">
+<path d="M23 65V56C23 50 32 50 32 56V65ZM68 65V56C68 50 77 50 77 56V65Z"/>
+<path d="M46 78V69C46 64 54 64 54 69V78Z"/>
+</g>
+</svg>

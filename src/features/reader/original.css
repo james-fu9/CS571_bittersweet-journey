@@ -1,0 +1,2338 @@
+/* Scoped original reader/onboarding styles: Yanbing Chen and Eugenie Huang. */
+/*
+  Shared chapter shell. Rules: docs/chapter-layout-guideline.md (rule IDs in brackets).
+  A chapter stylesheet adds only: --accent, the map canvas, and chapter-specific flourishes.
+*/
+
+.hometown-experience {
+  color-scheme: light;
+  --paper: #ece7db;
+  --paper-light: #f3efe5;
+  --paper-deep: #ded7c7;
+  --ink: #20251f;
+  --ink-soft: #5b5d53;
+  --seal: #9d3d31;
+  --line: rgba(32, 37, 31, 0.22);
+  --accent: #345d6e;
+
+  --serif-cn: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --serif-en: "Caudex", Georgia, serif;
+  --sans: "Ysabeau", "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+
+  /* [F-6] frame tokens */
+  --bar-top: 76px;
+  --bar-bottom: 38px;
+  --rail-h: 56px;
+  --ctx-min: 400px;
+  --bar-pad-x: 38px;
+  --ctx-pad-x: clamp(32px, 4vw, 68px);
+}
+
+.hometown-experience * {
+  box-sizing: border-box;
+}
+
+.hometown-experience {
+  background: var(--paper);
+}
+
+.hometown-experience {
+  margin: 0;
+  min-width: 320px;
+  overflow: hidden; /* [F-1] the window never scrolls */
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.5), transparent 27rem),
+    linear-gradient(115deg, rgba(154, 138, 103, 0.06), transparent 42%),
+    var(--paper);
+  font-family: var(--serif-cn);
+}
+
+.hometown-experience[data-language="en"] {
+  font-family: var(--serif-en);
+}
+
+.hometown-experience button,
+.hometown-experience a {
+  color: inherit;
+}
+
+.hometown-experience button {
+  font: inherit;
+}
+
+.hometown-experience :focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 3px;
+}
+
+.hometown-experience .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hometown-experience .paper-noise {
+  display: none;
+}
+
+/* ---------- [T] title bar ---------- */
+
+.hometown-experience .masthead {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: var(--bar-top);
+  padding: 0 var(--bar-pad-x);
+  border-bottom: 1px solid var(--line);
+  background: rgba(236, 231, 219, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.hometown-experience .wordmark {
+  justify-self: start;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hometown-experience[data-language="en"] .wordmark {
+  letter-spacing: 0.12em;
+}
+
+.hometown-experience .chapter-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+.hometown-experience .chapter-index {
+  color: var(--ink-soft);
+  font: 500 14px var(--sans);
+  letter-spacing: 0.1em;
+}
+
+.hometown-experience .chapter-name {
+  padding-left: 18px;
+  border-left: 1px solid var(--line);
+}
+
+.hometown-experience .language-switch {
+  display: flex;
+  justify-self: end;
+  align-items: center;
+  gap: 7px;
+  color: var(--ink-soft);
+  font: 500 14px/1.4 var(--sans);
+  letter-spacing: 0.08em;
+}
+
+.hometown-experience .language-switch button {
+  appearance: none;
+  padding: 6px 2px;
+  border: 0;
+  background: none;
+  opacity: 0.45;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+
+.hometown-experience .language-switch button[aria-pressed="true"] {
+  opacity: 1;
+  color: var(--ink);
+}
+
+/* ---------- [F] frame ---------- */
+
+.hometown-experience .chapter-frame {
+  position: fixed;
+  inset: var(--bar-top) 0 var(--bar-bottom);
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(var(--ctx-min), 2fr); /* [F-2] */
+}
+
+/* ---------- [M] map panel ---------- */
+
+.hometown-experience .map-stage {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--line);
+}
+
+/* [M-5] on-map caption: one short line at the bottom-left of the map panel */
+.hometown-experience .map-caption {
+  position: absolute;
+  z-index: 5;
+  left: var(--ctx-pad-x);
+  bottom: 20px;
+  max-width: min(72%, 36em);
+  margin: 0;
+  color: var(--ink);
+  font: 15px/1.5 var(--sans);
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+
+.hometown-experience[data-language="en"] .map-caption {
+  letter-spacing: 0.02em;
+}
+
+/* ---------- [R] context panel ---------- */
+
+.hometown-experience .reader-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: rgba(242, 238, 228, 0.52);
+}
+
+.hometown-experience .reader-scroll {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 44px var(--ctx-pad-x) 40px;
+  overflow-y: auto; /* [F-3] the only scrolling region */
+  overscroll-behavior: contain;
+  outline: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(32, 37, 31, 0.28) transparent;
+  background-image: repeating-linear-gradient(to bottom, #746b5808 0 1px, transparent 1px 32px);
+}
+
+/* Measurements do not belong on these literary chapter maps. */
+.hometown-experience .map-stage :is(.scale-bar, #scale) { display: none; }
+.hometown-experience .curtain-thesis { white-space: nowrap; }
+
+.hometown-experience:not(.is-open) .reader-scroll {
+  overflow: hidden; /* [C-2] locked behind the curtain */
+}
+
+.hometown-experience .reading-copy {
+  max-width: 32em;
+  font-size: clamp(17px, 1.2vw, 19px);
+}
+
+.hometown-experience[data-language="en"] .reading-copy {
+  max-width: 34em;
+}
+
+.hometown-experience .reading-section + .reading-section {
+  margin-top: 62px;
+  padding-top: 62px;
+  border-top: 1px solid rgba(32, 37, 31, 0.16);
+}
+
+.hometown-experience .reader-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.hometown-experience .reader-section-label {
+  margin: 0;
+  color: var(--seal);
+  font-size: 20px;
+  letter-spacing: 0.12em;
+}
+
+.hometown-experience .reader-location,
+.hometown-experience .reader-progress {
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.hometown-experience .reader-location {
+  margin: 8px 0 0;
+  letter-spacing: 0.08em;
+}
+
+.hometown-experience .reader-progress {
+  margin-top: 6px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.hometown-experience .reader-rule {
+  width: 100%;
+  height: 1px;
+  margin: 24px 0 30px;
+  background: linear-gradient(90deg, var(--seal) 0 9%, var(--line) 9%);
+}
+
+.reading-section-.hometown-experience p {
+  margin: 0 0 1.45em;
+  font-size: 1em;
+  line-height: 1.95;
+  letter-spacing: 0.04em;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  opacity: 0;
+  transform: translateY(9px);
+  animation: paragraph-in 0.55s ease forwards;
+}
+
+.hometown-experience[data-language="en"] .reading-section-.hometown-experience p {
+  font-family: var(--serif-en);
+  line-height: 1.78;
+  letter-spacing: 0.005em;
+  text-align: left;
+}
+
+.reading-section-.hometown-experience p:first-child:not(.no-dropcap)::first-letter {
+  float: left;
+  margin: 0.12em 0.13em 0 0;
+  color: var(--accent);
+  font-size: 3.3em;
+  line-height: 0.78;
+}
+
+@keyframes paragraph-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* [R-2] optional reader note: a plain first item, not sticky */
+.hometown-experience .reader-note {
+  max-width: 34em;
+  margin: 0 0 48px;
+  padding-left: 18px;
+  border-left: 2px solid var(--seal);
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.9;
+  letter-spacing: 0.06em;
+}
+
+.hometown-experience[data-language="en"] .reader-note {
+  letter-spacing: 0.01em;
+}
+
+/* [R-2b] optional author's note before section one (data[language].preface) */
+.hometown-experience .reader-preface {
+  max-width: 34em;
+  margin: 0 0 56px;
+  padding: 20px 22px 6px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(157, 61, 49, 0.035);
+  color: var(--ink-soft);
+}
+
+.hometown-experience .reader-preface-title {
+  margin: 0 0 12px;
+  color: var(--seal);
+  font: 600 14px/1.4 var(--sans);
+  letter-spacing: 0.2em;
+}
+
+.hometown-experience .reader-preface p:not(.reader-preface-title) {
+  margin: 0 0 1.1em;
+  font-size: 15px;
+  line-height: 1.85;
+  letter-spacing: 0.04em;
+  text-align: justify;
+}
+
+.hometown-experience[data-language="en"] .reader-preface p:not(.reader-preface-title) {
+  font-family: var(--serif-en);
+  font-size: 15.5px;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
+  text-align: left;
+}
+
+/* [R-6] end block: seal + finish */
+.hometown-experience .reader-end {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 32em;
+  margin-top: 56px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+.hometown-experience[data-language="en"] .reader-end {
+  max-width: 34em;
+}
+
+.hometown-experience .finish-chapter,
+.hometown-experience .open-book {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  background: none;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+}
+
+.hometown-experience[data-language="en"] .finish-chapter,
+.hometown-experience[data-language="en"] .open-book {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.hometown-experience .open-book:focus-visible,
+.hometown-experience .finish-chapter:focus-visible {
+  outline-offset: 8px;
+}
+
+.hometown-experience .finish-chapter svg,
+.hometown-experience .open-book svg {
+  width: 42px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+
+/* [R-7] docked reading rail */
+.hometown-experience .section-rail {
+  display: flex;
+  flex: 0 0 var(--rail-h);
+  align-items: center;
+  gap: 22px;
+  padding: 0 var(--ctx-pad-x);
+  border-top: 1px solid var(--line);
+  background: rgba(236, 231, 219, 0.92);
+}
+
+.hometown-experience .rail-caption {
+  color: var(--ink-soft);
+  font: 500 14px/1.4 var(--sans);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.hometown-experience .section-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.hometown-experience .section-button {
+  appearance: none;
+  position: relative;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0 6px;
+  border: 0;
+  color: var(--ink-soft);
+  background: none;
+  font: 500 14px var(--sans);
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.hometown-experience .section-button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--seal);
+  opacity: 0;
+  transform: translateX(-50%);
+}
+
+.hometown-experience .section-button[aria-current="true"] {
+  color: var(--ink);
+}
+
+.hometown-experience .section-button[aria-current="true"]::after {
+  opacity: 1;
+}
+
+.hometown-experience .rail-line {
+  position: relative;
+  flex: 1 1 40px;
+  min-width: 40px;
+  height: 2px;
+  background: var(--line);
+}
+
+.hometown-experience .rail-line i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 25%;
+  background: var(--seal);
+  transition: width 0.8s ease;
+}
+
+/* [M-4] optional docked timeline in the map panel (only when the chapter has a real chronology) */
+.hometown-experience .timeline {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: var(--rail-h);
+  padding: 0 var(--ctx-pad-x);
+  border-top: 1px solid var(--line);
+  background: rgba(236, 231, 219, 0.92);
+}
+
+.hometown-experience .timeline-caption {
+  color: var(--ink-soft);
+  font: 500 14px/1.4 var(--sans);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.hometown-experience .timeline-track {
+  --n: 4;
+  --f: 0;
+  position: relative;
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  align-self: stretch;
+}
+
+.hometown-experience .timeline-track::before,
+.hometown-experience .timeline-fill {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: calc(50% / var(--n));
+  height: 2px;
+}
+
+.hometown-experience .timeline-track::before {
+  right: calc(50% / var(--n));
+  background: var(--line);
+}
+
+.hometown-experience .timeline-fill {
+  width: calc((100% - 100% / var(--n)) * var(--f));
+  background: var(--seal);
+  transition: width 0.8s ease;
+}
+
+.hometown-experience .timeline-tick {
+  position: relative;
+  padding-top: 30px;
+  color: var(--ink-soft);
+  font: 500 14px/1.2 var(--sans);
+  letter-spacing: 0.08em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.hometown-experience .timeline-tick::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--ink-soft);
+  border-radius: 50%;
+  background: var(--paper);
+  transform: translateX(-50%);
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.hometown-experience .timeline-tick.is-passed::before {
+  border-color: var(--seal);
+}
+
+.hometown-experience .timeline-tick[aria-current="true"] {
+  color: var(--ink);
+}
+
+.hometown-experience .timeline-tick[aria-current="true"]::before {
+  background: var(--seal);
+  border-color: var(--seal);
+}
+
+/* ---------- [S] seal ---------- */
+
+.hometown-experience .seal {
+  --seal-size: 72px;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--seal-size);
+  height: var(--seal-size);
+  border: 2px solid var(--seal);
+  color: var(--seal);
+  background: rgba(157, 61, 49, 0.06);
+  font-family: var(--serif-cn);
+  font-size: calc(var(--seal-size) * 0.56);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.hometown-experience .seal-s { --seal-size: 44px; }
+.hometown-experience .seal-m { --seal-size: 72px; }
+.hometown-experience .seal-l { --seal-size: 140px; }
+
+/* [S-3] image seal: a drawn chapter emblem (SVG) instead of a glyph; it brings its own frame */
+.hometown-experience .seal-image {
+  border: 0;
+  background: none;
+}
+
+.hometown-experience .seal-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- [C] curtain ---------- */
+
+.hometown-experience .opening-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 40; /* [C-1] covers both panels, below the bars */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+  text-align: center;
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(31, 37, 31, 0.11) 50%, transparent 50.2%),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.36), transparent 45%),
+    var(--paper);
+  clip-path: inset(0);
+  transition:
+    clip-path 1.35s cubic-bezier(0.76, 0, 0.24, 1),
+    visibility 1.35s; /* [C-9] */
+}
+
+.hometown-experience.is-open .opening-curtain {
+  clip-path: inset(0 50% 0 50%);
+  visibility: hidden;
+}
+
+.hometown-experience .curtain-kicker {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font: 600 14px/1.4 var(--sans);
+  letter-spacing: 0.16em;
+}
+
+.hometown-experience .curtain-teaser {
+  margin: 0 0 24px;
+  color: var(--seal);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.hometown-experience .curtain-title {
+  max-width: min(88%, 880px);
+  margin: 0;
+  padding-left: 0.28em;
+  font-size: clamp(64px, 9vw, 140px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.28em;
+}
+
+.hometown-experience[data-language="en"] .curtain-title {
+  padding-left: 0;
+  font-size: clamp(46px, 6vw, 88px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.hometown-experience .curtain-thesis {
+  max-width: 34em;
+  margin: 40px 0 22px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  letter-spacing: 0.18em;
+}
+
+.hometown-experience[data-language="en"] .curtain-thesis {
+  letter-spacing: 0.02em;
+}
+
+/* ---------- [B] bottom bar + notes drawer ---------- */
+
+.hometown-experience .bottom-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: var(--bar-bottom);
+  padding: 0 var(--bar-pad-x);
+  border-top: 1px solid var(--line);
+  background: rgba(236, 231, 219, 0.92);
+  color: var(--ink-soft);
+  font: 14px var(--sans);
+  letter-spacing: 0.07em;
+}
+
+.hometown-experience .bar-left {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  min-width: 0;
+}
+
+.hometown-experience .credit {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hometown-experience .notes-button,
+.hometown-experience .back-atlas {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.hometown-experience .map-source-credit {
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+
+.hometown-experience .notes-button:hover,
+.hometown-experience .back-atlas:hover {
+  color: var(--seal);
+}
+
+.hometown-experience .notes-drawer {
+  position: fixed;
+  left: 24px;
+  bottom: calc(var(--bar-bottom) + 12px);
+  z-index: 45;
+  width: min(480px, calc(60vw - 48px));
+  max-height: calc(100vh - var(--bar-top) - var(--bar-bottom) - 40px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(32, 37, 31, 0.28) transparent;
+  padding: 30px 30px 26px;
+  border: 1px solid var(--line);
+  background: rgba(243, 239, 229, 0.98);
+  box-shadow: 0 24px 70px rgba(41, 38, 29, 0.22);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.26s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.hometown-experience.notes-open .notes-drawer {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.hometown-experience .notes-drawer h2 {
+  margin: 0 0 18px;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+
+.hometown-experience .notes-drawer h3 {
+  margin: 20px 0 6px;
+  color: var(--seal);
+  font: 600 14px/1.4 var(--sans);
+  letter-spacing: 0.14em;
+}
+
+.hometown-experience .notes-drawer p,
+.hometown-experience .notes-drawer li {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+}
+
+.hometown-experience[data-language="en"] .notes-drawer p,
+.hometown-experience[data-language="en"] .notes-drawer li {
+  letter-spacing: 0.005em;
+}
+
+.hometown-experience .notes-drawer ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* labelled row: <p><b>label</b><span>text</span></p>, and the datum line above a data block */
+.hometown-experience .notes-drawer p > b {
+  margin-right: 0.6em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.hometown-experience .notes-drawer p + p {
+  margin-top: 4px;
+}
+
+.hometown-experience .notes-datum {
+  font-family: var(--sans);
+  letter-spacing: 0.12em;
+}
+
+.hometown-experience .close-notes {
+  appearance: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.hometown-experience .close-notes:hover {
+  color: var(--seal);
+}
+
+/* ---------- [S-4/S-5] completion screen ---------- */
+
+.hometown-experience .chapter-complete-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  color: var(--paper);
+  background: var(--accent);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.65s ease, visibility 0.65s;
+}
+
+.hometown-experience.is-completing .chapter-complete-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hometown-experience .complete-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(236, 231, 219, 0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hometown-experience.is-completing .complete-ripple {
+  animation: complete-ripple 1.15s ease-out forwards;
+}
+
+@keyframes complete-ripple {
+  to {
+    width: 90vmax;
+    height: 90vmax;
+    opacity: 0;
+  }
+}
+
+.hometown-experience .chapter-complete-overlay .seal {
+  position: relative;
+  color: var(--paper);
+  border-color: rgba(236, 231, 219, 0.9);
+  background: rgba(236, 231, 219, 0.08);
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.hometown-experience.is-completing .chapter-complete-overlay .seal {
+  animation: complete-in 0.7s ease 0.5s forwards;
+}
+
+.hometown-experience .chapter-complete-overlay .seal-image {
+  border: 0;
+  background: none;
+}
+
+/* on the accent-coloured screen the seal is drawn in paper colour, like the glyph seals */
+.hometown-experience .chapter-complete-overlay .seal-image img {
+  filter: brightness(0) invert(0.93) sepia(0.12);
+}
+
+.hometown-experience .chapter-complete-overlay p {
+  position: relative;
+  margin: 28px 0 12px;
+  font: 500 14px var(--sans);
+  letter-spacing: 0.2em;
+  opacity: 0;
+}
+
+.hometown-experience.is-completing .chapter-complete-overlay p {
+  animation: complete-in 0.6s ease 1.15s forwards;
+}
+
+.hometown-experience .chapter-complete-overlay strong {
+  position: relative;
+  font-size: clamp(24px, 3vw, 42px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  opacity: 0;
+}
+
+.hometown-experience.is-completing .chapter-complete-overlay strong {
+  animation: complete-in 0.6s ease 1.45s forwards;
+}
+
+.hometown-experience[data-language="en"] .chapter-complete-overlay strong {
+  font: italic clamp(24px, 3vw, 42px) var(--serif-en);
+  letter-spacing: -0.015em;
+}
+
+@keyframes complete-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- [P] responsive (draft, needs device testing) ---------- */
+
+@media (max-width: 1079px) {
+  .hometown-experience {
+    --ctx-min: 360px;
+  }
+
+  .hometown-experience .chapter-frame {
+    grid-template-columns: minmax(0, 56fr) minmax(var(--ctx-min), 44fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .hometown-experience {
+    --bar-top: 64px;
+    --bar-bottom: 40px;
+    --bar-pad-x: 18px;
+    --ctx-pad-x: 24px;
+  }
+
+  .hometown-experience .masthead {
+    grid-template-columns: 1fr auto;
+  }
+
+  .hometown-experience .chapter-meta,
+.hometown-experience .credit {
+    display: none;
+  }
+
+  .hometown-experience .wordmark {
+    font-size: 17px;
+  }
+
+  .hometown-experience .chapter-frame {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, min(46vh, 480px)) minmax(0, 1fr);
+  }
+
+  .hometown-experience .map-stage {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hometown-experience .map-caption {
+    left: 20px;
+    bottom: 12px;
+  }
+
+  .hometown-experience .reader-scroll {
+    padding-top: 32px;
+  }
+
+  .hometown-experience .reading-copy,
+.hometown-experience .reader-end {
+    max-width: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .hometown-experience .curtain-title {
+    font-size: clamp(48px, 15vw, 66px);
+  }
+
+  .hometown-experience[data-language="en"] .curtain-title {
+    font-size: clamp(32px, 9vw, 44px);
+  }
+
+  .hometown-experience .curtain-thesis {
+    margin-top: 28px;
+    letter-spacing: 0.08em;
+  }
+
+  .hometown-experience .notes-drawer {
+    left: 0;
+    right: 0;
+    bottom: var(--bar-bottom);
+    width: auto;
+    max-height: 70vh;
+    border-right: 0;
+    border-left: 0;
+  }
+
+  .hometown-experience .section-button {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .hometown-experience .rail-caption,
+.hometown-experience .timeline-caption {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hometown-experience *,
+.hometown-experience *::before,
+.hometown-experience *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* completion screen: the closing line keeps clear of the screen edges on phones (2026-10-09) */
+.hometown-experience .chapter-complete-overlay strong,
+.hometown-experience .chapter-complete-overlay p {
+  box-sizing: border-box;
+  max-width: min(36em, 100vw);
+  padding: 0 24px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hometown-experience { --accent: #6b4a2f; } /* dark brown emphasis (was navy #426475) */
+
+.hometown-experience .map-stage { background: #e8e5d9; }
+.hometown-experience .earth-scene { position: absolute; inset: 0; display: flex; align-items: center; padding: 28px 22px; gap: 0; color: #344e4c; }
+.hometown-experience .earth-scene[hidden] { display: none; }
+.hometown-experience .has-earth > .hometown-map { visibility: hidden; }
+.hometown-experience .earth-orb { position: relative; flex: 1; min-width: 0; }
+.hometown-experience .earth-orb canvas { display: block; width: 100%; aspect-ratio: 1; }
+.hometown-experience .earth-orb svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.hometown-experience .earth-orb svg path { fill: none; stroke: #8f3029; stroke-width: 1.3; }
+.hometown-experience .earth-orb svg circle { fill: #8f3029; }
+.hometown-experience .earth-orb svg text { fill: #632b26; text-anchor: middle; font: 16px var(--serif-en), var(--serif-cn); paint-order: stroke; stroke: #eee7d9; stroke-width: 4px; stroke-linejoin: round; }
+.hometown-experience .earth-context { flex: 0 0 29%; font: 15px/1.6 var(--serif-en), var(--serif-cn); }
+.hometown-experience .earth-context h2 { font: 26px/1.25 var(--serif-en), var(--serif-cn); margin: 0 0 22px; color: #6b4a2f; }
+.hometown-experience .earth-context h3 { font: inherit; color: #8f3029; margin: 24px 0 8px; }
+.hometown-experience .earth-context p { margin: 14px 0; }
+.hometown-experience .earth-context ul { list-style: none; padding: 0; margin: 10px 0; }
+.hometown-experience .earth-context li { margin: 8px 0; }
+.hometown-experience .earth-context small { display: block; font: 11px/1.5 var(--sans); color: #626255; }
+.hometown-experience .earth-fractions { display: flex; gap: 20px; }
+.hometown-experience .earth-fractions span { display: flex; flex-direction: column; }
+.hometown-experience .earth-fractions b { font-size: 30px; font-weight: 400; color: #6b4a2f; }
+.hometown-experience .earth-fractions span:last-child b { color: #806a44; }
+.hometown-experience .earth-ratio { display: flex; gap: 3px; margin: 14px 0 22px; }
+.hometown-experience .earth-ratio i { flex: 1; height: 7px; background: #517f83; }
+.hometown-experience .earth-ratio .land { background: #b09a6c; }
+.hometown-experience .earth-landmass { color: #775b32; }
+.hometown-experience .civilization-list li { padding: 8px 0; border-bottom: 1px solid #7b796044; }
+.hometown-experience .civilization-list li:last-child { color: #6b4a2f; }
+@media (max-width: 1100px) and (min-width: 761px) {
+  .hometown-experience .earth-scene { flex-direction: column; justify-content: center; padding: 16px; }
+  .hometown-experience .earth-orb { flex: 0 1 auto; width: min(100%, 470px); }
+  .hometown-experience .earth-context { flex: 0 0 auto; width: 90%; }
+  .hometown-experience .earth-context h2 { margin-bottom: 8px; font-size: 22px; }
+  .hometown-experience .earth-context p { margin: 6px 0; }
+  .hometown-experience .earth-context ul { display: flex; flex-wrap: wrap; gap: 4px 15px; }
+}
+@media (max-width: 760px), (max-height: 500px) {
+  .hometown-experience .earth-scene { flex-direction: row; padding: 8px 12px; gap: 6px; }
+  .hometown-experience .earth-orb { flex: 1 1 57%; max-width: 65vh; }
+  .hometown-experience .earth-context { flex: 1 1 40%; font-size: 11px; line-height: 1.4; }
+  .hometown-experience .earth-context h2 { font-size: 18px; margin-bottom: 10px; }
+  .hometown-experience .earth-context h3 { margin: 8px 0 3px; }
+  .hometown-experience .earth-context p,
+.hometown-experience .earth-context li { margin: 5px 0; }
+  .hometown-experience .earth-fractions { gap: 12px; }
+  .hometown-experience .earth-fractions b { font-size: 22px; }
+  .hometown-experience .earth-ratio { margin: 8px 0; gap: 2px; }
+  .hometown-experience .earth-ratio i { height: 5px; }
+  .hometown-experience .earth-context small { font-size: 9px; }
+  .hometown-experience .earth-orb svg text { font-size: 24px; stroke-width: 5px; }
+}
+@media (max-height: 500px) {
+  .hometown-experience .earth-scene { justify-content: center; gap: 24px; }
+  .hometown-experience .earth-orb { flex: 0 0 auto; width: min(36%, calc(100svh - 220px)); }
+  .hometown-experience .earth-context { flex: 0 1 430px; max-height: 100%; overflow-y: auto; columns: 2; column-gap: 22px; }
+  .hometown-experience .earth-context > * { break-inside: avoid; }
+  .hometown-experience .earth-context h2 { font-size: 15px; margin: 0 0 5px; }
+  .hometown-experience .earth-context small { display: none; }
+}
+.hometown-experience .hometown-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+.hometown-experience .hometown-map:active,
+.hometown-experience .tour-map:active { cursor: grabbing; }
+.hometown-experience .reader-globe,
+.hometown-experience .reader-atlas { transform-origin: 600px 360px; transition: opacity 1.15s ease, transform 1.4s cubic-bezier(.2,.72,.18,1); }
+.hometown-experience .reader-globe { opacity: 1; }
+.hometown-experience .reader-atlas { opacity: 0; }
+.hometown-experience .reader-globe-shadow { fill: #6759422c; filter: blur(13px); }
+.hometown-experience .reader-globe-ocean { fill: url(#reader-globe-ocean); }
+.hometown-experience .reader-globe-ring { fill: none; stroke: #5d7775; stroke-width: 1.4; opacity: .72; }
+.hometown-experience .reader-graticule { fill: none; stroke: #f4efe4a8; stroke-width: .7; stroke-dasharray: 2 5; vector-effect: non-scaling-stroke; }
+.hometown-experience .reader-globe-land { fill: #d8cdb7; stroke: #63766d; stroke-width: .75; vector-effect: non-scaling-stroke; }
+.hometown-experience .reader-globe-caption { fill: #5c6259; font: 12px var(--sans); letter-spacing: .12em; }
+.hometown-experience .reader-world-focus { opacity: 0; transition: opacity .7s ease; }
+.hometown-experience .world-focus-ring { fill: #a24d3a12; stroke: #9a5a47; stroke-width: 1.2; vector-effect: non-scaling-stroke; animation: reader-focus-pulse 2.3s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.hometown-experience .world-focus-core { fill: #9a5a47; stroke: #f1ebdf; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.hometown-experience .hometown-map[data-scene="eurasia"] .reader-globe { transform: translate(-58px, 10px) scale(1.14); }
+.hometown-experience .hometown-map[data-scene="eurasia"] .reader-world-focus { opacity: 1; }
+.hometown-experience .hometown-map:not([data-scene="earth"]):not([data-scene="eurasia"]):not([data-scene="earth-return"]) .reader-globe { opacity: 0; transform: scale(1.8); }
+.hometown-experience .hometown-map:not([data-scene="earth"]):not([data-scene="eurasia"]):not([data-scene="earth-return"]) .reader-atlas { opacity: 1; }
+.hometown-experience .hometown-map[data-scene="earth-return"] .reader-globe { opacity: 1; transform: scale(.92); }
+
+.hometown-experience .reader-atlas-sea { fill: #dce3df; }
+.hometown-experience .reader-atlas-land { fill: #f0e9d9; stroke: #738a83; stroke-width: .8; vector-effect: non-scaling-stroke; }
+.hometown-experience .reader-atlas-region { stroke: none; }
+.hometown-experience .reader-atlas-region.region-mountain { fill: #777d61; opacity: .03; }
+.hometown-experience .reader-atlas-region.region-plateau { fill: #b4a17a; opacity: .065; }
+.hometown-experience .reader-atlas-region.region-basin { fill: #c5b58c; opacity: .04; }
+.hometown-experience .reader-atlas-region.region-desert { fill: #c5a76d; opacity: .14; }
+.hometown-experience .reader-atlas-hachure,
+.hometown-experience .reader-atlas-contour,
+.hometown-experience .reader-atlas-stream { fill: none; vector-effect: non-scaling-stroke; }
+.hometown-experience .reader-atlas-hachure { stroke: #746e54; stroke-width: .6; opacity: .08; stroke-linecap: round; }
+.hometown-experience .reader-atlas-hachure.weight-1 { stroke-width: .72; opacity: .13; }
+.hometown-experience .reader-atlas-hachure.weight-2 { stroke-width: .82; opacity: .18; }
+.hometown-experience .reader-atlas-contour { stroke: #807953; stroke-width: .6; opacity: .07; }
+.hometown-experience .reader-atlas-stream { stroke: #6d9194; stroke-width: .68; opacity: .14; }
+.hometown-experience .reader-atlas-stream.level-1 { stroke-width: .82; opacity: .32; }
+.hometown-experience .reader-atlas-stream.level-2 { opacity: .22; }
+.hometown-experience .reader-atlas-stream.level-3,
+.hometown-experience .reader-atlas-lake.level-3,
+.hometown-experience .reader-atlas-region.level-3 { display: none; }
+.hometown-experience .reader-atlas-lake { fill: #94b2b1; fill-opacity: .38; stroke: #739697; stroke-width: .55; opacity: .5; vector-effect: non-scaling-stroke; }
+.hometown-experience .reader-atlas-lake.level-1 { opacity: .82; }
+
+.hometown-experience .reader-climate-veil { opacity: 0; pointer-events: none; transition: opacity 1.2s ease; }
+.hometown-experience .reader-climate-veil.climate-cold { fill: #7895a4; mix-blend-mode: multiply; }
+.hometown-experience .reader-climate-veil.climate-warm { fill: #c89b62; mix-blend-mode: multiply; }
+.hometown-experience .hometown-map[data-scene="climate"] .reader-climate-veil.climate-cold { animation: reader-climate-cold 7s ease-in-out infinite alternate; }
+.hometown-experience .hometown-map[data-scene="climate"] .reader-climate-veil.climate-warm { animation: reader-climate-warm 7s ease-in-out infinite alternate; }
+@keyframes reader-climate-cold { from { opacity: .03; } to { opacity: .14; } }
+@keyframes reader-climate-warm { from { opacity: .11; } to { opacity: .025; } }
+
+.hometown-experience .reader-geography-labels text,
+.hometown-experience .reader-focus text,
+.hometown-experience .reader-boundary-labels text { fill: #565e55; font: 13px var(--serif-cn), var(--serif-en); letter-spacing: .06em; paint-order: stroke; stroke: #eee8dccc; stroke-width: 3px; stroke-linejoin: round; }
+.hometown-experience .reader-geography-labels .geography-landform { font-size: 15px; letter-spacing: .1em; }
+.hometown-experience .reader-geography-labels .geography-ocean { fill: #5f7c7d; font-size: 13px; font-style: italic; letter-spacing: .14em; }
+.hometown-experience[data-language="en"] :is(.reader-geography-labels text,.reader-focus text,.reader-boundary-labels text) { font-family: var(--serif-en); font-size: 11px; letter-spacing: .02em; }
+.hometown-experience[data-language="en"] .reader-geography-labels .geography-landform { font-size: 12px; letter-spacing: .02em; }
+.hometown-experience[data-language="en"] .reader-geography-labels .geography-ocean { font-size: 11px; letter-spacing: .04em; }
+.hometown-experience .reader-geography-labels { opacity: 0; transition: opacity .8s ease; }
+.hometown-experience .hometown-map:is([data-scene="sealed"],[data-scene="climate"]) .reader-geography-labels { opacity: .8; }
+
+.hometown-experience .river { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.4; stroke-dasharray: none; stroke-dashoffset: 0; opacity: .13; transition: opacity .85s ease, stroke-width .85s ease; }
+.hometown-experience .river-yellow { stroke: #9a6748; }
+.hometown-experience .river-yangtze { stroke: #3d6c78; }
+.hometown-experience .river-pearl { stroke: #4b7d84; stroke-width: 2; opacity: 0; }
+.hometown-experience .great-wall-line { fill: none; stroke: #765238; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity .9s ease; }
+.hometown-experience .rain-line { fill: none; stroke: #52736f; stroke-width: 2.4; stroke-dasharray: 5 8; opacity: 0; transition: opacity .8s ease; }
+.hometown-experience .map-label { font: 20px var(--serif-cn); letter-spacing: .16em; fill: #374b4d; opacity: 0; transition: opacity .75s ease; paint-order: stroke; stroke: #ede9dd; stroke-width: 5px; }
+.hometown-experience[data-language="en"] .map-label { font: 18px var(--serif-en); letter-spacing: 0; }
+.hometown-experience .great-wall-label { fill: #765238; font-size: 13px; letter-spacing: .06em; }
+.hometown-experience[data-language="en"] .great-wall-label { font-size: 11px; letter-spacing: .02em; }
+.hometown-experience .rain-label { font: 14px var(--sans); letter-spacing: .05em; fill: #476b6a; }
+.hometown-experience .hometown-map[data-scene="lines"] :is(.river,.rain-line),
+.hometown-experience .hometown-map[data-scene="lines"] :is(.yellow-label,.yangtze-label,.rain-label) { opacity: .88; }
+.hometown-experience .hometown-map[data-scene="yellow"] .river-yellow,
+.hometown-experience .hometown-map[data-scene="yellow"] .yellow-label { opacity: 1; stroke-width: 4; }
+.hometown-experience .hometown-map[data-scene="yellow"] .river-yangtze,
+.hometown-experience .hometown-map[data-scene="southward"] .river-yellow { opacity: .18; }
+.hometown-experience .hometown-map[data-scene="southward"] .river-yangtze { opacity: .72; stroke-width: 3.1; }
+.hometown-experience .hometown-map[data-scene="yangtze"] .river-yangtze,
+.hometown-experience .hometown-map[data-scene="yangtze"] .yangtze-label { opacity: 1; stroke-width: 4; }
+.hometown-experience .hometown-map[data-scene="yangtze"] :is(.river-pearl,.pearl-label) { opacity: .92; }
+.hometown-experience .hometown-map[data-scene="yangtze"] .river-yellow { opacity: .18; }
+.hometown-experience .hometown-map:is([data-scene="boundary"],[data-scene="borderlands"]) :is(.rain-line,.rain-label,.great-wall-line,.great-wall-label) { opacity: .9; }
+
+.hometown-experience .reader-focus,
+.hometown-experience .reader-heritage,
+.hometown-experience .reader-boundary-labels { opacity: 0; transition: opacity .75s ease; }
+.hometown-experience .reader-heritage circle { fill: #9f4938; stroke: #f1ebdf; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.hometown-experience .reader-heritage text { fill: #4b4f49; font: 12px var(--serif-cn), var(--serif-en); letter-spacing: .06em; paint-order: stroke; stroke: #eee8dc; stroke-width: 3px; stroke-linejoin: round; }
+.hometown-experience[data-language="en"] .reader-heritage text { font-family: var(--serif-en); font-size: 10.5px; letter-spacing: 0; }
+.hometown-experience .reader-focus circle:not(.focus-pulse) { fill: var(--seal); stroke: #f1ebdf; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.hometown-experience .reader-focus .focus-pulse { fill: none; stroke: var(--seal); stroke-width: 1.5; vector-effect: non-scaling-stroke; transform-box: fill-box; transform-origin: center; animation: reader-focus-pulse 2s ease-out infinite; }
+@keyframes reader-focus-pulse { 0% { opacity: .75; transform: scale(.45); } 80%,100% { opacity: 0; transform: scale(1.55); } }
+.hometown-experience .hometown-map[data-scene="yellow"] :is(.focus-yellow-source,.focus-dongying),
+.hometown-experience .hometown-map[data-scene="yellow"] .heritage-yinxu,
+.hometown-experience .hometown-map[data-scene="yangtze"] :is(.focus-yangtze-source,.focus-yangtze-mouth),
+.hometown-experience .hometown-map[data-scene="yangtze"] :is(.heritage-sanxingdui,.heritage-three-gorges,.heritage-liangzhu),
+.hometown-experience .hometown-map:is([data-scene="boundary"],[data-scene="borderlands"]) .reader-boundary-labels { opacity: 1; }
+.hometown-experience .reader-boundary-labels text:first-child { fill: #7f684e; }
+.hometown-experience .reader-boundary-labels text:nth-child(2) { fill: #3f6967; }
+.hometown-experience .reader-boundary-labels .maritime-civilization { opacity: 0; fill: #326369; }
+.hometown-experience .hometown-map[data-scene="ocean"] .reader-boundary-labels,
+.hometown-experience .hometown-map[data-scene="ocean"] .maritime-civilization { opacity: 1; }
+.hometown-experience .hometown-map[data-scene="ocean"] :is(.river-yellow,.river-yangtze,.rain-line) { opacity: .8; }
+
+.hometown-experience .map-tools { position: absolute; top: 24px; right: 22px; display: flex; flex-direction: column; z-index: 5; border: 1px solid var(--line); background: #f3efe7db; backdrop-filter: blur(8px); }
+.hometown-experience .map-tools button { min-width: 42px; min-height: 42px; border: 0; border-bottom: 1px solid var(--line); background: none; font: 19px var(--sans); cursor: pointer; }
+.hometown-experience .map-tools button:last-child { border-bottom: 0; font-size: 11px; }
+.hometown-experience .map-tools button:hover,
+.hometown-experience .journey-map-tools button:hover { color: var(--seal); background: #a24d3a12; }
+.hometown-experience .reader-coach { position: absolute; z-index: 25; right: 16px; bottom: calc(var(--rail-h) + 13px); width: min(380px, calc(100% - 32px)); padding: 15px 17px 12px; border: 1px solid #a78b6e87; background: #f6f0e7f0; box-shadow: 0 12px 32px #4b43302b; backdrop-filter: blur(10px); }
+.hometown-experience .reader-coach[hidden] { display: none; }
+.hometown-experience .reader-coach p { margin: 0; color: #3e524e; font: 13px/1.6 var(--sans); }
+.hometown-experience .reader-coach button { display: block; margin: 9px 0 0 auto; padding: 3px 0; border: 0; border-bottom: 1px solid #98503c; background: none; color: #98503c; font: 12px var(--sans); cursor: pointer; }
+
+/* A single cinematic map stage. Text enters at the center, then becomes a light HUD. */
+.hometown-experience .masthead,
+.hometown-experience .bottom-bar {
+  transition: opacity .9s ease, transform .9s cubic-bezier(.22,.68,.22,1);
+}
+.hometown-experience:has(.journey[data-step="0"]:not([hidden])) .masthead {
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+.hometown-experience:has(.journey[data-step="0"]:not([hidden])) .bottom-bar {
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+.hometown-experience .journey {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  overflow: hidden;
+  isolation: isolate;
+  background: #e8e2d5;
+}
+.hometown-experience .journey[hidden] { display: none; }
+.hometown-experience .journey::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at 50% 48%, #1a2928db, #132021f5 78%);
+  transition: opacity 1.35s ease;
+}
+.hometown-experience .journey[data-step="0"]::after { opacity: 1; }
+.hometown-experience .journey.has-preview::after { opacity: .67; background: #182827; transition: opacity .5s ease; }
+.hometown-experience .journey-map-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 52%, #f5f1e7 0, #e7e1d4 61%, #d6cebf 100%);
+}
+.hometown-experience .journey-map-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .17;
+  background: repeating-linear-gradient(0deg, transparent 0 112px, #847d6830 113px 114px),
+              repeating-linear-gradient(90deg, transparent 0 112px, #847d6830 113px 114px);
+}
+.hometown-experience .tour-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+.hometown-experience .journey .map-art { transition: filter 1.4s ease, transform 1.4s ease; }
+.hometown-experience .journey[data-step="0"] .map-art { filter: blur(4px); transform: scale(1.025); }
+.hometown-experience .journey[data-step="1"] .river-yellow { opacity: .34; stroke-width: 4; stroke-dashoffset: 72; }
+.hometown-experience .journey:is([data-step="2"],[data-step="3"],[data-step="4"],[data-step="5"]) .river-yellow { opacity: .91; stroke-dashoffset: 0; }
+.hometown-experience .journey:is([data-step="2"],[data-step="3"],[data-step="4"],[data-step="5"]) .yellow-label { opacity: .92; }
+.hometown-experience .journey[data-step="2"] .river-yangtze { opacity: .2; stroke-dashoffset: 74; }
+.hometown-experience .journey:is([data-step="3"],[data-step="4"],[data-step="5"]) .river-yangtze { opacity: .92; stroke-dashoffset: 0; }
+.hometown-experience .journey:is([data-step="3"],[data-step="4"],[data-step="5"]) .yangtze-label { opacity: .92; }
+
+.hometown-experience .tour-map-target {
+  position: absolute;
+  z-index: 4;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid #985f4a8c;
+  border-radius: 24px;
+  background: #f6f0e4ed;
+  color: #7a3e31;
+  box-shadow: 0 5px 20px #54453320;
+  font: 14px var(--serif-cn);
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+.hometown-experience .tour-map-target span { font: 16px var(--sans); }
+.hometown-experience[data-language="en"] .tour-map-target { font-family: var(--serif-en); letter-spacing: 0; }
+.hometown-experience .tour-map-target:hover { background: #fff9ef; transform: translateY(-2px); }
+.hometown-experience .target-yellow { left: 54%; top: 52%; }
+.hometown-experience .target-story { left: 51%; top: 60%; }
+.hometown-experience .journey[data-step="1"] .target-yellow,
+.hometown-experience .journey[data-step="5"] .target-story { display: inline-flex; animation: target-pulse 2.3s ease-in-out infinite; }
+@keyframes target-pulse { 50% { box-shadow: 0 0 0 12px #a04d3724, 0 5px 20px #54453320; } }
+.hometown-experience .journey-map-tools {
+  position: absolute;
+  z-index: 7;
+  right: 28px;
+  top: calc(var(--bar-top) + 96px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #8e8a7838;
+  background: #f8f3e9e6;
+  box-shadow: 0 12px 32px #544b3c16;
+  transition: opacity .6s ease;
+}
+.hometown-experience .journey-map-tools button { width: 43px; height: 43px; border: 0; border-bottom: 1px solid #8e8a7838; background: none; font: 21px var(--sans); cursor: pointer; }
+.hometown-experience .journey-map-tools button:last-child { border: 0; }
+.hometown-experience .journey-map-tools button:hover { color: var(--seal); background: #a24d3a12; }
+.hometown-experience .journey-map-tools { opacity: 0; pointer-events: none; }
+.hometown-experience .journey:is([data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"]) .journey-map-tools { opacity: 1; pointer-events: auto; }
+.hometown-experience .journey-map-tools [data-tour-zoom="home"] { width: auto; min-width: 54px; padding: 0 8px; font-size: 10px; }
+.hometown-experience .journey[data-step="3"] [data-tour-zoom="in"] { color: var(--seal); box-shadow: inset 0 0 0 2px #a34c3a; }
+.hometown-experience .journey-rain-control { position: absolute; z-index: 7; left: 28px; bottom: calc(var(--bar-bottom) + 29px); transition: opacity .6s ease; }
+.hometown-experience .journey-rain-control button { padding: 10px 13px; border: 1px solid #8e8a7855; background: #f7f1e9eb; color: #3b5c60; font: 12px var(--sans); letter-spacing: .04em; cursor: pointer; }
+.hometown-experience .journey[data-step="4"] .journey-rain-control button { box-shadow: 0 0 0 4px #5f8d853b; }
+.hometown-experience .journey-map-coordinate { position: absolute; z-index: 7; right: 28px; bottom: calc(var(--bar-bottom) + 33px); color: #817c6d; font: 10px var(--sans); letter-spacing: .12em; pointer-events: none; }
+.hometown-experience .journey[data-step="0"] .journey-map-tools,
+.hometown-experience .journey[data-step="0"] .journey-rain-control,
+.hometown-experience .journey[data-step="0"] .journey-map-coordinate { opacity: 0; pointer-events: none; }
+
+.hometown-experience .journey-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  color: #20302d;
+}
+.hometown-experience .journey-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(#f0ebe2de 8%, #eee9df8a 57%, transparent);
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+.hometown-experience .journey[data-step="0"] .journey-panel::before { opacity: 0; }
+.hometown-experience .journey-topline {
+  position: absolute;
+  top: calc(var(--bar-top) + 30px);
+  left: 40px;
+  right: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  color: #776a5c;
+  font: 11px var(--sans);
+  letter-spacing: .16em;
+}
+.hometown-experience .journey-skip { border: 0; padding: 0; background: none; color: inherit; font: 11px var(--sans); letter-spacing: .04em; cursor: pointer; pointer-events: auto; }
+.hometown-experience .journey-skip:hover { color: var(--seal); }
+.hometown-experience .journey-count { margin: calc(var(--bar-top) + 107px) 0 13px; color: #9b604d; font: 12px var(--sans); letter-spacing: .24em; }
+.hometown-experience .journey-panel h2 { max-width: min(900px, 82vw); margin: 0; font-size: clamp(32px, 3.2vw, 48px); font-weight: 400; line-height: 1.3; letter-spacing: .11em; text-wrap: balance; }
+.hometown-experience[data-language="en"] .journey-panel h2 { max-width: min(990px, 82vw); font: 400 clamp(32px, 3.2vw, 47px)/1.16 var(--serif-en); letter-spacing: -.02em; }
+.hometown-experience .journey-description { max-width: 40em; margin: 10px 20px 0; color: #4e5f57; font-size: clamp(14px, 1.2vw, 17px); line-height: 1.75; text-wrap: balance; }
+.hometown-experience .journey-instruction { margin: auto 20px 7px; padding: 8px 13px; color: #725744; background: #f4eee5d9; font: 12px/1.5 var(--sans); letter-spacing: .05em; }
+.hometown-experience .journey-action,
+.hometown-experience .journey-preview button { display: inline-flex; align-items: center; justify-content: center; gap: 28px; min-width: 230px; padding: 11px 20px; border: 1px solid #9b4f3d; background: #f6eee5e8; color: #8e4637; font-size: 15px; text-align: center; cursor: pointer; pointer-events: auto; }
+.hometown-experience .journey-action[hidden] { display: none; }
+.hometown-experience .journey-action:focus-visible { outline: none; border-bottom: 2px solid #8e4637; }
+.hometown-experience .journey-action span,
+.hometown-experience .journey-preview button span { font: 22px var(--sans); transition: transform .25s; }
+.hometown-experience .journey-action:hover span,
+.hometown-experience .journey-preview button:hover span { transform: translateX(6px); }
+.hometown-experience .journey-progress { display: flex; gap: 7px; margin: 26px 0 calc(var(--bar-bottom) + 29px); }
+.hometown-experience .journey-progress i { width: 22px; height: 2px; background: #a89f8e75; }
+.hometown-experience .journey-progress i.is-done { background: #aa5846; }
+.hometown-experience .journey[data-step="0"] .journey-panel { justify-content: center; color: #f6f0e5; }
+.hometown-experience .journey[data-step="0"] .journey-topline,
+.hometown-experience .journey[data-step="0"] .journey-count,
+.hometown-experience .journey[data-step="0"] .journey-description,
+.hometown-experience .journey[data-step="0"] .journey-instruction,
+.hometown-experience .journey[data-step="0"] .journey-progress { display: none; }
+.hometown-experience .journey[data-step="0"] .journey-panel h2 {
+  max-width: min(1100px, 88vw);
+  font-size: clamp(42px, 6vw, 84px);
+  letter-spacing: .06em;
+  line-height: 1.25;
+  text-shadow: 0 2px 20px #0005;
+}
+.hometown-experience[data-language="en"] .journey[data-step="0"] .journey-panel h2 {
+  max-width: min(1100px, 86vw);
+  font: 400 clamp(44px, 5.4vw, 78px)/1.16 var(--serif-en);
+  letter-spacing: -.025em;
+}
+.hometown-experience .journey[data-step="0"] .journey-action {
+  min-width: 0;
+  margin-top: 44px;
+  padding: 10px 2px;
+  border: 0;
+  border-bottom: 1px solid #d7c5ad;
+  background: transparent;
+  color: #f6eee5;
+  font: 500 clamp(16px, 1.4vw, 20px) var(--sans);
+  letter-spacing: .07em;
+}
+.hometown-experience .journey[data-step="0"] .journey-action:hover { border-bottom-color: #fff; color: #fff; }
+.hometown-experience .journey[data-step="0"] .journey-action:focus-visible { outline: none; border-bottom: 2px solid #fff; }
+.hometown-experience .journey.step-arriving .journey-panel h2,
+.hometown-experience .journey.step-arriving .journey-description { animation: story-line-in .65s ease both; }
+.hometown-experience .journey.step-arriving .journey-description { animation-delay: .12s; }
+@keyframes story-line-in { from { opacity: 0; transform: translateY(16px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+.hometown-experience .journey-preview {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  top: 50%;
+  width: min(500px, calc(100% - 36px));
+  margin: 0;
+  padding: 36px 42px 39px;
+  border: 1px solid #9f8f7655;
+  background: #f6f0e6;
+  box-shadow: 0 28px 80px #0d1c1baa;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: auto;
+}
+.hometown-experience .journey-preview[hidden] { display: none; }
+.hometown-experience .journey-preview > span { display: block; margin-bottom: 12px; color: #917d6a; font: 11px var(--sans); letter-spacing: .19em; }
+.hometown-experience .journey-preview strong { display: block; font-size: clamp(34px, 3vw, 44px); font-weight: 400; }
+.hometown-experience .journey-preview p { margin: 12px 0 27px; color: #64685f; font-size: 15px; }
+.hometown-experience .journey-preview button { margin: auto; }
+.hometown-experience .journey.has-preview .journey-count,
+.hometown-experience .journey.has-preview .journey-panel h2,
+.hometown-experience .journey.has-preview .journey-description,
+.hometown-experience .journey.has-preview .journey-instruction,
+.hometown-experience .journey.has-preview .journey-progress { visibility: hidden; animation: none; }
+.hometown-experience .journey.has-preview .journey-map-tools,
+.hometown-experience .journey.has-preview .journey-rain-control { opacity: .15; pointer-events: none; }
+
+@media (max-width: 900px) {
+  .hometown-experience .journey-topline { top: calc(var(--bar-top) + 18px); left: 20px; right: 20px; }
+  .hometown-experience .journey-count { margin-top: calc(var(--bar-top) + 94px); }
+  .hometown-experience .journey-panel h2 { max-width: 86vw; font-size: clamp(28px, 4.5vw, 39px); }
+  .hometown-experience[data-language="en"] .journey-panel h2 { font-size: clamp(27px, 4.4vw, 38px); }
+  .hometown-experience .journey-description { max-width: 34em; font-size: 14px; }
+  .hometown-experience .journey-map-tools { right: 15px; top: calc(var(--bar-top) + 68px); }
+  .hometown-experience .journey-rain-control { left: 16px; bottom: calc(var(--bar-bottom) + 50px); }
+  .hometown-experience .journey-map-coordinate { right: 15px; bottom: calc(var(--bar-bottom) + 55px); }
+  .hometown-experience .map-tools { top: 10px; right: 10px; }
+}
+@media (max-width: 540px) {
+  .hometown-experience .journey-topline { top: calc(var(--bar-top) + 16px); left: 16px; right: 16px; font-size: 10px; }
+  .hometown-experience .journey-skip { font-size: 10px; }
+  .hometown-experience .journey-count { margin-top: calc(var(--bar-top) + 83px); font-size: 11px; }
+  .hometown-experience .journey-panel h2 { max-width: 88vw; font-size: clamp(28px, 8vw, 37px); }
+  .hometown-experience[data-language="en"] .journey-panel h2 { font-size: clamp(27px, 7.6vw, 36px); }
+  .hometown-experience .journey-description { margin-top: 8px; max-width: 88vw; font-size: 13px; line-height: 1.6; }
+  .hometown-experience .journey-instruction { margin-bottom: 6px; max-width: 88vw; font-size: 11px; }
+  .hometown-experience .journey-action { min-width: 195px; padding: 8px 13px; font-size: 13px; }
+  .hometown-experience .journey-progress { margin: 15px 0 calc(var(--bar-bottom) + 25px); }
+  .hometown-experience .journey[data-step="0"] .journey-panel h2 { max-width: min(270px, 84vw); font-size: clamp(32px, 8.8vw, 40px); text-wrap: wrap; }
+  .hometown-experience[data-language="en"] .journey[data-step="0"] .journey-panel h2 { font-size: clamp(40px, 9vw, 52px); }
+  .hometown-experience .journey[data-step="0"] .journey-action { margin-top: 32px; }
+  .hometown-experience .journey-map-tools { right: 12px; top: calc(var(--bar-top) + 62px); }
+  .hometown-experience .journey-map-tools button { width: 35px; height: 35px; font-size: 17px; }
+  .hometown-experience .journey-rain-control { display: none; left: 12px; bottom: calc(var(--bar-bottom) + 190px); }
+  .hometown-experience .journey:is([data-step="4"],[data-step="5"]) .journey-rain-control { display: block; }
+  .hometown-experience .journey-rain-control button { padding: 7px 8px; font-size: 10px; }
+  .hometown-experience .journey-map-coordinate { display: none; }
+  .hometown-experience .tour-map-target { padding: 6px 9px; font-size: 11px; }
+  .hometown-experience .target-yellow { left: 53%; top: 52%; }
+  .hometown-experience .target-story { left: 51%; top: 58%; }
+  .hometown-experience .journey-preview { padding: 30px 22px; }
+  .hometown-experience .journey-preview strong { font-size: 32px; }
+  .hometown-experience .journey-preview p { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hometown-experience .journey *,
+.hometown-experience .journey *::before,
+.hometown-experience .journey *::after,
+.hometown-experience .hometown-map * { animation: none !important; transition: none !important; }
+}
+
+/* Book prologue — a quiet game opening in the atlas's paper, ink and seal palette. */
+.hometown-experience:has(.journey:not([hidden])) .masthead,
+.hometown-experience:has(.journey:not([hidden])) .bottom-bar {
+  opacity: 0;
+  pointer-events: none;
+}
+.hometown-experience .paper-noise { opacity: 0 !important; }
+.hometown-experience:has(.journey:not([hidden])) .masthead { transform: translateY(-100%); }
+.hometown-experience:has(.journey:not([hidden])) .bottom-bar { transform: translateY(100%); }
+
+.hometown-experience .journey {
+  color: #293d3b;
+  background:
+    radial-gradient(ellipse at 50% 43%, #f2ecdf 0, #e8dfcf 53%, #d4c6b1 100%);
+  transition: background 1.2s ease;
+}
+.hometown-experience .journey::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+  background-image:
+    repeating-linear-gradient(7deg, transparent 0 34px, #765f3f08 35px, transparent 36px),
+    repeating-linear-gradient(96deg, transparent 0 71px, #ffffff12 72px, transparent 73px),
+    radial-gradient(ellipse at center, transparent 35%, #6d54352b 100%);
+}
+.hometown-experience .journey::after {
+  z-index: 1;
+  opacity: .1;
+  background:
+    radial-gradient(ellipse at -8% 64%, transparent 0 27%, #6f776d38 27.2% 27.45%, transparent 27.7% 34%, #6f776d26 34.2% 34.45%, transparent 34.7%),
+    radial-gradient(ellipse at 109% 18%, transparent 0 31%, #8e795931 31.2% 31.45%, transparent 31.7% 39%, #8e795922 39.2% 39.45%, transparent 39.7%),
+    radial-gradient(ellipse at 52% 117%, transparent 0 35%, #6f776d21 35.2% 35.45%, transparent 35.7%);
+  animation: paper-contours-drift 16s ease-in-out infinite alternate;
+}
+.hometown-experience .journey[data-step="0"]::after { opacity: .12; }
+.hometown-experience .journey:is([data-step="2"],[data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"]) {
+  background:
+    radial-gradient(ellipse at 50% 46%, #f0eadf 0, #e8e1d5 60%, #d9cdbc 100%);
+}
+.hometown-experience .journey:is([data-step="2"],[data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"])::before {
+  opacity: .7;
+  background:
+    linear-gradient(90deg, #b5966b0d 1px, transparent 1px) 0 0 / 118px 100%,
+    radial-gradient(circle at 50% 48%, transparent 35%, #8c755425 100%);
+}
+.hometown-experience .journey:is([data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"])::after { opacity: 0; }
+@keyframes paper-contours-drift {
+  from { transform: translate3d(-3px, -2px, 0) scale(1.01); }
+  to { transform: translate3d(4px, 3px, 0) scale(1.018); }
+}
+.hometown-experience .journey-topline {
+  top: 27px;
+  left: 34px;
+  right: 34px;
+  z-index: 30;
+  color: #686052;
+  transition: color .8s ease;
+  justify-content: flex-end;
+}
+.hometown-experience .journey:is([data-step="2"],[data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"]) .journey-topline { color: #6b695d; }
+.hometown-experience .journey[data-step="0"] .journey-topline { display: flex; }
+.hometown-experience .journey-skip { opacity: .72; }
+
+.hometown-experience .journey-map-wrap {
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.1s ease, visibility 0s linear 1.1s;
+}
+.hometown-experience .journey:is([data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"]) .journey-map-wrap {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.hometown-experience .journey-map-wrap::before {
+  background: radial-gradient(ellipse at 62% 48%, transparent 42%, #d2c3aa6e 100%);
+}
+.hometown-experience .tour-map { width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.hometown-experience .atlas-prologue-map { overflow: hidden; cursor: default; background: #eee9dc; }
+.hometown-experience .prologue-atlas-sea { fill: #dce3df; }
+.hometown-experience .prologue-atlas-land { fill: #f0e9d9; stroke: #738a83; stroke-width: .8; vector-effect: non-scaling-stroke; }
+.hometown-experience .prologue-atlas-region { stroke: none; }
+.hometown-experience .prologue-atlas-region.region-mountain { fill: #777d61; opacity: .022; }
+.hometown-experience .prologue-atlas-region.region-plateau { fill: #b4a17a; opacity: .045; }
+.hometown-experience .prologue-atlas-region.region-basin { fill: #c5b58c; opacity: .025; }
+.hometown-experience .prologue-atlas-region.region-desert { fill: #c5a76d; opacity: .12; }
+.hometown-experience .prologue-atlas-hachure,
+.hometown-experience .prologue-atlas-contour,
+.hometown-experience .prologue-atlas-stream,
+.hometown-experience .atlas-prologue-routes path { fill: none; vector-effect: non-scaling-stroke; }
+.hometown-experience .prologue-atlas-hachure { stroke: #746e54; stroke-width: .6; opacity: .045; stroke-linecap: round; transition: opacity .35s ease; }
+.hometown-experience .prologue-atlas-hachure.weight-0 { display: none; }
+.hometown-experience .prologue-atlas-hachure.weight-1 { stroke-width: .72; opacity: .065; }
+.hometown-experience .prologue-atlas-hachure.weight-2 { stroke-width: .82; opacity: .085; }
+.hometown-experience .prologue-atlas-contour { stroke: #807953; stroke-width: .6; opacity: .035; transition: opacity .35s ease; }
+.hometown-experience .prologue-atlas-stream { stroke: #6d9194; stroke-width: .68; opacity: .08; transition: opacity .35s ease; }
+.hometown-experience .prologue-atlas-stream.level-1 { stroke-width: .82; opacity: .26; }
+.hometown-experience .prologue-atlas-stream.level-2 { opacity: .15; }
+.hometown-experience .prologue-atlas-lake { fill: #94b2b1; fill-opacity: .36; stroke: #739697; stroke-width: .55; opacity: .42; vector-effect: non-scaling-stroke; }
+.hometown-experience .prologue-atlas-lake.level-1 { opacity: .78; }
+.hometown-experience .prologue-atlas-lake.level-2 { opacity: .5; }
+.hometown-experience .prologue-atlas-stream.level-3,
+.hometown-experience .prologue-atlas-lake.level-3,
+.hometown-experience .prologue-atlas-region.level-3 { display: none; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-hachure { opacity: .11; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-hachure.weight-0 { display: inline; opacity: .08; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-hachure.weight-1 { opacity: .15; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-hachure.weight-2 { opacity: .18; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-contour { opacity: .08; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-stream.level-1 { opacity: .34; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-stream.level-2 { opacity: .24; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-atlas-stream.level-3 { display: inline; opacity: .11; }
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] :is(.prologue-atlas-lake.level-3,.prologue-atlas-region.level-3) { display: inline; }
+.hometown-experience .prologue-marine-labels { pointer-events: none; }
+.hometown-experience .prologue-marine-label {
+  fill: #52777a;
+  font: italic 13px var(--serif-cn), var(--serif-en);
+  letter-spacing: .18em;
+  opacity: .7;
+  paint-order: stroke;
+  stroke: #dce3dfdc;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.hometown-experience[data-language="en"] .prologue-marine-label {
+  font-family: var(--serif-en);
+  font-size: 11px;
+  letter-spacing: .06em;
+}
+.hometown-experience .prologue-marine-label.is-detail {
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.hometown-experience .atlas-prologue-map[data-map-detail="2"] .prologue-marine-label.is-detail { opacity: .74; }
+.hometown-experience .prologue-atlas-labels text,
+.hometown-experience .atlas-prologue-routes text,
+.hometown-experience .prologue-river-label {
+  fill: #697064;
+  font: 12px var(--serif-cn), var(--serif-en);
+  letter-spacing: .1em;
+  paint-order: stroke;
+  stroke: #f0e9d9e8;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.hometown-experience[data-language="en"] :is(.prologue-atlas-labels text,.atlas-prologue-routes text,.prologue-river-label) {
+  font-family: var(--serif-en);
+  font-size: 10px;
+  letter-spacing: .07em;
+}
+.hometown-experience .atlas-prologue-routes path { stroke: #5c534446; stroke-width: 1.1; stroke-dasharray: 2 8; }
+.hometown-experience .atlas-prologue-routes text { font-size: 11px; }
+.hometown-experience .prologue-story-point .point-glow { fill: url(#prologue-story-glow); opacity: .22; }
+.hometown-experience .prologue-story-point .point-ring { fill: none; stroke: #944b39; stroke-width: 1; opacity: .42; }
+.hometown-experience .prologue-story-point .point-core { fill: #944b39; stroke: #f0e9d9; stroke-width: 1.2; }
+.hometown-experience .prologue-story-point .point-number { fill: #944b39; font: 9px var(--sans); letter-spacing: .12em; }
+.hometown-experience .prologue-story-point .point-clue { fill: #3b3d36; font: 14px var(--serif-cn); letter-spacing: .08em; paint-order: stroke; stroke: #f0e9d9e8; stroke-width: 3px; }
+.hometown-experience[data-language="en"] .prologue-story-point .point-clue { font: 10px var(--serif-en); letter-spacing: .05em; }
+.hometown-experience .prologue-river-segment { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.hometown-experience .prologue-yellow .prologue-river-segment { stroke: #9a6748; stroke-width: 2.2; opacity: .18; }
+.hometown-experience .prologue-yangtze .prologue-river-segment { stroke: #3f7480; stroke-width: 1.4; opacity: .3; }
+.hometown-experience .prologue-yellow-label { opacity: 0; transition: opacity 1s ease 1.15s; }
+.hometown-experience .prologue-yangtze-label { opacity: .42; }
+.hometown-experience .journey:is([data-step="3"],[data-step="4"]) .prologue-yellow-label { opacity: 1; }
+.hometown-experience .journey[data-step="5"] .prologue-yellow .prologue-river-segment { stroke-dashoffset: 0; opacity: .32; stroke-width: 1.8; }
+.hometown-experience .journey[data-step="5"] .prologue-yellow-label { opacity: .38; }
+.hometown-experience .journey[data-step="5"] .prologue-yangtze-label { opacity: 1; }
+.hometown-experience .journey .river,
+.hometown-experience .journey .map-label { opacity: 0; }
+.hometown-experience .journey:is([data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"]) .river-yellow {
+  opacity: .9;
+  stroke-dashoffset: 0;
+}
+.hometown-experience .journey:is([data-step="3"],[data-step="4"],[data-step="5"],[data-step="6"]) .yellow-label { opacity: .9; }
+.hometown-experience .journey:is([data-step="5"],[data-step="6"]) .river-yangtze {
+  opacity: .9;
+  stroke-dashoffset: 0;
+}
+.hometown-experience .journey:is([data-step="5"],[data-step="6"]) .yangtze-label { opacity: .9; }
+.hometown-experience .journey .journey-map-coordinate {
+  display: block;
+  right: 28px;
+  bottom: 28px;
+  opacity: .72;
+}
+
+.hometown-experience .opening-scene {
+  position: absolute;
+  z-index: 12;
+  top: 50%;
+  left: 50%;
+  width: min(760px, calc(100vw - 64px));
+  transform: translate(-50%, calc(-50% + 18px));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .65s ease, transform .85s cubic-bezier(.22,.7,.18,1), visibility 0s linear .85s;
+}
+.hometown-experience .opening-scene[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+  transition-delay: .15s;
+}
+.hometown-experience .journey.scene-departing .opening-scene[aria-hidden="false"] {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% - 12px));
+  transition-delay: 0s;
+}
+.hometown-experience .journey.scene-departing :is(.scene-yellow,.scene-yellow-stories)[aria-hidden="false"] {
+  transform: translate(0, calc(-50% - 12px));
+}
+.hometown-experience .opening-eyebrow,
+.hometown-experience .scene-index {
+  margin: 0 0 21px;
+  color: #b58b65;
+  font: 600 10px/1.4 var(--sans);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+}
+.hometown-experience .scene-question { color: #263c39; text-align: center; }
+.hometown-experience .scene-question h2 {
+  max-width: 760px;
+  margin: 0 auto;
+  font: 400 clamp(38px, 5.2vw, 74px)/1.09 var(--serif-en);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(17px);
+  animation: opening-question-in 1.05s cubic-bezier(.2,.72,.2,1) .15s forwards;
+}
+.hometown-experience .question-answers {
+  display: flex;
+  min-height: 29px;
+  justify-content: center;
+  gap: 10px 25px;
+  flex-wrap: wrap;
+  margin: 35px auto 42px;
+  color: #756f62;
+  font: italic clamp(20px, 1.7vw, 27px)/1.5 var(--serif-en);
+}
+.hometown-experience .question-answers span { opacity: 0; animation: question-answer 4.8s ease 1.25s forwards; }
+.hometown-experience .question-answers span:nth-child(2) { animation-delay: 2.4s; }
+.hometown-experience .question-answers span:nth-child(3) { animation-delay: 3.55s; }
+.hometown-experience .question-answers span:nth-child(4) { animation-delay: 4.7s; }
+@keyframes opening-question-in {
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@keyframes question-answer {
+  0% { opacity: 0; transform: translateY(5px); }
+  16%, 73% { opacity: .82; transform: translateY(0); }
+  100% { opacity: .36; }
+}
+.hometown-experience .opening-link,
+.hometown-experience .opening-action {
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: 400 17px/1.5 var(--serif-en);
+}
+.hometown-experience .opening-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 7px 2px 8px;
+  border-bottom: 0;
+  color: #6b4a2f;
+  font: italic clamp(20px, 1.7vw, 27px)/1.5 var(--serif-en);
+  letter-spacing: .03em;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: book-link-in .9s cubic-bezier(.2,.7,.2,1) 6.1s forwards;
+}
+.hometown-experience .opening-link-label,
+.hometown-experience .opening-action i { display: inline-block; margin-left: 20px; font-style: normal; transition: transform .25s ease; }
+.hometown-experience .opening-action:hover i { transform: translateX(7px); }
+.hometown-experience .opening-action:focus-visible,
+.hometown-experience .book-choice:focus-visible { outline: 2px solid #b15a43; outline-offset: 7px; }
+.hometown-experience .opening-link:focus,
+.hometown-experience .opening-link:focus-visible { outline: 0; box-shadow: none; }
+.hometown-experience .opening-link:hover { color: #4f3521; }
+.hometown-experience .opening-link-label { margin-left: 0; }
+.hometown-experience .arrow-trail { display: inline-flex; gap: 1px; margin-left: 0; }
+.hometown-experience .arrow-trail i {
+  display: inline-block;
+  opacity: .2;
+  color: #a67b48;
+  font: normal 26px/1 var(--serif-en);
+  animation: arrow-pass 1.15s ease-in-out infinite;
+}
+.hometown-experience .arrow-trail i:nth-child(2) { animation-delay: .16s; }
+.hometown-experience .arrow-trail i:nth-child(3) { animation-delay: .32s; }
+@keyframes book-link-in { to { opacity: 1; transform: translateY(0); } }
+@keyframes arrow-pass {
+  0%, 58%, 100% { opacity: .2; transform: translateX(0); }
+  25% { opacity: 1; color: #785b37; transform: translateX(3px); }
+}
+
+.hometown-experience .scene-books { width: min(900px, calc(100vw - 64px)); color: #2d423e; text-align: center; }
+.hometown-experience .author-intro {
+  max-width: 670px;
+  margin: 0 auto 44px;
+  font: 400 clamp(18px, 2vw, 26px)/1.55 var(--serif-en), var(--serif-cn);
+  text-wrap: balance;
+}
+.hometown-experience .book-choices { display: flex; justify-content: center; align-items: flex-end; gap: clamp(44px, 8vw, 110px); }
+.hometown-experience .book-choice {
+  position: relative;
+  width: 210px;
+  height: 294px;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+  perspective: 1000px;
+}
+.hometown-experience .book-cover,
+.hometown-experience .book-pages {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 170px;
+  height: 238px;
+  box-sizing: border-box;
+  border-radius: 2px 7px 7px 2px;
+}
+.hometown-experience .book-pages {
+  background: repeating-linear-gradient(90deg, #d7cbb8 0 2px, #f4ebdc 2px 5px);
+  box-shadow: 7px 12px 22px #5d4a354d;
+  transform: translate(9px, 5px);
+}
+.hometown-experience .book-cover {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 18px 22px;
+  border: 1px solid #c9b796;
+  transform-origin: left center;
+  background:
+    linear-gradient(#385a5b16 1px, transparent 1px) 0 0 / 100% 24px,
+    #e8dec9;
+  color: #314b4c;
+  box-shadow: inset 7px 0 12px #684c3230, 5px 9px 18px #5b493746;
+  transition: transform .65s cubic-bezier(.22,.75,.18,1), box-shadow .65s ease;
+}
+.hometown-experience .book-zh .book-cover { color: #8f4939; background-color: #e9dfcb; }
+.hometown-experience .book-cover::before {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  border: 1px solid currentColor;
+  opacity: .45;
+}
+.hometown-experience .book-cover small { font: 600 9px var(--sans); letter-spacing: .2em; }
+.hometown-experience .book-cover strong { margin: auto 0; font: 400 22px/1.27 var(--serif-en); letter-spacing: .03em; }
+.hometown-experience .book-zh .book-cover strong { font: 400 38px/1.22 var(--serif-cn); letter-spacing: .16em; }
+.hometown-experience .book-cover em { font: normal 11px var(--serif-cn); letter-spacing: .18em; }
+.hometown-experience .book-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 11px;
+  color: #59655e;
+  font: 12px var(--sans);
+  letter-spacing: .14em;
+}
+.hometown-experience .book-shadow {
+  position: absolute;
+  left: 17px;
+  bottom: 38px;
+  width: 190px;
+  height: 24px;
+  border-radius: 50%;
+  background: #59493466;
+  filter: blur(10px);
+  transition: transform .65s ease, opacity .65s ease;
+}
+.hometown-experience .book-choice:is(:hover,:focus-visible) .book-cover {
+  transform: rotateY(-34deg) translateX(-3px);
+  box-shadow: inset 7px 0 12px #684c3230, 14px 12px 27px #5a47385f;
+}
+.hometown-experience .book-choice:is(:hover,:focus-visible) .book-shadow { transform: scaleX(1.15); opacity: .72; }
+
+/* The chosen edition becomes the page that carries the reader into the chapter. */
+.hometown-experience .scene-books .author-intro,
+.hometown-experience .scene-books .book-choice { transition: opacity .5s ease, filter .5s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+.hometown-experience .scene-books.is-choosing .author-intro { opacity: 0; transform: translateY(-10px); }
+.hometown-experience .scene-books.is-choosing .book-choice.is-dismissed { opacity: 0; filter: blur(5px); transform: scale(.88); }
+.hometown-experience .scene-books.is-choosing .book-choice.is-chosen { opacity: 0; }
+.hometown-experience .journey.book-transitioning .journey-skip { opacity: 0; pointer-events: none; }
+
+.hometown-experience .book-portal {
+  position: fixed;
+  z-index: 80;
+  margin: 0;
+  transform: translate(0, 0);
+  transform-style: preserve-3d;
+  perspective: 1600px;
+  pointer-events: none;
+  transition:
+    left .78s cubic-bezier(.2,.72,.18,1),
+    top .78s cubic-bezier(.2,.72,.18,1),
+    width .78s cubic-bezier(.2,.72,.18,1),
+    height .78s cubic-bezier(.2,.72,.18,1),
+    transform .78s cubic-bezier(.2,.72,.18,1),
+    opacity .65s ease;
+}
+.hometown-experience .book-portal.is-centering {
+  left: 50% !important;
+  top: 50% !important;
+  width: var(--portal-target-w) !important;
+  height: var(--portal-target-h) !important;
+  transform: translate(-50%, -50%);
+}
+.hometown-experience .book-portal-pages,
+.hometown-experience .book-portal-leaf,
+.hometown-experience .book-portal .book-cover,
+.hometown-experience .book-portal-paper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 2px 7px 7px 2px;
+}
+.hometown-experience .book-portal-pages {
+  z-index: 2;
+  transform: translate(8px, 5px);
+  background: repeating-linear-gradient(90deg, #d5c7b1 0 2px, #f4ebdc 2px 5px);
+  box-shadow: 14px 22px 44px #10201e67;
+}
+.hometown-experience .book-portal .book-cover {
+  z-index: 7;
+  top: 0;
+  left: 0;
+  transform-origin: left center;
+  transition: transform .8s cubic-bezier(.2,.72,.18,1), opacity .55s ease;
+}
+.hometown-experience .book-portal-leaf {
+  z-index: 5;
+  border: 1px solid #c6b79e;
+  transform-origin: left center;
+  background:
+    linear-gradient(90deg, #745d3c12 0, transparent 10%, transparent 90%, #745d3c18 100%),
+    repeating-linear-gradient(#d8cdb924 0 1px, transparent 1px 24px),
+    #eee5d5;
+  backface-visibility: hidden;
+}
+.hometown-experience .book-portal-leaf.leaf-two { z-index: 4; background-color: #f2e9d9; }
+.hometown-experience .book-portal.is-flipping .book-cover { transform: rotateY(-154deg); }
+.hometown-experience .book-portal.is-flipping .leaf-one { animation: portal-page-turn .72s cubic-bezier(.3,.62,.25,1) .18s forwards; }
+.hometown-experience .book-portal.is-flipping .leaf-two { animation: portal-page-turn .72s cubic-bezier(.3,.62,.25,1) .48s forwards; }
+@keyframes portal-page-turn {
+  0% { transform: rotateY(0); }
+  45% { box-shadow: 10px 4px 18px #43342042; }
+  100% { transform: rotateY(-151deg); }
+}
+.hometown-experience .book-portal-paper {
+  z-index: 1;
+  opacity: 0;
+  transform: scale(.92);
+  background:
+    linear-gradient(90deg, #b5966b0d 1px, transparent 1px) 0 0 / 118px 100%,
+    #e8e3d8;
+  box-shadow: 0 0 80px #e8e3d8;
+  transition: opacity .45s ease, transform .9s cubic-bezier(.22,.7,.18,1);
+}
+.hometown-experience .book-portal.is-filling .book-portal-paper {
+  opacity: 1;
+  transform: scale(12);
+}
+.hometown-experience .book-portal.is-filling .book-cover,
+.hometown-experience .book-portal.is-filling .book-portal-pages,
+.hometown-experience .book-portal.is-filling .book-portal-leaf { opacity: .18; }
+.hometown-experience .book-portal.is-leaving { opacity: 0; }
+
+.hometown-experience .scene-lines {
+  width: min(920px, calc(100vw - 80px));
+  text-align: center;
+}
+.hometown-experience .three-lines-quote {
+  display: grid;
+  gap: clamp(18px, 2.4vh, 30px);
+}
+.hometown-experience .three-lines-quote p {
+  max-width: 34em;
+  margin: 0 auto;
+  color: #253c3b;
+  font: 400 clamp(22px, 2.15vw, 31px)/1.62 var(--serif-cn), var(--serif-en);
+  text-wrap: balance;
+  opacity: 0;
+  filter: blur(7px);
+  transform: translateY(14px);
+}
+.hometown-experience[data-language="en"] .three-lines-quote p {
+  max-width: 37em;
+  font-family: var(--serif-en);
+  font-size: clamp(21px, 2vw, 29px);
+  line-height: 1.46;
+}
+.hometown-experience .scene-lines[aria-hidden="false"] .three-lines-quote p {
+  animation: line-reveal 1.25s cubic-bezier(.2,.7,.2,1) forwards;
+}
+.hometown-experience .scene-lines[aria-hidden="false"] .three-lines-quote p:nth-child(2) { animation-delay: 1.35s; }
+.hometown-experience .scene-lines[aria-hidden="false"] .three-lines-quote p:nth-child(3) { animation-delay: 2.7s; }
+.hometown-experience .scene-lines .opening-action {
+  margin-top: clamp(30px, 5vh, 55px);
+  opacity: 0;
+  transform: translateY(9px);
+}
+.hometown-experience .scene-lines[aria-hidden="false"] .opening-action {
+  animation: line-reveal .8s ease 4.15s forwards;
+}
+@keyframes line-reveal {
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+.hometown-experience .scene-yellow,
+.hometown-experience .scene-yellow-stories,
+.hometown-experience .scene-yangtze,
+.hometown-experience .scene-third-line {
+  left: clamp(42px, 9vw, 145px);
+  width: min(455px, calc(100vw - 84px));
+  padding: 35px 37px 31px;
+  transform: translate(0, calc(-50% + 18px));
+  border-left: 2px solid #a25443;
+  background: linear-gradient(90deg, #eee9deee 0 78%, #eee9de00 100%);
+  box-sizing: border-box;
+  text-align: left;
+}
+.hometown-experience .scene-yellow[aria-hidden="false"],
+.hometown-experience .scene-yellow-stories[aria-hidden="false"],
+.hometown-experience .scene-yangtze[aria-hidden="false"],
+.hometown-experience .scene-third-line[aria-hidden="false"] { transform: translate(0, -50%); }
+.hometown-experience .scene-yellow blockquote,
+.hometown-experience .scene-yellow-stories blockquote,
+.hometown-experience .scene-yangtze blockquote {
+  margin: 0 0 19px;
+  color: #293d3b;
+  font: 400 clamp(18px, 1.75vw, 24px)/1.65 var(--serif-cn), var(--serif-en);
+}
+.hometown-experience[data-language="en"] :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze) blockquote {
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.55;
+}
+.hometown-experience .scene-prompt { margin: 6px 0 18px; color: #676a60; font: 12px/1.6 var(--sans); letter-spacing: .07em; }
+.hometown-experience .opening-action { padding: 7px 1px; color: #964c3b; font-family: var(--serif-cn), var(--serif-en); font-size: 14px; }
+.hometown-experience .quote-stack blockquote + blockquote { padding-top: 18px; border-top: 1px solid #8f7d6552; }
+.hometown-experience .scene-yellow-stories .quote-stack blockquote + blockquote { border-top: 0; }
+.hometown-experience .scene-yellow-stories .quote-stack blockquote { opacity: 0; filter: blur(5px); transform: translateY(10px); }
+.hometown-experience .scene-yellow-stories[aria-hidden="false"] .quote-stack blockquote { animation: line-reveal .9s ease .3s forwards; }
+.hometown-experience .scene-yellow-stories[aria-hidden="false"] .quote-stack blockquote:nth-child(2) { animation-delay: 2.5s; }
+.hometown-experience .scene-yangtze .yangtze-quote-stack blockquote { opacity: 0; filter: blur(5px); transform: translateY(10px); }
+.hometown-experience .scene-yangtze[aria-hidden="false"] .yangtze-quote-stack blockquote { animation: line-reveal .9s ease .3s forwards; }
+.hometown-experience .scene-yangtze[aria-hidden="false"] .yangtze-quote-stack blockquote:nth-child(2) { animation-delay: 3s; }
+.hometown-experience .scene-yangtze .opening-action.primary {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border: 1px solid #a25342;
+  background: #f2ebe0d9;
+  opacity: 0;
+}
+.hometown-experience .scene-yangtze[aria-hidden="false"] .opening-action.primary { animation: line-reveal .8s ease 6.2s forwards; }
+.hometown-experience .scene-third-line h2 {
+  margin: 0 0 15px;
+  color: #263c3b;
+  font: 400 clamp(28px, 3vw, 42px)/1.25 var(--serif-cn), var(--serif-en);
+}
+.hometown-experience .scene-third-line > p:not(.scene-index) { margin: 0 0 24px; color: #59645d; font: 16px/1.7 var(--serif-cn), var(--serif-en); }
+.hometown-experience .scene-third-line .primary { padding: 10px 14px; border: 1px solid #a25342; background: #f2ebe0d9; }
+
+.hometown-experience .tour-map-target {
+  z-index: 9;
+  border: 1px solid #a159486e;
+  background: #f4ede1e8;
+  color: #844a3d;
+  box-shadow: 0 7px 20px #4d3c252c;
+}
+.hometown-experience .target-yellow { left: 64%; top: 47%; }
+.hometown-experience .target-yangtze { left: 65%; top: 62%; }
+.hometown-experience .journey[data-step="3"] .target-yellow,
+.hometown-experience .journey[data-step="5"] .target-yangtze { display: inline-flex; animation: target-pulse 2.3s ease-in-out infinite; }
+.hometown-experience .journey-progress {
+  position: absolute;
+  z-index: 30;
+  left: 50%;
+  bottom: 27px;
+  margin: 0;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 760px) {
+  .hometown-experience .journey-topline { top: 18px; left: 18px; right: 18px; }
+  .hometown-experience .scene-question h2 { font-size: clamp(36px, 11vw, 55px); }
+  .hometown-experience .question-answers { margin: 27px auto 32px; font-size: clamp(18px, 5vw, 22px); }
+  .hometown-experience .opening-link { font-size: clamp(18px, 5vw, 22px); }
+  .hometown-experience .scene-books { top: 52%; }
+  .hometown-experience .author-intro { margin-bottom: 28px; font-size: 17px; }
+  .hometown-experience .book-choices { gap: 20px; }
+  .hometown-experience .book-choice { width: 145px; height: 230px; }
+  .hometown-experience .book-cover,
+.hometown-experience .book-pages { left: 13px; width: 120px; height: 168px; }
+  .hometown-experience .book-cover { padding: 18px 12px 15px; }
+  .hometown-experience .book-cover::before { inset: 8px; }
+  .hometown-experience .book-cover strong { font-size: 15px; }
+  .hometown-experience .book-zh .book-cover strong { font-size: 27px; }
+  .hometown-experience .book-shadow { left: 8px; bottom: 43px; width: 135px; }
+  .hometown-experience .scene-lines {
+    top: 51%;
+    width: calc(100vw - 42px);
+    max-height: calc(100vh - 118px);
+    overflow: auto;
+    padding: 12px 4px 24px;
+  }
+  .hometown-experience .three-lines-quote { gap: 16px; }
+  .hometown-experience .three-lines-quote p,
+.hometown-experience[data-language="en"] .three-lines-quote p { font-size: clamp(17px, 4.5vw, 21px); line-height: 1.5; }
+  .hometown-experience .scene-yellow,
+.hometown-experience .scene-yellow-stories,
+.hometown-experience .scene-yangtze,
+.hometown-experience .scene-third-line {
+    top: auto;
+    left: 18px;
+    right: 18px;
+    bottom: 64px;
+    width: auto;
+    max-height: 53vh;
+    overflow: auto;
+    padding: 24px 25px 22px;
+    transform: translateY(18px);
+    background: #eee9def2;
+  }
+  .hometown-experience .scene-yellow[aria-hidden="false"],
+.hometown-experience .scene-yellow-stories[aria-hidden="false"],
+.hometown-experience .scene-yangtze[aria-hidden="false"],
+.hometown-experience .scene-third-line[aria-hidden="false"] { transform: translateY(0); }
+  .hometown-experience .scene-yellow blockquote,
+.hometown-experience .scene-yellow-stories blockquote,
+.hometown-experience .scene-yangtze blockquote { font-size: 16px; line-height: 1.52; }
+  .hometown-experience .journey-map-coordinate { display: none !important; }
+  .hometown-experience .target-yellow { left: 57%; top: 34%; }
+  .hometown-experience .target-yangtze { left: 60%; top: 45%; }
+}
+
+@media (max-height: 700px) and (min-width: 761px) {
+  .hometown-experience .opening-scene { top: 52%; }
+  .hometown-experience .author-intro { margin-bottom: 20px; font-size: 18px; }
+  .hometown-experience .book-choice { height: 245px; }
+  .hometown-experience .book-cover,
+.hometown-experience .book-pages { width: 145px; height: 203px; left: 32px; }
+  .hometown-experience .scene-lines { width: min(850px, calc(100vw - 80px)); }
+  .hometown-experience .three-lines-quote { gap: 15px; }
+  .hometown-experience .three-lines-quote p,
+.hometown-experience[data-language="en"] .three-lines-quote p { font-size: 19px; }
+  .hometown-experience .scene-yellow,
+.hometown-experience .scene-yellow-stories,
+.hometown-experience .scene-yangtze,
+.hometown-experience .scene-third-line { padding-top: 25px; padding-bottom: 23px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hometown-experience .three-lines-quote p,
+.hometown-experience .scene-lines .opening-action {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  .hometown-experience .scene-question h2,
+.hometown-experience .opening-link { opacity: 1; filter: none; transform: none; }
+}
+
+/* 10pt floor for HTML text (2026-10-08; SVG labels are handled by site/scripts/min-type.js) */
+.hometown-experience .earth-context small,
+.hometown-experience .map-tools button:last-child,
+.hometown-experience .journey-map-tools [data-tour-zoom="home"],
+.hometown-experience .journey-map-coordinate,
+.hometown-experience .journey-skip,
+.hometown-experience .journey-preview > span,
+.hometown-experience .book-cover em { font-size: 13.5px; }
+@media (max-width: 900px) {
+  .hometown-experience .earth-context { font-size: 13.5px; }
+  .hometown-experience .journey-topline,
+.hometown-experience .journey-skip,
+.hometown-experience .journey-count,
+.hometown-experience .journey-instruction,
+.hometown-experience .journey-rain-control button,
+.hometown-experience .tour-map-target { font-size: 13.5px; }
+  .hometown-experience .journey-skip { min-height: 36px; padding: 0 4px; }
+}
+
+/* Phones (2026-10-09): the reading map keeps only the key landforms - the large rivers and lakes, the main ranges,
+   plateaus, basins and deserts - so the Yellow River, the Yangtze and the 400 mm line read at a glance. */
+@media (max-width: 900px) {
+  .hometown-experience .reader-atlas-contour,
+.hometown-experience .reader-atlas-hachure.weight-0,
+.hometown-experience .reader-atlas-stream:not(.level-1):not(.level-2),
+.hometown-experience .reader-atlas-lake:not(.level-1),
+.hometown-experience .reader-atlas-region.level-3 { display: none; }
+  .hometown-experience .reader-atlas-stream { opacity: .32; }
+}
+
+/* phones: 太平洋 ends at its anchor, so it stays inside the narrow map; the credit is a full-height tap target */
+@media (max-width: 900px), (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
+  .hometown-experience .reader-geography-labels .geography-ocean { text-anchor: end; }
+}
+
+/* the prologue on phones (landscape), as on desktop: the map is the background, shifted right so the rivers sit
+   beside the quotes; the quotes stay in front on the left over a soft fade, not a solid block (2026-10-17) */
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
+  .hometown-experience .journey .tour-map { transform: translateX(8%) scale(1.45); transform-origin: 50% 50%; }
+  .hometown-experience .scene-yellow,
+.hometown-experience .scene-yellow-stories,
+.hometown-experience .scene-yangtze,
+.hometown-experience .scene-third-line {
+    top: 50%;
+    bottom: auto;
+    left: 16px;
+    right: auto;
+    width: calc(46% - 16px);
+    max-height: calc(100% - 56px);
+    overflow: auto;
+    scrollbar-width: none;
+    padding: 14px 30px 12px 18px;
+    transform: translate(0, calc(-50% + 18px));
+    background: linear-gradient(90deg, #eee9deee 0 72%, #eee9de00 100%);
+  }
+  .hometown-experience .scene-yellow[aria-hidden="false"],
+.hometown-experience .scene-yellow-stories[aria-hidden="false"],
+.hometown-experience .scene-yangtze[aria-hidden="false"],
+.hometown-experience .scene-third-line[aria-hidden="false"] { transform: translate(0, -50%); }
+  .hometown-experience .scene-yellow blockquote,
+.hometown-experience .scene-yellow-stories blockquote,
+.hometown-experience .scene-yangtze blockquote,
+.hometown-experience[data-language="en"] :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze) blockquote { margin-bottom: 12px; font-size: 20px; line-height: 1.55; }
+  .hometown-experience .quote-stack blockquote + blockquote { padding-top: 12px; }
+  .hometown-experience .scene-third-line h2 { font-size: 22px; }
+  .hometown-experience .scene-third-line > p:not(.scene-index) { margin-bottom: 14px; font-size: 14px; line-height: 1.6; }
+  /* the English sea names are too long for the narrow map: they covered the river names; South China Sea stays */
+  .hometown-experience[data-language="en"] .journey .prologue-marine-label:nth-child(-n+3) { display: none; }
+  .hometown-experience .scene-yangtze .opening-action.primary { margin-top: 2px; padding: 7px 12px; }
+}
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 760px) {
+  .hometown-experience :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze,.scene-third-line) { width: calc(50% - 16px); }
+  .hometown-experience :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze) blockquote,
+.hometown-experience[data-language="en"] :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze) blockquote { margin-bottom: 8px; font-size: 20px; line-height: 1.5; }
+  .hometown-experience .journey .tour-map { transform: translateX(12%) scale(1.45); }
+  .hometown-experience .quote-stack blockquote + blockquote { padding-top: 8px; }
+}
+/* iPhone Safari leaves ~300-370 px in landscape (2026-10-20): the quote box scrolled with no visible scrollbar,
+   hiding the second quote and the enter button. Quotes get a wider, smaller-type panel; only the stack scrolls,
+   so the button stays on screen; books scale down; progress moves to the top so it clears the panel. */
+@media (orientation: landscape) and (max-height: 440px) and (max-width: 1100px) {
+  .hometown-experience .journey-progress { top: 22px; bottom: auto; }
+  .hometown-experience :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze,.scene-third-line) {
+    width: calc(58% - 16px);
+    max-height: calc(100% - 28px);
+    padding: 10px 26px 10px 16px;
+  }
+  .hometown-experience :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze) blockquote,
+.hometown-experience[data-language="en"] :is(.scene-yellow,.scene-yellow-stories,.scene-yangtze) blockquote { margin-bottom: 6px; font-size: 16px; line-height: 1.5; }
+  .hometown-experience .quote-stack blockquote + blockquote { padding-top: 6px; }
+  .hometown-experience .scene-yangtze { display: flex; flex-direction: column; align-items: flex-start; overflow: hidden; }
+  .hometown-experience .scene-yangtze .yangtze-quote-stack { min-height: 0; overflow: auto; scrollbar-width: none; }
+  .hometown-experience .scene-yangtze .opening-action.primary { flex: none; min-height: 36px; margin-top: 6px; }
+  .hometown-experience .journey .tour-map { transform: translateX(18%) scale(1.45); }
+  .hometown-experience .scene-books .author-intro { max-width: min(560px, calc(100vw - 260px)); margin-bottom: 10px; font-size: 15px; line-height: 1.5; }
+  .hometown-experience .scene-books .book-choices { transform: scale(.7); transform-origin: 50% 0; margin-bottom: -76px; }
+  .hometown-experience .question-answers { margin: 14px auto 18px; }
+}
+
+/* Reduce Motion (on by default on many iPhones) removes every journey animation, and these only fade in through
+   animations: without this they stayed at opacity 0, hiding the questions, the quotes and the enter button. */
+@media (prefers-reduced-motion: reduce) {
+  .hometown-experience .question-answers span,
+.hometown-experience .scene-yellow-stories .quote-stack blockquote,
+.hometown-experience .scene-yangtze .yangtze-quote-stack blockquote,
+.hometown-experience .scene-yangtze .opening-action.primary { opacity: 1; filter: none; transform: none; }
+  .hometown-experience .question-answers span { opacity: .82; }
+}
+
+/* Short landscape phones: a quieter first page with more air above and below; books and their caption sit
+   clear of the progress line, which now runs along the top. */
+@media (orientation: landscape) and (max-height: 440px) and (max-width: 1100px) {
+  .hometown-experience .scene-question h2 { font-size: clamp(26px, 9.5vh, 36px); }
+  .hometown-experience .question-answers { gap: 4px 18px; margin: 10px auto 14px; font-size: 15px; }
+  .hometown-experience .opening-link { font-size: 17px; }
+  .hometown-experience .journey-progress { top: 14px; }
+  .hometown-experience .scene-books { top: calc(50% + 14px); }
+  .hometown-experience .scene-books .author-intro { font-size: 14px; }
+  .hometown-experience .scene-books .book-choices { transform: scale(.6); margin-bottom: -96px; }
+  .hometown-experience .scene-books .book-caption { bottom: -8px; font-size: 20px; }
+}

@@ -1,6 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400&family=Ysabeau:wght@400;500;600;700&display=swap');
+@font-face {
+  font-family: 'Caudex';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/font-1.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Caudex';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/font-2.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Caudex';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/assets/fonts/font-3.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ysabeau';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/font-4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ysabeau';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/assets/fonts/font-5.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ysabeau';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/assets/fonts/font-6.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ysabeau';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/assets/fonts/font-7.ttf) format('truetype');
+}
+
 
 :root { font-family: 'Ysabeau', sans-serif; color: #3f352b; background: #f0e7d5; font-synthesis: none; --paper: #f0e7d5; --ink: #3f352b; --vermillion: #893f32; --site-header-height: 78px; }
+:root { --app-header-height: var(--site-header-height); }
+#main-content:focus { outline: none; }
+.sound-toggle { background: none; border: 0; display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 0; font-size: 14px; }
+.sound-toggle > span:first-child { font-size: 22px; }
+.seals-link b { font-size: 14px; margin-left: 5px; }
+.page-sheet h1 small { font-size: 22px; white-space: nowrap; }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -19,7 +74,7 @@ p { line-height: 1.65; }
 .nav-link { text-decoration: none; font-size: 17px; }
 .nav-link[aria-current=page] { border-bottom: 1px solid currentColor; }
 .language-toggle { display: flex; align-items: center; gap: 6px; }
-.language-toggle button { border: 0; background: none; min-height: 44px; min-width: 42px; padding: 8px; opacity: .63; }
+.language-toggle button { border: 0; background: none; min-height: 44px; min-width: 42px; padding: 8px; opacity: 1; color: #675e50; }
 .language-toggle button[aria-pressed=true] { opacity: 1; font-weight: 700; text-decoration: underline; text-underline-offset: 6px; }
 .page-sheet { width: min(1040px,100%); margin: auto; padding: clamp(32px,6vw,84px) 28px; }
 .page-sheet > p { max-width: 640px; font-size: 20px; }
@@ -53,6 +108,7 @@ p { line-height: 1.65; }
   .site-wordmark small { font-size: 8px; letter-spacing: 1px; }
   .site-nav { gap: 12px; }
   .nav-link { font-size: 14px; }
+  .sound-toggle > span:last-child { display: none; }
   .language-toggle { gap: 0; }
   .language-toggle button { min-width: 32px; padding: 4px; }
   .chapter-directory { grid-template-columns: 1fr; }

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+<title>都江堰 · 鱼嘴分水印记</title>
+<desc>章节象征印记，非地理图形：岷江自山间流出，鱼嘴迎着江水，把它分作外江与内江两道。</desc>
+<path d="M7 7L93 8L92 94L6 92Z" stroke="#944b39" stroke-width="3"/>
+<path d="M14 14L86 15L85 86L14 85Z" stroke="#944b39" stroke-width=".8"/>
+<path d="M18 28L26 21L33 25L42 17L51 24L57 20L65 26" stroke="#944b39" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M17 42C22 41 26 45 31 49M17 58C22 59 26 55 31 51" stroke="#944b39" stroke-width="2.1" stroke-linecap="round"/>
+<path d="M30 50L58 43L82 43V57H58Z" fill="#944b39"/>
+<path d="M34 42C46 34 64 32 84 34M38 38C50 31 64 29 76 29" stroke="#944b39" stroke-width="2" stroke-linecap="round"/>
+<path d="M34 58C46 66 64 68 84 66" stroke="#944b39" stroke-width="2" stroke-linecap="round"/>
+<path d="M22 79C32 76 40 80 50 78C60 76 68 80 78 78" stroke="#944b39" stroke-width="1.3" stroke-linecap="round"/>
+</svg>

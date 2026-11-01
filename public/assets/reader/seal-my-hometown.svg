@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <title>我的山河 · 三条天地之线印记</title>
+  <desc>黄河、长江与降水线汇成的文学印记，并非测绘地图。</desc>
+  <path d="M7 7L93 8L92 94L6 92Z" stroke="#944b39" stroke-width="3"/>
+  <path d="M14 14L86 15L85 86L14 85Z" stroke="#944b39" stroke-width=".8"/>
+  <path d="M17 36C30 21 39 47 52 35S72 24 83 34" stroke="#944b39" stroke-width="3" stroke-linecap="round"/>
+  <path d="M17 56C32 43 42 69 55 55S73 45 83 52" stroke="#944b39" stroke-width="3" stroke-linecap="round"/>
+  <path d="M19 75C33 62 47 80 59 68S74 69 82 64" stroke="#944b39" stroke-width="1.8" stroke-dasharray="3 4" stroke-linecap="round"/>
+</svg>
