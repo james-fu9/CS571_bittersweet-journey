@@ -81,7 +81,7 @@ export default function App() {
         </Suspense>
       </ErrorBoundary>
     </main>
-    <footer className="site-footer"><span>{zh ? '原著：余秋雨 · 英译：CN Times Books 团队' : 'Text: Yu Qiuyu · Translation: CN Times Books team'}</span><a href="https://github.com/esstherc/bittersweet-journey" target="_blank" rel="noreferrer">{zh ? '原作地图：Yanbing Chen 与 Eugenie Huang' : 'Original atlas: Yanbing Chen & Eugenie Huang'}</a><a href="https://github.com/james-fu9/CS571_bittersweet-journey" target="_blank" rel="noreferrer">CS571 · {zh ? '源代码' : 'Source'}</a></footer>
+    <footer className="site-footer"><span>{zh ? '原著：余秋雨 · 英译：CN Times Books 团队' : 'Text: Yu Qiuyu · Translation: CN Times Books team'}</span><a href="https://github.com/esstherc/bittersweet-journey" target="_blank" rel="noreferrer">{zh ? '项目作者：Yanbing Chen and Ganrong(James) Fu' : 'Project authors: Yanbing Chen and Ganrong(James) Fu'}</a><a href="https://github.com/james-fu9/CS571_bittersweet-journey" target="_blank" rel="noreferrer">CS571 · {zh ? '源代码' : 'Source'}</a></footer>
     </div>
     <div className="rotate-gate" role="note" aria-label={zh ? '请横屏浏览' : 'Please rotate your device'}><span className="rotate-icon" aria-hidden="true">↻</span><h2 id="rotate-heading" tabIndex="-1">{zh ? '让山河展开' : 'Give the landscape room.'}</h2><p>{zh ? '请将手机横过来，继续阅读与探索。' : 'Turn your device sideways to read and explore.'}</p><LanguageToggle language={journey.language} onChange={journey.setLanguage} /></div>
   </>;

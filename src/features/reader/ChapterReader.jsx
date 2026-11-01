@@ -122,7 +122,7 @@ export default function ChapterReader({ language, completed, onComplete, onBack 
     {sourcesOpen && <div className="reader-source-panel" role="region" aria-label={chinese ? '数据来源' : 'Data sources'}>
       <button type="button" onClick={() => setSourcesOpen(false)} aria-label={chinese ? '关闭数据来源' : 'Close data sources'}>×</button>
       <h2>{chinese ? '地图与文本' : 'Map and text'}</h2>
-      <p>{chinese ? '余秋雨《我的山河》及 CN Times Books 英文译文。原互动地图：Yanbing Chen 与 Eugenie Huang。' : 'My Hometown by Yu Qiuyu; English translation by the CN Times Books team. Original interactive map: Yanbing Chen and Eugenie Huang.'}</p>
+      <p>{chinese ? '余秋雨《我的山河》及 CN Times Books 英文译文。项目作者：Yanbing Chen and Ganrong(James) Fu。' : 'My Hometown by Yu Qiuyu; English translation by the CN Times Books team. Project authors: Yanbing Chen and Ganrong(James) Fu.'}</p>
       <p><a href="https://www.naturalearthdata.com/">Natural Earth</a> · <a href="https://www.worldclim.org/data/worldclim21.html">WorldClim 2.1 BIO12, 1970–2000</a> · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, ODbL</a></p>
       <p>{chinese ? '400 毫米线是多年平均降水量等值线，并非每年固定的边界。地图用于文学探索，不用于导航。' : 'The 400 mm line is a long-term average rainfall contour, not a fixed annual boundary. This literary map is not a navigation tool.'}</p>
     </div>}

@@ -1,4 +1,5 @@
-// Adapted from Yanbing Chen and Eugenie Huang's atlas-camera.js. Original geometry and interactions retained.
+// Adapted from esstherc/bittersweet-journey atlas-camera.js. Original geometry and interactions retained.
+// CS571 project authors: Yanbing Chen and Ganrong(James) Fu.
 export function mountCamera(root, data, lifecycle, bus) {
 
   const svg = root.querySelector('.china-map');

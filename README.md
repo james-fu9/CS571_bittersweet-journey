@@ -6,7 +6,7 @@ A bilingual literary atlas for CS571: Building User Interfaces, Fall 2026 at UW�
 
 **Published Website:** https://james-fu9.github.io/CS571_bittersweet-journey/
 
-This is an independent React migration of [the original group project by Yanbing Chen and Eugenie Huang](https://github.com/esstherc/bittersweet-journey), based on source commit `5e54637a490e28b41151c587d6752add62f445ea`. It runs its own local assets and rendering engines; it does not embed or redirect to the original hosted website.
+This CS571 project is jointly developed by **Yanbing Chen and Ganrong(James) Fu**. Its React implementation builds on [the original project](https://github.com/esstherc/bittersweet-journey), based on source commit `5e54637a490e28b41151c587d6752add62f445ea`. It runs its own local assets and rendering engines; it does not embed or redirect to the original hosted website.
 
 ## Current milestone
 
@@ -99,7 +99,7 @@ Progress uses `bittersweet-journey:v1`. Only implemented chapter IDs are accepte
 
 ## Attribution and reuse
 
-Original literary text: **Yu Qiuyu**. English translation: **CN Times Books team**. Original story map and interactive artwork: **Yanbing Chen and Eugenie Huang, UW Cartography Lab, UW–Madison**. React migration maintained in this CS571 repository.
+Original literary text: **Yu Qiuyu**. English translation: **CN Times Books team**. Story map, interactive artwork, and CS571 React implementation: **Yanbing Chen and Ganrong(James) Fu**. This project is jointly developed and maintained by both authors.
 
 The project owner confirmed permission on November 1, 2026 to publicly reuse the original code, assets and My Hometown text for this migration. The original repository has no blanket open-source license; no MIT or other umbrella license is asserted here. Literary text, translation, artwork and audio retain their respective owners’ rights. Original EPUB files and the full bilingual corpus are **not** included.
 

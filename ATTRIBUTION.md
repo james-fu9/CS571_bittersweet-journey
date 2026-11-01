@@ -1,10 +1,10 @@
 # Attribution and asset provenance
 
-## Original work
+## Project authors and original sources
 
 - Source: https://github.com/esstherc/bittersweet-journey/tree/5e54637a490e28b41151c587d6752add62f445ea
 - Original hosted experience: https://yanbingchen.site/bittersweet-journey/
-- Story map: Yanbing Chen and Eugenie Huang, UW Cartography Lab, UW–Madison.
+- CS571 project authors: **Yanbing Chen and Ganrong(James) Fu**. The story map, interactive artwork, and React implementation are jointly developed and maintained by both authors.
 - My Hometown / 我的山河: Yu Qiuyu. English translation: CN Times Books team.
 - Original source has no tracked general-purpose license. This repository does not confer an MIT license or blanket permission for downstream reuse. The project owner confirmed permission to publicly reuse the code, assets and this introductory text for the CS571 migration on November 1, 2026.
 
