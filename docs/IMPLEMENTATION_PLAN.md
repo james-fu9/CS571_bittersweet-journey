@@ -1,20 +1,22 @@
-# Bittersweet Journey implementation and acceptance plan
+# Project plan
 
-**Goal:** Publish an independent React application from `Publish` to the public `james-fu9/CS571_bittersweet-journey` repository and GitHub Pages.
+**Authors:** Yanbing Chen and Ganrong(James) Fu
 
-**Architecture:** React functional JSX components, props, Hooks and Context own navigation, language, progress and reading state. HashRouter supports refresh on static hosting. Effect-owned adapters preserve original SVG/Canvas/WebGL renderers and clean up their resources. Use original source commit `5e54637a490e28b41151c587d6752add62f445ea`.
+Build a bilingual literary atlas with React and publish it on GitHub Pages.
 
-**Constraints:** Preserve nine locations and the original atlas. Only My Hometown can complete at this milestone. No fake completion, redirects or remote iframes. No EPUB/corpus publication. User confirmed public reuse of original code, assets and My Hometown text on November 1, 2026; this is not a general open-source license.
+## Available
 
-- [x] Publish Vite/React foundation with GitHub Actions and correct repository base path.
-- [x] Implement versioned, validated Context/localStorage progress with unique completion and blocked-storage fallback; verify with `npm test`.
-- [x] Migrate original onboarding, bilingual My Hometown reader and interactive geography through React components.
-- [x] Adapt original physical atlas, clustered labels, lantern/traveler, keyboard/pointer controls and progress illumination; clean up listeners, observers and animation frames.
-- [x] Add nine chapter routes, honest unavailable screens, seals, reset confirmation and locked ending.
-- [x] Run `npm run lint`, `npm test`, `npm run build`, dependency audit and desktop/mobile Playwright user-journey tests.
-- [x] Verify public repository, successful Actions deployment, real live route refresh, assets, console/network errors and saved progress.
-- [x] Document attribution, current limitations, maintenance and migration checklist for the next 4–5 chapters.
+- React components, Hooks, Context and HashRouter.
+- Six-scene introduction and the five-section My Hometown reader.
+- Interactive atlas with nine locations, map controls and optional audio.
+- Language selection, saved progress, unique chapter seals and reset controls.
+- Responsive layouts, keyboard navigation and WebGL fallback.
+- Automated checks and GitHub Pages deployment.
 
-## Acceptance scenarios
+## Next
 
-Fresh visit → onboarding → bilingual reader → visit all five sections → explicit completion → atlas shows 1/9. Reload and revisit retain one seal. All nine locations select correctly; unfinished readers cannot award seals. Language survives refresh. Corrupt or unavailable storage cannot crash the app. Map drag, wheel/pinch/buttons and keyboard work after repeated route changes under StrictMode. Deep hashes load on Pages. Coarse-pointer portrait presents a localized rotate prompt and landscape restores the page. The final ending remains locked.
+- Develop the eight remaining readers, beginning with Dujiangyan, The Taoist Priest’s Tower, Mogao Caves, A Secret Spring in the Sand and Yangguan.
+- Test each chapter in both languages before enabling seal collection.
+- Add the final ending after all nine chapters are available.
+
+See [reader design](READER.md), [testing](VERIFICATION.md) and [credits](../ATTRIBUTION.md).
