@@ -9,7 +9,14 @@ test.beforeEach(async ({ page }) => {
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
-  page.on('requestfailed', request => { if (request.failure()?.errorText !== 'net::ERR_ABORTED' && !request.failure()?.errorText?.includes('cancelled')) errors.push(request.failure()?.errorText); });
+  page.on('requestfailed', request => {
+    const reason = request.failure()?.errorText;
+    // Firefox intentionally cancels a redundant media channel when its parsed
+    // data is already cached (Mozilla ChannelMediaResource::CloseChannel).
+    // Playback/decoding is asserted separately; genuine media failures still fail.
+    const cachedMedia = request.resourceType() === 'media' && reason === 'NS_ERROR_PARSED_DATA_CACHED';
+    if (!cachedMedia && reason !== 'net::ERR_ABORTED' && !reason?.includes('cancelled')) errors.push(reason);
+  });
   page.testErrors = errors;
 });
 test.afterEach(async ({ page }) => { expect(page.testErrors).toEqual([]); });
@@ -174,6 +181,8 @@ test('normal-motion opening, sound, pointer travel and WebGL recovery', async ({
   await expect(page.locator('.earth-scene')).toBeVisible();
   await page.getByRole('button', { name: 'Sound off', exact: true }).click();
   await expect(page.locator('audio')).toHaveJSProperty('paused', false);
+  await expect.poll(() => page.locator('audio').evaluate(audio => audio.currentTime)).toBeGreaterThan(0);
+  await expect(page.locator('audio')).toHaveJSProperty('error', null);
   await page.getByRole('button', { name: 'Sound on', exact: true }).click();
   await expect(page.locator('audio')).toHaveJSProperty('paused', true);
   // A GPU reset should expose the bundled SVG world instead of a blank panel.

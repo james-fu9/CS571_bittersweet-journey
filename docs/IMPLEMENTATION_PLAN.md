@@ -6,14 +6,14 @@
 
 **Constraints:** Preserve nine locations and the original atlas. Only My Hometown can complete at this milestone. No fake completion, redirects or remote iframes. No EPUB/corpus publication. User confirmed public reuse of original code, assets and My Hometown text on November 1, 2026; this is not a general open-source license.
 
-- [ ] Publish Vite/React foundation with GitHub Actions and correct repository base path.
-- [ ] Implement versioned, validated Context/localStorage progress with unique completion and blocked-storage fallback; verify with `npm test`.
-- [ ] Migrate original onboarding, bilingual My Hometown reader and interactive geography through React components.
-- [ ] Adapt original physical atlas, clustered labels, lantern/traveler, keyboard/pointer controls and progress illumination; clean up listeners, observers and animation frames.
-- [ ] Add nine chapter routes, honest unavailable screens, seals, reset confirmation and locked ending.
-- [ ] Run `npm run lint`, `npm test`, `npm run build`, dependency audit and desktop/mobile Playwright user-journey tests.
-- [ ] Verify public repository, successful Actions deployment, real live route refresh, assets, console/network errors and saved progress.
-- [ ] Document attribution, current limitations, maintenance and migration checklist for the next 4–5 chapters.
+- [x] Publish Vite/React foundation with GitHub Actions and correct repository base path.
+- [x] Implement versioned, validated Context/localStorage progress with unique completion and blocked-storage fallback; verify with `npm test`.
+- [x] Migrate original onboarding, bilingual My Hometown reader and interactive geography through React components.
+- [x] Adapt original physical atlas, clustered labels, lantern/traveler, keyboard/pointer controls and progress illumination; clean up listeners, observers and animation frames.
+- [x] Add nine chapter routes, honest unavailable screens, seals, reset confirmation and locked ending.
+- [x] Run `npm run lint`, `npm test`, `npm run build`, dependency audit and desktop/mobile Playwright user-journey tests.
+- [x] Verify public repository, successful Actions deployment, real live route refresh, assets, console/network errors and saved progress.
+- [x] Document attribution, current limitations, maintenance and migration checklist for the next 4–5 chapters.
 
 ## Acceptance scenarios
 
