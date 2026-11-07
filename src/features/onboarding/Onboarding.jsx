@@ -9,7 +9,7 @@ function BookCover({ language }) {
   return <span className="book-cover"><small>{language === 'zh' ? '余秋雨' : 'YU QIUYU'}</small><strong>{language === 'zh' ? <>文化<br />苦旅</> : <>A Bittersweet<br />Journey Through<br />Culture</>}</strong></span>;
 }
 
-export default function Onboarding({ language, onLanguageChange, onBegin }) {
+export default function Onboarding({ language, onLanguageChange, onBegin, resumeLabel }) {
   const [step, setStep] = useState(0);
   const [chosen, setChosen] = useState(null);
   const [portalPhase, setPortalPhase] = useState('');
@@ -48,7 +48,12 @@ export default function Onboarding({ language, onLanguageChange, onBegin }) {
   return <section className="hometown-experience onboarding-experience" data-language={language} aria-label={chinese ? '旅程序章' : 'Journey prologue'}>
     <section className={`journey ${chosen ? 'book-transitioning' : ''}`} data-step={step}>
       {step >= 3 && <div className="journey-map-wrap"><GeographicScene prologue language={language} scene={step < 5 ? 'yellow' : 'yangtze'} /></div>}
-      <div className="journey-topline"><span className="prologue-label">{chinese ? '山河显影 · 序章' : 'LAND, MADE VISIBLE · PROLOGUE'}</span><button type="button" className="journey-skip" onClick={onBegin}>{chinese ? '跳过序章，开始阅读 ↗' : 'Skip prologue · Begin reading ↗'}</button></div>
+      <div className="journey-topline">
+        <span className="prologue-label">{chinese ? '山河显影 · 序章' : 'LAND, MADE VISIBLE · PROLOGUE'}</span>
+        <button type="button" className="journey-skip" onClick={onBegin}>
+          {resumeLabel ?? (chinese ? '跳过序章，开始阅读' : 'Skip prologue · Begin reading')} <span aria-hidden="true">↗</span>
+        </button>
+      </div>
 
       {step === 0 && <div className="opening-scene scene-question" aria-hidden="false">
         <h1 ref={heading} tabIndex={-1}>{chinese ? '你从哪里开始认识一片土地？' : 'Where do you begin to know a land?'}</h1>

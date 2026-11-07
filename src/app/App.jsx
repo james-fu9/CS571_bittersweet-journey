@@ -13,7 +13,7 @@ const Onboarding = lazy(() => import('../features/onboarding/Onboarding.jsx'));
 const ChapterReader = lazy(() => import('../features/reader/ChapterReader.jsx'));
 const AtlasPage = lazy(() => import('../features/atlas/AtlasPage.jsx'));
 
-function ReaderRoute() {
+function ReaderRoute({ paused }) {
   const { chapterId } = useParams();
   const journey = useJourney();
   const navigate = useNavigate();
@@ -21,6 +21,8 @@ function ReaderRoute() {
   if (!chapter) return <NotFound />;
   if (!chapter.implemented) return <UnavailableChapter chapter={chapter} language={journey.language} />;
   return <ChapterReader language={journey.language} completed={journey.completedChapterIds.includes(chapter.id)}
+    savedSection={journey.hometownSection} visitedSections={journey.hometownVisitedSections}
+    onSectionChange={journey.saveHometownSection} paused={paused}
     onComplete={() => { journey.finishChapter(chapter.id); navigate('/atlas', { state: { collected: chapter.id } }); }}
     onBack={() => navigate('/atlas')} />;
 }
@@ -35,6 +37,11 @@ export default function App() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const zh = journey.language === 'zh';
+  let resumeLabel = null;
+  if (journey.hometownSection != null) {
+    const number = journey.hometownSection + 1;
+    resumeLabel = zh ? `继续阅读 · 第 ${number} 节` : `Continue reading · Section ${number}`;
+  }
   const portrait = usePortraitGate();
   useEffect(() => {
     if (portrait) document.getElementById('rotate-heading')?.focus();
@@ -71,9 +78,9 @@ export default function App() {
         <Suspense fallback={<div className="route-loading" role="status">{zh ? '正在展开山河…' : 'Unfolding the landscape…'}</div>}>
           <Routes>
             <Route path="/" element={<Navigate replace to={journey.onboardingComplete ? '/atlas' : '/intro'} />} />
-            <Route path="/intro" element={<Onboarding language={journey.language} onLanguageChange={journey.setLanguage} onBegin={() => navigate('/read/my-hometown')} />} />
-            <Route path="/read/:chapterId" element={<ReaderRoute />} />
-            <Route path="/atlas" element={<AtlasPage language={journey.language} completedChapterIds={journey.completedChapterIds} onSelectChapter={openChapter} />} />
+            <Route path="/intro" element={<Onboarding language={journey.language} onLanguageChange={journey.setLanguage} onBegin={() => navigate('/read/my-hometown')} resumeLabel={resumeLabel} />} />
+            <Route path="/read/:chapterId" element={<ReaderRoute paused={portrait} />} />
+            <Route path="/atlas" element={<AtlasPage language={journey.language} completedChapterIds={journey.completedChapterIds} onSelectChapter={openChapter} resumeLabel={resumeLabel} />} />
             <Route path="/seals" element={<SealsPage />} />
             <Route path="/credits" element={<SealsPage />} />
             <Route path="*" element={<NotFound />} />

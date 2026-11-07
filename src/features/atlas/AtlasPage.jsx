@@ -4,7 +4,7 @@ import { mountAtlas } from './atlasEngineAdapter';
 import './atlas-original.css';
 import './atlas-react.css';
 
-export default function AtlasPage({ language, completedChapterIds, onSelectChapter }) {
+export default function AtlasPage({ language, completedChapterIds, onSelectChapter, resumeLabel }) {
   const rootRef = useRef(null);
   const engineRef = useRef(null);
   const [selected, setSelected] = useState(null);
@@ -13,6 +13,9 @@ export default function AtlasPage({ language, completedChapterIds, onSelectChapt
   const panelRef = useRef(null);
   const zh = language === 'zh';
   const active = chapters.find(chapter => chapter.id === selected);
+  let enterLabel = zh ? '查看章节进度' : 'View chapter status';
+  if (active?.id === 'my-hometown') enterLabel = resumeLabel ?? (zh ? '沿三条线进入' : 'Follow the three lines');
+  if (traveling) enterLabel = zh ? '旅人正赶往这一章…' : 'On our way…';
 
   useEffect(() => {
     const engine = mountAtlas(rootRef.current);
@@ -57,7 +60,7 @@ export default function AtlasPage({ language, completedChapterIds, onSelectChapt
         <h2 id="location-title">{active.title[language]}</h2>
         <p>{active.implemented ? (zh ? '沿黄河、长江与雨的痕迹，重新认识这片土地。' : 'Follow the Yellow River, the Yangtze, and the traces of rain to see this land anew.') : (zh ? '这个地点的阅读体验将在下一阶段开放。' : 'This chapter’s reading experience is coming in the next milestone.')}</p>
         {completedChapterIds.includes(active.id) && <p className="atlas-completed-note">{zh ? '印章已收藏' : 'Seal collected'}</p>}
-        <button type="button" className="atlas-enter" onClick={enterChapter} disabled={traveling}>{traveling ? (zh ? '旅人正赶往这一章…' : 'On our way…') : active.implemented ? (zh ? '沿三条线进入' : 'Follow the three lines') : (zh ? '查看章节进度' : 'View chapter status')} <span aria-hidden="true">↗</span></button>
+        <button type="button" className="atlas-enter" onClick={enterChapter} disabled={traveling}>{enterLabel} <span aria-hidden="true">↗</span></button>
       </aside>}
       <p className="atlas-legend">{zh ? '文学坐标 · 地理线索' : 'Literary places · Geographic traces'}</p>
     </section>

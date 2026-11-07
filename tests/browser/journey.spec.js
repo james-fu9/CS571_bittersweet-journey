@@ -4,8 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 const storageKey = 'bittersweet-journey:v1';
 const ids = ['my-hometown', 'dujiangyan', 'taoist-tower', 'mogao-caves', 'secret-spring', 'yangguan', 'kashgar', 'mountain-resort', 'fish-tail-lodge'];
 
-test.beforeEach(async ({ page }) => {
-  const errors = [];
+function observeErrors(page, errors) {
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
@@ -17,7 +16,10 @@ test.beforeEach(async ({ page }) => {
     const cachedMedia = request.resourceType() === 'media' && reason === 'NS_ERROR_PARSED_DATA_CACHED';
     if (!cachedMedia && reason !== 'net::ERR_ABORTED' && !reason?.includes('cancelled')) errors.push(reason);
   });
-  page.testErrors = errors;
+}
+test.beforeEach(async ({ page }) => {
+  page.testErrors = [];
+  observeErrors(page, page.testErrors);
 });
 test.afterEach(async ({ page }) => { expect(page.testErrors).toEqual([]); });
 
@@ -197,7 +199,85 @@ test('normal-motion opening, sound, pointer travel and WebGL recovery', async ({
   // than waiting for Firefox's animated SVG bounding box to become motionless.
   const pinBox = await page.locator('[data-story="my-hometown"] .point-core').boundingBox();
   await page.mouse.click(pinBox.x + pinBox.width / 2, pinBox.y + pinBox.height / 2);
-  await page.getByRole('button', { name: /Follow the three lines/ }).click();
+  await page.getByRole('button', { name: /Continue reading.*Section 1/ }).click();
   await expect(page).toHaveURL(/#\/read\/my-hometown$/);
   await expect(page.locator('.earth-scene')).toBeVisible();
+});
+
+test('resume from the atlas after scrolling and finish a chapter across two visits', async ({ page }) => {
+  await page.goto('./');
+  await page.getByRole('button', { name: /Skip prologue/ }).click();
+  await page.getByRole('button', { name: 'Section 2', exact: true }).click();
+  await expect(page.locator('.section-button[aria-current="step"]')).toHaveText('2');
+  // Exercise the reading pane's scroll listener separately from the section buttons.
+  await page.locator('[data-section-heading="2"]').evaluate(heading => {
+    const pane = heading.closest('.reader-scroll');
+    pane.scrollTop += heading.getBoundingClientRect().top - pane.getBoundingClientRect().top;
+  });
+  await expect(page.locator('.section-button[aria-current="step"]')).toHaveText('3');
+  await page.locator('.site-header').getByRole('link', { name: 'Atlas', exact: true }).click();
+  await page.locator('[data-story="my-hometown"]').press('Enter');
+  await page.getByRole('button', { name: /Continue reading.*Section 3/ }).click();
+  await expect(page.locator('.section-button[aria-current="step"]')).toHaveText('3');
+  await expect(page.locator('[data-section-heading="2"]')).toBeInViewport();
+  await expect(page.locator('.hometown-map')).toHaveAttribute('data-scene', 'lines');
+  await expect(page.getByTestId('progress-count')).toHaveText('0 / 9');
+  await expect(page.locator('.finish-chapter')).toBeDisabled();
+
+  await page.locator('.site-header').getByRole('button', { name: '中文', exact: true }).click();
+  await page.reload();
+  await expect(page.getByRole('button', { name: '第 3 节', exact: true })).toHaveAttribute('aria-current', 'step');
+  for (const number of [4, 5]) {
+    await page.getByRole('button', { name: `第 ${number} 节`, exact: true }).click();
+  }
+  await page.locator('.reader-scroll').evaluate(pane => { pane.scrollTop = pane.scrollHeight; });
+  await page.locator('.finish-chapter').click();
+  await expect(page.getByTestId('progress-count')).toHaveText('1 / 9');
+});
+
+test.describe('Continue reading on a phone', () => {
+  test.use({ viewport: { width: 844, height: 390 }, hasTouch: true });
+
+  test('reopen from the homepage in Chinese, rotate, switch to English and reset', async ({ page, context }) => {
+    await page.goto('./');
+    await page.getByRole('button', { name: /Skip prologue/ }).tap();
+    await page.locator('.site-header').getByRole('button', { name: '中文', exact: true }).tap();
+    await page.getByRole('button', { name: '第 4 节', exact: true }).tap();
+    await expect(page.locator('.section-button[aria-current="step"]')).toHaveText('4');
+    const reopened = await context.newPage();
+    observeErrors(reopened, page.testErrors);
+    await page.close();
+    await reopened.goto('./');
+    const resume = reopened.getByRole('button', { name: /继续阅读.*第 4 节/ });
+    await expect(resume).toBeInViewport();
+    await resume.tap();
+    const activeSection = reopened.locator('.section-button[aria-current="step"]');
+    await expect(activeSection).toHaveText('4');
+    await expect(reopened.locator('[data-section-heading="3"]')).toBeInViewport();
+    await expect(reopened.locator('.hometown-map')).toHaveAttribute('data-scene', 'borderlands');
+
+    await reopened.setViewportSize({ width: 390, height: 844 });
+    await expect(reopened.locator('.rotate-gate')).toBeVisible();
+    await reopened.reload();
+    await expect(reopened.locator('.reading-section')).toHaveCount(5);
+    await reopened.setViewportSize({ width: 844, height: 390 });
+    await expect(reopened.locator('.rotate-gate')).not.toBeVisible();
+    await expect(activeSection).toHaveText('4');
+    await expect(reopened.locator('[data-section-heading="3"]')).toBeInViewport();
+    await reopened.locator('.site-header').getByRole('button', { name: 'EN', exact: true }).tap();
+    await expect(reopened.getByRole('button', { name: 'Section 4', exact: true })).toHaveAttribute('aria-current', 'step');
+    await reopened.locator('.site-wordmark').tap();
+    await reopened.getByRole('button', { name: /Continue reading.*Section 4/ }).tap();
+    await expect(activeSection).toHaveText('4');
+    await reopened.getByRole('button', { name: 'Section 5', exact: true }).tap();
+    await reopened.locator('.reader-scroll').evaluate(pane => { pane.scrollTop = pane.scrollHeight; });
+    await expect(reopened.locator('.finish-chapter')).toBeDisabled();
+    await expect(reopened.getByTestId('progress-count')).toHaveText('0 / 9');
+    await reopened.locator('.site-header').getByRole('link', { name: /My seals/ }).tap();
+    await reopened.getByRole('button', { name: 'Reset journey' }).tap();
+    await reopened.getByRole('button', { name: 'Reset progress', exact: true }).tap();
+    await reopened.getByRole('button', { name: /Skip prologue/ }).tap();
+    await expect(activeSection).toHaveText('1');
+    await expect(reopened.locator('[data-section-heading="0"]')).toBeInViewport();
+  });
 });

@@ -26,7 +26,7 @@ export default function SealsPage() {
     <div className="button-row"><Link className="primary-button" to="/atlas">{zh ? '回到地图' : 'Return to atlas'}</Link><button className="quiet-button" onClick={() => dialog.current.showModal()}>{zh ? '重置旅程' : 'Reset journey'}</button></div>
     <dialog ref={dialog} className="reset-dialog" aria-labelledby="reset-title">
       <h2 id="reset-title">{zh ? '重新开始这段旅程？' : 'Begin this journey again?'}</h2>
-      <p>{zh ? '这会清除当前浏览器的已完成章节和图章，语言选择会保留。' : 'This clears completed chapters and collected seals in this browser. Your language choice will stay.'}</p>
+      <p>{zh ? '这会清除当前浏览器的阅读位置、阅读进度和图章，语言选择会保留。' : 'This clears your saved reading place, chapter progress and collected seals in this browser. Your language choice will stay.'}</p>
       <div className="button-row"><button autoFocus className="quiet-button" onClick={() => dialog.current.close()}>{zh ? '保留旅程' : 'Keep my journey'}</button><button className="primary-button" onClick={reset}>{zh ? '确认重置' : 'Reset progress'}</button></div>
     </dialog>
   </section>;

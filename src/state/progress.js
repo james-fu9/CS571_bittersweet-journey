@@ -4,8 +4,20 @@ export const STORAGE_KEY = 'bittersweet-journey:v1';
 const knownIds = new Set(chapters.map(chapter => chapter.id));
 const implementedIds = new Set(chapters.filter(chapter => chapter.implemented).map(chapter => chapter.id));
 
+function isHometownSection(index) {
+  return Number.isInteger(index) && index >= 0 && index < 5;
+}
+
 export function createDefaultProgress() {
-  return { version: 1, language: 'en', onboardingComplete: false, completedChapterIds: [], lastVisitedLocation: null };
+  return {
+    version: 1,
+    language: 'en',
+    onboardingComplete: false,
+    completedChapterIds: [],
+    lastVisitedLocation: null,
+    hometownSection: null,
+    hometownVisitedSections: [],
+  };
 }
 
 export function sanitizeProgress(input) {
@@ -19,6 +31,22 @@ export function sanitizeProgress(input) {
     completedChapterIds,
     onboardingComplete: input.onboardingComplete === true && completedChapterIds.includes('my-hometown'),
     lastVisitedLocation: knownIds.has(input.lastVisitedLocation) ? input.lastVisitedLocation : null,
+    hometownSection: isHometownSection(input.hometownSection) ? input.hometownSection : null,
+    hometownVisitedSections: Array.isArray(input.hometownVisitedSections)
+      ? [...new Set(input.hometownVisitedSections.filter(isHometownSection))]
+      : [],
+  };
+}
+
+export function withHometownSection(progress, index) {
+  if (!isHometownSection(index)) return progress;
+  const visited = progress.hometownVisitedSections;
+  const alreadyVisited = visited.includes(index);
+  if (alreadyVisited && progress.hometownSection === index) return progress;
+  return {
+    ...progress,
+    hometownSection: index,
+    hometownVisitedSections: alreadyVisited ? visited : [...visited, index],
   };
 }
 

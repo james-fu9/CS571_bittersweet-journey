@@ -4,6 +4,7 @@ import {
   STORAGE_KEY,
   createDefaultProgress,
   sanitizeProgress,
+  withHometownSection,
   completeChapter,
   loadProgress,
   saveProgress,
@@ -180,4 +181,66 @@ test('injected nine-chapter storage cannot unlock unimplemented readers in this 
   })));
   assert.deepEqual(restored.completedChapterIds, ['my-hometown']);
   assert.equal(creditsUnlocked(restored), false);
+});
+
+test('existing v1 saves keep progress and language with no saved section', () => {
+  const legacy = {
+    version: 1, language: 'zh', onboardingComplete: true,
+    completedChapterIds: ['my-hometown'], lastVisitedLocation: 'chengde',
+  };
+  assert.deepEqual(loadProgress(memoryStorage(JSON.stringify(legacy))), {
+    ...legacy, hometownSection: null, hometownVisitedSections: [],
+  });
+});
+
+test('all five section indices survive storage and revisiting an earlier section', () => {
+  const storage = memoryStorage();
+  let progress = createDefaultProgress();
+  for (const index of [0, 1, 2, 3, 4, 1]) {
+    progress = withHometownSection(progress, index);
+    assert.equal(saveProgress(storage, progress), true);
+    progress = loadProgress(storage);
+    assert.equal(progress.hometownSection, index);
+    assert.deepEqual(progress.completedChapterIds, []);
+    assert.equal(progress.onboardingComplete, false);
+    assert.equal(withHometownSection(progress, index), progress);
+  }
+  assert.deepEqual(progress.hometownVisitedSections, [0, 1, 2, 3, 4]);
+  assert.deepEqual(completeChapter(progress, 'my-hometown').completedChapterIds, ['my-hometown']);
+  assert.equal(completeChapter(progress, 'my-hometown').hometownSection, 1);
+  assert.deepEqual(createDefaultProgress().hometownVisitedSections, []);
+  assert.equal(createDefaultProgress().hometownSection, null);
+});
+
+test('invalid section data cannot overwrite a saved place or discard unrelated progress', () => {
+  const progress = { ...createDefaultProgress(), language: 'zh', hometownSection: 3 };
+  for (const index of [null, undefined, -1, 5, 1.5, '2', true, [], {}, NaN, Infinity]) {
+    assert.equal(withHometownSection(progress, index), progress);
+    assert.deepEqual(sanitizeProgress({ ...progress, hometownSection: index }), {
+      ...progress, hometownSection: null,
+    });
+  }
+});
+
+test('a refused storage write leaves the current in-memory bookmark intact', () => {
+  const progress = withHometownSection(createDefaultProgress(), 4);
+  const storage = { setItem() { throw new Error('Storage blocked'); } };
+  assert.equal(saveProgress(storage, progress), false);
+  assert.equal(progress.hometownSection, 4);
+  assert.deepEqual(progress.hometownVisitedSections, [4]);
+});
+
+test('visited sections accept only distinct valid integers from stored arrays', () => {
+  const state = { ...createDefaultProgress(), hometownSection: 2 };
+  for (const invalid of [null, undefined, true, 3, '0,1,2', {}]) {
+    const loaded = sanitizeProgress({ ...state, hometownVisitedSections: invalid });
+    assert.deepEqual(loaded.hometownVisitedSections, []);
+    assert.deepEqual(withHometownSection(loaded, 2).hometownVisitedSections, [2]);
+  }
+  const loaded = sanitizeProgress({
+    ...state, hometownVisitedSections: ['0', 0, null, 4, 5, 4, 2.1, -1, false],
+  });
+  assert.deepEqual(loaded.hometownVisitedSections, [0, 4]);
+  assert.equal(loaded.hometownSection, 2);
+  assert.deepEqual(loaded.completedChapterIds, []);
 });

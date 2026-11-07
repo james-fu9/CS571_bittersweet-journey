@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { JourneyContext } from './context.js';
-import { completeChapter, createDefaultProgress, creditsUnlocked, loadProgress, sanitizeProgress, saveProgress, STORAGE_KEY } from './progress.js';
+import { completeChapter, createDefaultProgress, creditsUnlocked, loadProgress, sanitizeProgress, saveProgress, STORAGE_KEY, withHometownSection } from './progress.js';
 
 function getStorage() {
   try { return window.localStorage; } catch { return null; }
@@ -27,12 +27,15 @@ export function JourneyProvider({ children }) {
     if (language === 'en' || language === 'zh') setProgress(previous => ({ ...previous, language }));
   }, []);
   const visitChapter = useCallback(id => setProgress(previous => sanitizeProgress({ ...previous, lastVisitedLocation: id })), []);
+  const saveHometownSection = useCallback(index => {
+    setProgress(previous => withHometownSection(previous, index));
+  }, []);
   const finishChapter = useCallback(id => setProgress(previous => completeChapter(previous, id)), []);
   const resetProgress = useCallback(() => {
     setProgress(previous => ({ ...createDefaultProgress(), language: previous.language }));
     try { sessionStorage.removeItem('bittersweet-journey:atlas-camera:v1'); } catch { /* Progress still resets without storage. */ }
   }, []);
-  const value = useMemo(() => ({ ...progress, storageAvailable, setLanguage, visitChapter, finishChapter, resetProgress, creditsUnlocked: creditsUnlocked(progress) }),
-    [progress, storageAvailable, setLanguage, visitChapter, finishChapter, resetProgress]);
+  const value = useMemo(() => ({ ...progress, storageAvailable, setLanguage, visitChapter, saveHometownSection, finishChapter, resetProgress, creditsUnlocked: creditsUnlocked(progress) }),
+    [progress, storageAvailable, setLanguage, visitChapter, saveHometownSection, finishChapter, resetProgress]);
   return <JourneyContext.Provider value={value}>{children}</JourneyContext.Provider>;
 }

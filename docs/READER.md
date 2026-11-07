@@ -15,7 +15,7 @@ React owns language, navigation and completion state. Effects clean up map liste
 
 Text and maps appear side by side on desktop and mobile landscape screens. Section changes update the map. Readers earn one seal after visiting all five sections, reaching the end and choosing to complete the chapter. Repeated visits cannot add duplicate seals.
 
-Language and completed chapters persist in localStorage; scroll position lasts only for the current visit. Direct chapter links and refreshes work through HashRouter.
+The reader saves the current section and the sections already visited in this browser. Reopening My Hometown returns to the saved section heading, and earlier visits count toward the seal. Resetting the journey clears the saved place and seals and keeps the selected language.
 
 ## Adding a chapter
 
