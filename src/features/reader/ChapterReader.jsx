@@ -37,6 +37,7 @@ export default function ChapterReader({ language, completed, savedSection, visit
   const scroll = useRef(null);
   const alignedHeading = useRef(null);
   const currentSection = useRef(active);
+  const completionStarted = useRef(false);
   const visitCount = visitedSections.length;
   const totalSections = data.sections.length;
 
@@ -114,9 +115,21 @@ export default function ChapterReader({ language, completed, savedSection, visit
 
   useEffect(() => {
     if (!celebrating) return;
-    const timeout = setTimeout(onComplete, matchMedia('(prefers-reduced-motion: reduce)').matches ? 250 : 1400);
+    const timeout = setTimeout(onBack, matchMedia('(prefers-reduced-motion: reduce)').matches ? 250 : 1400);
     return () => clearTimeout(timeout);
-  }, [celebrating, onComplete]);
+  }, [celebrating, onBack]);
+
+  function finishReading() {
+    if (completionStarted.current) return;
+    if (completed) {
+      onBack();
+      return;
+    }
+    if (visitCount < totalSections || !atEnd) return;
+    completionStarted.current = true;
+    onComplete();
+    setCelebrating(true);
+  }
 
   function goToSection(index) {
     const root = scroll.current;
@@ -146,7 +159,7 @@ export default function ChapterReader({ language, completed, savedSection, visit
           <div className="reader-end">
             <img className="reader-seal" src={`${import.meta.env.BASE_URL}assets/reader/seal-my-hometown.svg`} alt={chinese ? '我的山河印章' : 'My Hometown seal'} />
             <p>{chinese ? '三条线留下了山河的底色。' : 'Three lines leave their trace upon the land.'}</p>
-            <button className="finish-chapter" type="button" disabled={celebrating || (!completed && (visitCount < totalSections || !atEnd))} onClick={() => setCelebrating(true)}>
+            <button className="finish-chapter" type="button" disabled={celebrating || (!completed && (visitCount < totalSections || !atEnd))} onClick={finishReading}>
               {completed ? (chinese ? '已收集印章 · 返回总图' : 'Seal collected · Return to atlas') : (chinese ? '完成本章 · 收集印章' : 'Complete chapter · Collect seal')} <span aria-hidden="true">→</span>
             </button>
             {!completed && visitCount < totalSections && <p className="reader-completion-hint">{chinese ? `已阅读 ${visitCount}/${totalSections} 节，请通过下方节次阅读其余部分。` : `${visitCount}/${totalSections} sections visited. Use the section buttons below to read the remaining sections.`}</p>}

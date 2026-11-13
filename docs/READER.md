@@ -1,24 +1,23 @@
-# Reader design
+# Readers and saved progress
 
-My Hometown is the current complete reader. The other eight chapters show an in-development screen and do not award seals.
+All nine locations are open. My Hometown contains the five-section bilingual chapter. The other eight locations each have three sections of original bilingual project writing, a location map, reading prompts and cited background sources.
 
 ## Components
 
-- `Onboarding` presents six opening scenes, book selection and next/back/skip controls.
-- `ChapterReader` displays five bilingual sections, section navigation, geographic scenes and source notes.
-- `GeographicScene` renders the SVG map and WebGL globe. SVG remains available when WebGL fails.
-- `src/data/hometown.js` holds the chapter text. Full-book files are not included.
+- `Onboarding` presents the opening scenes and a Continue reading entry.
+- `ChapterReader` displays My Hometown and its paragraph-driven geography.
+- `GuideReader` renders the other eight guides with `GuideMap`.
+- `GuideMap` uses Natural Earth land outlines and the chapter's geographic anchor. Section changes move between overview and closer scales. Its controls allow zoom and reset.
+- `EndingPage` presents five original concluding scenes after nine seals are collected.
 
-React owns language, navigation and completion state. Effects clean up map listeners, timers, animation frames, observers and WebGL resources. Styles are scoped to the reader.
+React Context owns language, navigation and completion. Effects clean up map listeners, animation frames, observers and WebGL resources.
 
-## Reading and progress
+## Reading and completion
 
-Text and maps appear side by side on desktop and mobile landscape screens. Section changes update the map. Readers earn one seal after visiting all five sections, reaching the end and choosing to complete the chapter. Repeated visits cannot add duplicate seals.
+Every chapter saves its current section and visited sections in this browser. Returning restores the section heading. Switching language keeps the same section. Older v1 My Hometown bookmarks remain compatible.
 
-The reader saves the current section and the sections already visited in this browser. Reopening My Hometown returns to the saved section heading, and earlier visits count toward the seal. Resetting the journey clears the saved place and seals and keeps the selected language.
+A seal requires visiting every section, reaching the end and choosing Collect seal. Completion saves immediately before its animation, so leaving the reader cannot cancel the award. Repeated visits keep one seal per chapter.
 
-## Adding a chapter
+Reset clears all bookmarks and seals while retaining language. Blocked storage keeps the interface usable for the current visit. My seals links to the ending after nine unique completions.
 
-Add its authorized text and required assets, build its geographic scenes, and connect it to the shared reader and completion state. Verify both languages, navigation, mobile layout and one-time seal collection before marking it available in `src/data/chapters.js`.
-
-See [project plan](IMPLEMENTATION_PLAN.md), [credits](../ATTRIBUTION.md) and [testing](VERIFICATION.md).
+The eight project guides are original contextual writing. Their linked sources support the historical and geographic background. Credits are in [ATTRIBUTION.md](../ATTRIBUTION.md).

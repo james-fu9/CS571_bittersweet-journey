@@ -5,6 +5,7 @@
 ## Text, code and artwork
 
 - **My Hometown / 我的山河:** Yu Qiuyu. English translation: CN Times Books team.
+- **Eight bilingual project guides and ending:** original explanatory writing and reading prompts by Yanbing Chen and Ganrong(James) Fu with AI assistance. Background sources are linked in each guide.
 - **Code and asset source:** [esstherc/bittersweet-journey](https://github.com/esstherc/bittersweet-journey/tree/5e54637a490e28b41151c587d6752add62f445ea), including atlas rendering, chapter visuals, seals, textures and audio.
 - The project owner confirmed permission to publicly use the source code, assets and My Hometown text on November 1, 2026. Text, translation, artwork and audio retain their owners’ rights. The source repository has no general open-source license; this repository grants no blanket license. EPUB files and the full bilingual corpus are not included.
 

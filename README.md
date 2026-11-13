@@ -6,7 +6,7 @@ A bilingual interactive literary atlas built with React for CS571: Building User
 
 [Website](https://james-fu9.github.io/CS571_bittersweet-journey/) · [Repository](https://github.com/james-fu9/CS571_bittersweet-journey)
 
-Explore the map and read **My Hometown / 我的山河** in English or Chinese. Your browser saves your current section so you can continue later and earn the chapter seal. Eight more readers are in development.
+Explore nine places in English or Chinese. Read **My Hometown / 我的山河** and eight original project guides with location maps and source links. Each chapter saves your reading place. Collect nine seals to open the five-scene ending.
 
 ## Run locally
 

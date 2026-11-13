@@ -63,7 +63,7 @@ test('first visit, all six prologue scenes, real reader completion, reload and u
   await expect(page).toHaveURL(/#\/atlas$/);
 });
 
-test('original atlas camera, keyboard pins, all chapter routes and honest unavailable states', async ({ page }) => {
+test('atlas camera, keyboard pins and all nine available chapter routes', async ({ page }) => {
   await page.goto('./#/atlas');
   await expect(page.locator('.physical-atlas')).toHaveCount(1);
   await expect(page.locator('.journey-fog')).toHaveCount(1);
@@ -86,15 +86,85 @@ test('original atlas camera, keyboard pins, all chapter routes and honest unavai
   }
   for (const id of ids.slice(1)) {
     await page.goto(`./#/read/${id}`);
-    await expect(page.getByText('Coming in the next milestone', { exact: true })).toBeVisible();
-    await expect(page.locator('.finish-chapter')).toHaveCount(0);
+    await expect(page.locator('.guide-reader')).toBeVisible();
+    await expect(page.locator('.guide-kind')).toHaveText('Original project guide');
+    await expect(page.locator('.reading-section')).toHaveCount(3);
+    await expect(page.locator('.guide-sources a').first()).toHaveAttribute('href', /^https:\/\//);
+    await expect(page.locator('.finish-chapter')).toBeDisabled();
     await page.reload();
-    await expect(page.getByRole('link', { name: 'Return to atlas', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Back to atlas', exact: false })).toBeVisible();
     await expect(page.getByTestId('progress-count')).toHaveText('0 / 9');
   }
   await page.goto('./#/seals');
   await expect(page.getByTestId('ending-locked')).toBeVisible();
   await expect(page.locator('.seal-card')).toHaveCount(9);
+});
+
+test('collecting a seal saves immediately even when leaving during the animation', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('./#/read/my-hometown');
+  await visitAllSections(page);
+  await page.locator('.finish-chapter').click();
+  await page.locator('.site-header').getByRole('link', { name: /My seals/ }).click();
+  await expect(page.getByTestId('progress-count')).toHaveText('1 / 9');
+  await page.reload();
+  await expect(page.locator('.seal-card.earned')).toHaveCount(1);
+});
+
+test('read all nine chapters to earn unique seals and unlock the complete bilingual ending', async ({ page }) => {
+  await page.goto('./#/ending');
+  await expect(page.getByRole('heading', { name: 'Your journey is still unfolding' })).toBeVisible();
+  for (const [index, id] of ids.entries()) {
+    await page.goto(`./#/read/${id}`);
+    const count = id === 'my-hometown' ? 5 : 3;
+    for (let section = 1; section <= count; section++) {
+      await page.getByRole('button', { name: `Section ${section}`, exact: true }).click();
+    }
+    await page.locator('.reader-scroll').evaluate(pane => { pane.scrollTop = pane.scrollHeight; });
+    await page.locator('.finish-chapter').click();
+    await expect(page.getByTestId('progress-count')).toHaveText(`${index + 1} / 9`);
+    await expect(page).toHaveURL(/#\/atlas$/);
+  }
+  await page.locator('.site-header').getByRole('link', { name: /My seals/ }).click();
+  await expect(page.locator('.seal-card.earned')).toHaveCount(9);
+  await page.getByRole('link', { name: 'Open the ending', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'A map made of reading' })).toBeVisible();
+  await expect(page.locator('.ending-seals img')).toHaveCount(9);
+  for (let scene = 1; scene < 5; scene++) await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Take the next step' })).toBeVisible();
+  await page.locator('.site-header').getByRole('button', { name: '中文', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '继续走下去', exact: true })).toBeVisible();
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  expect(result.violations.map(item => item.id)).toEqual([]);
+  await page.reload();
+  await expect(page.getByTestId('progress-count')).toHaveText('9 / 9');
+});
+
+test('guide mobile resume, language, map controls, immediate completion and accessibility', async ({ page }) => {
+  await page.setViewportSize({ width: 844, height: 390 });
+  await page.goto('./#/read/dujiangyan');
+  await page.getByRole('button', { name: 'Section 2', exact: true }).click();
+  await page.locator('.site-header').getByRole('link', { name: 'Atlas', exact: true }).click();
+  await page.locator('[data-story="dujiangyan"]').press('Enter');
+  await page.getByRole('button', { name: /Continue reading.*Section 2/ }).click();
+  await expect(page.locator('.section-button[aria-current="step"]')).toHaveText('2');
+  await expect(page.locator('[data-section-heading="1"]')).toBeInViewport();
+  const map = page.locator('.guide-map svg');
+  const view = await map.getAttribute('viewBox');
+  await page.getByRole('button', { name: 'Zoom in on location map' }).click();
+  await expect(map).not.toHaveAttribute('viewBox', view);
+  await page.locator('.site-header').getByRole('button', { name: '中文', exact: true }).click();
+  await page.reload();
+  await expect(page.getByRole('button', { name: '第 2 节', exact: true })).toHaveAttribute('aria-current', 'step');
+  await expect(page.locator('[data-section-heading="1"]')).toBeInViewport();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  expect(result.violations.map(item => ({ id: item.id, nodes: item.nodes.map(node => node.target) })) ).toEqual([]);
+  await page.getByRole('button', { name: '第 3 节', exact: true }).click();
+  await page.locator('.reader-scroll').evaluate(pane => { pane.scrollTop = pane.scrollHeight; });
+  await page.locator('.finish-chapter').click();
+  await page.locator('.site-header').getByRole('link', { name: /我的图章/ }).click();
+  await expect(page.getByTestId('progress-count')).toHaveText('1 / 9');
 });
 
 test('Chinese persists, corrupt storage recovers, reset needs confirmation', async ({ page }) => {

@@ -78,3 +78,4 @@
 @media (orientation: landscape) and (max-height: 600px) {
   .journey-atlas .atlas-intro { width: min(345px,55%); }
 }
+.journey-atlas .atlas-ending-link { display: block; width: fit-content; margin-top: 16px; padding: 10px 14px; background: #f0e7d5ee; color: #893f32; border: 1px solid #893f32; font-size: 15px; line-height: 1.4; }

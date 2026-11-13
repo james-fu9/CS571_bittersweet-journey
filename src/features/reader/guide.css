@@ -1,0 +1,298 @@
+.guide-reader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100svh - var(--site-header-height, 78px));
+  min-height: 280px;
+  overflow: hidden;
+  background: #ece7db;
+}
+
+.guide-reader .guide-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(380px, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+.guide-reader .guide-geography {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  background: #e8e5d9;
+}
+
+.guide-reader .guide-geography .guide-map {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+}
+
+.guide-reader .guide-geography figcaption {
+  margin: 0;
+  padding: 12px 22px;
+  border-top: 1px solid #20251f1a;
+  color: #565c50;
+  text-align: center;
+  font: 16px/1.4 var(--serif-en), var(--serif-cn);
+}
+
+.guide-reader .guide-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border-left: 1px solid #20251f22;
+}
+
+.guide-reader .guide-scroll {
+  position: relative;
+  inset: auto;
+  flex: 1;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 38px clamp(24px, 3.6vw, 60px) 46px;
+  scroll-behavior: auto;
+  background: #f2ede3;
+}
+
+.guide-reader .guide-heading {
+  margin: 0 0 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #88745855;
+}
+
+.guide-reader .guide-kind {
+  margin: 0 0 14px;
+  color: #8a4d39;
+  font: 600 12px/1.5 var(--sans);
+  letter-spacing: .12em;
+}
+
+.guide-reader .guide-heading h1 {
+  margin: 0 0 22px;
+  font: 400 clamp(30px, 3.1vw, 46px)/1.16 var(--serif-en), var(--serif-cn);
+  text-wrap: balance;
+}
+
+.guide-reader .guide-heading > p {
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.guide-reader .guide-heading .guide-kind {
+  font-size: 12px;
+}
+
+.guide-reader .guide-heading .guide-attribution {
+  color: #625a4c;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.guide-reader .guide-section {
+  margin: 0 0 48px;
+  opacity: 1;
+  transform: none;
+}
+
+.guide-reader .guide-section h2,
+.guide-reader .guide-sources h2 {
+  margin: 0 0 20px;
+  color: #7c3c2e;
+  font: 400 24px/1.35 var(--serif-en), var(--serif-cn);
+}
+
+.guide-reader .guide-section > p {
+  margin: 0 0 20px;
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+.guide-reader .guide-sources {
+  padding: 24px 0;
+  margin: 24px 0;
+  border-top: 1px solid #88745855;
+}
+
+.guide-reader .guide-sources h2 {
+  font-size: 19px;
+}
+
+.guide-reader .guide-sources ul {
+  padding-left: 20px;
+  font: 15px/1.6 var(--sans);
+}
+
+.guide-reader .guide-sources li {
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+
+.guide-reader .guide-end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 0;
+  text-align: center;
+}
+
+.guide-reader .finish-chapter {
+  display: inline-flex;
+  width: auto;
+  max-width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 13px 18px;
+  border: 1px solid #9d3d31;
+  background: #f6eee5;
+  color: #803a2e;
+  font: 16px/1.5 var(--serif-en), var(--serif-cn);
+}
+
+.guide-reader .guide-completion-hint {
+  margin: 0;
+  color: #65594a;
+  font: 14px/1.6 var(--sans);
+}
+
+.guide-reader .guide-section-controls {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex: 0 0 58px;
+  width: 100%;
+  height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 22px;
+  background: #eae3d5;
+  border-top: 1px solid #20251f22;
+  font: 13px/1.4 var(--sans);
+}
+
+.guide-reader .section-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.guide-reader .section-button {
+  min-width: 36px;
+  min-height: 36px;
+  border: 0;
+  background: transparent;
+}
+
+.guide-reader .section-button[aria-current='step'] {
+  color: #9d3d31;
+  background: #9d3d3114;
+  box-shadow: 0 2px #9d3d31;
+}
+
+.guide-reader .guide-footer {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 5px 22px;
+  border-top: 1px solid #20251f22;
+  background: #e4ddce;
+  font: 12px/1.4 var(--sans);
+}
+
+.guide-reader .guide-footer button {
+  min-height: 30px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+}
+
+.guide-reader .guide-celebration {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  background: #ece7dbed;
+  animation: seal-arrive .6s ease both;
+}
+
+.guide-reader .guide-celebration p {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 36px);
+}
+
+.guide-reader .guide-celebration button {
+  min-height: 40px;
+  padding: 8px 18px;
+  border: 1px solid #9d3d31;
+  background: #f6eee5;
+  color: #803a2e;
+}
+
+@media (max-width: 900px) {
+  .guide-reader .guide-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .guide-reader .guide-scroll {
+    padding: 24px;
+  }
+  .guide-reader .guide-section-controls {
+    padding: 8px 14px;
+  }
+  .guide-reader .guide-section-count {
+    display: none;
+  }
+}
+
+@media (max-height: 500px) {
+  .guide-reader .guide-scroll {
+    padding: 20px 24px 36px;
+  }
+  .guide-reader .guide-heading h1 {
+    font-size: 28px;
+  }
+  .guide-reader .guide-section > p,
+  .guide-reader .guide-heading > p {
+    font-size: 16px;
+  }
+  .guide-reader .guide-section h2 {
+    font-size: 21px;
+  }
+  .guide-reader .guide-geography figcaption {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+  .guide-reader .guide-section-controls {
+    flex-basis: 46px;
+    height: 46px;
+  }
+  .guide-reader .guide-footer {
+    min-height: 32px;
+    padding: 2px 18px;
+  }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+  .guide-reader .guide-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 32% 68%;
+  }
+  .guide-reader .guide-panel {
+    border-top: 1px solid #20251f22;
+    border-left: 0;
+  }
+}

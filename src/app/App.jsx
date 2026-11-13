@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useCallback, useEffect } from 'react';
 import { Link, Navigate, NavLink, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useJourney } from '../state/useJourney.js';
 import { getChapter } from '../data/chapters.js';
@@ -8,23 +8,45 @@ import ErrorBoundary from '../components/ErrorBoundary.jsx';
 import { usePortraitGate } from '../components/usePortraitGate.js';
 import SealsPage from '../features/seals/SealsPage.jsx';
 import UnavailableChapter from '../features/reader/UnavailableChapter.jsx';
+import EndingPage from '../features/seals/EndingPage.jsx';
+import guides from '../data/guides.js';
 
 const Onboarding = lazy(() => import('../features/onboarding/Onboarding.jsx'));
 const ChapterReader = lazy(() => import('../features/reader/ChapterReader.jsx'));
 const AtlasPage = lazy(() => import('../features/atlas/AtlasPage.jsx'));
+const GuideReader = lazy(() => import('../features/reader/GuideReader.jsx'));
 
 function ReaderRoute({ paused }) {
   const { chapterId } = useParams();
   const journey = useJourney();
   const navigate = useNavigate();
   const chapter = getChapter(chapterId);
+  const { saveChapterSection, finishChapter } = journey;
+  const recordSection = useCallback(index => {
+    if (chapter) saveChapterSection(chapter.id, index);
+  }, [chapter, saveChapterSection]);
+  const collectSeal = useCallback(() => {
+    if (chapter) finishChapter(chapter.id);
+  }, [chapter, finishChapter]);
+  const returnToAtlas = useCallback(() => {
+    navigate('/atlas', { state: { collected: chapter?.id } });
+  }, [chapter, navigate]);
   if (!chapter) return <NotFound />;
   if (!chapter.implemented) return <UnavailableChapter chapter={chapter} language={journey.language} />;
-  return <ChapterReader language={journey.language} completed={journey.completedChapterIds.includes(chapter.id)}
-    savedSection={journey.hometownSection} visitedSections={journey.hometownVisitedSections}
-    onSectionChange={journey.saveHometownSection} paused={paused}
-    onComplete={() => { journey.finishChapter(chapter.id); navigate('/atlas', { state: { collected: chapter.id } }); }}
-    onBack={() => navigate('/atlas')} />;
+  const reading = journey.chapterReading[chapter.id];
+  const props = {
+    language: journey.language,
+    completed: journey.completedChapterIds.includes(chapter.id),
+    savedSection: reading.section,
+    visitedSections: reading.visitedSections,
+    onSectionChange: recordSection,
+    onComplete: collectSeal,
+    onBack: returnToAtlas,
+    paused,
+  };
+  return chapter.id === 'my-hometown'
+    ? <ChapterReader {...props} />
+    : <GuideReader key={chapter.id} {...props} chapter={chapter} guide={guides[chapter.id]} />;
 }
 
 function NotFound() {
@@ -64,7 +86,7 @@ export default function App() {
     <div className="app-shell" inert={portrait ? true : undefined} aria-hidden={portrait ? true : undefined}>
     <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById('main-content')?.focus(); }}>{zh ? '跳转到正文' : 'Skip to content'}</a>
     <header className="site-header">
-      <Link className="site-wordmark" to={journey.onboardingComplete ? '/atlas' : '/intro'} aria-label={zh ? '山河显影首页' : 'Bittersweet Journey home'}>山河显影 <small>BITTERSWEET JOURNEY</small></Link>
+      <Link className="site-wordmark" to={journey.onboardingComplete ? '/atlas' : '/intro'} aria-label={zh ? '山河显影 Bittersweet Journey 首页' : '山河显影 Bittersweet Journey home'}>山河显影 <small>BITTERSWEET JOURNEY</small></Link>
       <nav className="site-nav" aria-label={zh ? '主导航' : 'Main navigation'}>
         <NavLink className="nav-link" to="/atlas">{zh ? '地图' : 'Atlas'}</NavLink>
         <NavLink className="nav-link seals-link" to="/seals">{zh ? '我的图章' : 'My seals'} <b data-testid="progress-count">{journey.completedChapterIds.length} / 9</b></NavLink>
@@ -80,15 +102,16 @@ export default function App() {
             <Route path="/" element={<Navigate replace to={journey.onboardingComplete ? '/atlas' : '/intro'} />} />
             <Route path="/intro" element={<Onboarding language={journey.language} onLanguageChange={journey.setLanguage} onBegin={() => navigate('/read/my-hometown')} resumeLabel={resumeLabel} />} />
             <Route path="/read/:chapterId" element={<ReaderRoute paused={portrait} />} />
-            <Route path="/atlas" element={<AtlasPage language={journey.language} completedChapterIds={journey.completedChapterIds} onSelectChapter={openChapter} resumeLabel={resumeLabel} />} />
+            <Route path="/atlas" element={<AtlasPage language={journey.language} completedChapterIds={journey.completedChapterIds} chapterReading={journey.chapterReading} onSelectChapter={openChapter} />} />
             <Route path="/seals" element={<SealsPage />} />
-            <Route path="/credits" element={<SealsPage />} />
+            <Route path="/ending" element={<EndingPage />} />
+            <Route path="/credits" element={<EndingPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>
     </main>
-    <footer className="site-footer"><span>{zh ? '原著：余秋雨 · 英译：CN Times Books 团队' : 'Text: Yu Qiuyu · Translation: CN Times Books team'}</span><a href="https://github.com/esstherc/bittersweet-journey" target="_blank" rel="noreferrer">{zh ? '项目作者：Yanbing Chen and Ganrong(James) Fu' : 'Project authors: Yanbing Chen and Ganrong(James) Fu'}</a><a href="https://github.com/james-fu9/CS571_bittersweet-journey" target="_blank" rel="noreferrer">CS571 · {zh ? '源代码' : 'Source'}</a></footer>
+    <footer className="site-footer"><span>{zh ? '《我的山河》原著：余秋雨 · 英译：CN Times Books 团队' : 'My Hometown text: Yu Qiuyu · Translation: CN Times Books team'}</span><a href="https://github.com/james-fu9/CS571_bittersweet-journey/blob/main/ATTRIBUTION.md" target="_blank" rel="noreferrer">{zh ? '项目作者：Yanbing Chen and Ganrong(James) Fu' : 'Project authors: Yanbing Chen and Ganrong(James) Fu'}</a><a href="https://github.com/james-fu9/CS571_bittersweet-journey" target="_blank" rel="noreferrer">CS571 · {zh ? '源代码' : 'Source'}</a></footer>
     </div>
     <div className="rotate-gate" role="note" aria-label={zh ? '请横屏浏览' : 'Please rotate your device'}><span className="rotate-icon" aria-hidden="true">↻</span><h2 id="rotate-heading" tabIndex="-1">{zh ? '让山河展开' : 'Give the landscape room.'}</h2><p>{zh ? '请将手机横过来，继续阅读与探索。' : 'Turn your device sideways to read and explore.'}</p><LanguageToggle language={journey.language} onChange={journey.setLanguage} /></div>
   </>;

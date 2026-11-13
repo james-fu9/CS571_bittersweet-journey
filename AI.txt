@@ -2,7 +2,7 @@ AI use in Bittersweet Journey
 
 Yanbing Chen and Ganrong(James) Fu proposed the bilingual literary atlas and its interactive reading design. James specified the React approach, feature behavior, credits, testing expectations and public GitHub Pages deployment.
 
-OpenAI Codex drafted most of the new React interface and progress logic, including section bookmarks and chapter seals. It also helped integrate the credited map code, write and run tests, troubleshoot browser issues, configure deployment and edit documentation.
+OpenAI Codex drafted most of the new React interface and progress logic, including section bookmarks, chapter seals and the ending. It also drafted eight original bilingual project guides using the cited background sources, helped integrate the credited map code, wrote and ran tests, troubleshot browser issues, configured deployment and edited documentation.
 
 Our group's current rough estimate is that approximately 80% of the application code was generated with AI assistance, including AI-drafted and AI-reworked code. This is the group's overall assessment of AI use during development. Literary text, artwork, datasets and dependencies are outside this code estimate.
 

@@ -1,0 +1,11 @@
+.journey-ending { min-height: calc(100svh - var(--site-header-height)); display: flex; flex-direction: column; justify-content: center; text-align: center; max-width: 1040px; }
+.journey-ending .eyebrow { max-width: none; }
+.ending-seals { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin: 16px auto 30px; }
+.ending-seals img { object-fit: contain; }
+.journey-ending article { min-height: 250px; }
+.journey-ending article h1 { font-size: clamp(30px, 5vw, 52px); }
+.journey-ending article p { max-width: 660px; margin: 20px auto; font-size: 21px; line-height: 1.8; }
+.ending-navigation { display: flex; gap: 20px; align-items: center; justify-content: center; margin: 20px 0; }
+.ending-navigation > span { white-space: nowrap; }
+.journey-ending .ending-credits { max-width: none; font-size: 14px; margin: 20px 0 0; }
+@media (max-height: 500px) { .journey-ending { padding-top: 24px; padding-bottom: 24px; } .ending-seals { gap: 9px; margin-bottom: 10px; } .ending-seals img { width: 42px; height: 42px; } .journey-ending article { min-height: 140px; } .journey-ending article h1 { margin: 12px 0; } .journey-ending article p { font-size: 17px; line-height: 1.6; margin: 12px auto; } }

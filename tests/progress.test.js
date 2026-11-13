@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { chapters } from '../src/data/chapters.js';
 import {
   STORAGE_KEY,
   createDefaultProgress,
   sanitizeProgress,
+  withChapterSection,
   withHometownSection,
   completeChapter,
   loadProgress,
@@ -11,8 +13,6 @@ import {
   creditsUnlocked,
 } from '../src/state/progress.js';
 
-// Acceptance specification: storage is untrusted, and only shipped readers
-// may earn seals. The pure ending predicate still models the final nine-stop journey.
 const chapterIds = [
   'my-hometown', 'dujiangyan', 'taoist-tower', 'mogao-caves',
   'secret-spring', 'yangguan', 'kashgar', 'chengde', 'fish-tail-lodge',
@@ -32,17 +32,33 @@ function memoryStorage(initialValue = null) {
   };
 }
 
-test('a new journey has independent, versioned, incomplete progress', () => {
+test('all nine readers have explicit section counts and original chapter identities', () => {
+  assert.deepEqual(chapters.map(chapter => chapter.id), chapterIds);
+  assert.ok(chapters.every(chapter => chapter.implemented));
+  assert.equal(chapters[0].sectionCount, 5);
+  assert.ok(chapters.slice(1).every(chapter => chapter.sectionCount === 3));
+  assert.equal(chapters.find(chapter => chapter.id === 'chengde').folder, 'mountain-resort');
+});
+
+test('a new journey has empty, independent progress for every chapter', () => {
   assert.equal(STORAGE_KEY, 'bittersweet-journey:v1');
   const first = createDefaultProgress();
   assert.equal(first.version, 1);
-  assert.ok(['en', 'zh'].includes(first.language));
   assert.equal(first.onboardingComplete, false);
   assert.deepEqual(first.completedChapterIds, []);
   assert.equal(first.lastVisitedLocation, null);
+  assert.equal(first.hometownSection, null);
+  assert.deepEqual(first.hometownVisitedSections, []);
   assert.equal(creditsUnlocked(first), false);
+  for (const id of chapterIds) {
+    assert.deepEqual(first.chapterReading[id], { section: null, visitedSections: [] });
+  }
   first.completedChapterIds.push('my-hometown');
+  first.chapterReading['my-hometown'].visitedSections.push(0);
+  assert.deepEqual(first.hometownVisitedSections, []);
+  assert.deepEqual(first.chapterReading.dujiangyan.visitedSections, []);
   assert.deepEqual(createDefaultProgress().completedChapterIds, []);
+  assert.deepEqual(createDefaultProgress().chapterReading['my-hometown'].visitedSections, []);
 });
 
 test('unsupported versions and non-object storage recover to a fresh journey', () => {
@@ -52,7 +68,7 @@ test('unsupported versions and non-object storage recover to a fresh journey', (
   }
 });
 
-test('sanitization keeps Chinese, removes invalid completions, and deduplicates seals', () => {
+test('sanitization keeps valid completions and language while deduplicating seals', () => {
   const result = sanitizeProgress({
     version: 1,
     language: 'zh',
@@ -61,40 +77,32 @@ test('sanitization keeps Chinese, removes invalid completions, and deduplicates 
     lastVisitedLocation: 'chengde',
   });
   assert.equal(result.language, 'zh');
-  assert.deepEqual(result.completedChapterIds, ['my-hometown']);
+  assert.deepEqual(result.completedChapterIds, ['my-hometown', 'dujiangyan']);
   assert.equal(result.onboardingComplete, true);
   assert.equal(result.lastVisitedLocation, 'chengde');
-  assert.equal(result.completedChapterIds.length, 1);
   assert.equal(creditsUnlocked(result), false);
 });
 
-test('an onboarding flag cannot skip the introduction without its completed chapter', () => {
+test('an onboarding flag requires the introductory chapter and a literal boolean', () => {
   for (const completedChapterIds of [[], ['dujiangyan'], 'my-hometown', null]) {
     const result = sanitizeProgress({
       version: 1, language: 'en', onboardingComplete: true, completedChapterIds,
     });
     assert.equal(result.onboardingComplete, false);
-    assert.deepEqual(result.completedChapterIds, []);
   }
-});
-
-test('onboarding state requires a literal stored boolean', () => {
   for (const onboardingComplete of [false, 'true', 1, null, undefined]) {
-    const result = sanitizeProgress({
-      version: 1, language: 'en', onboardingComplete,
-      completedChapterIds: ['my-hometown'],
-    });
-    assert.equal(result.onboardingComplete, false);
+    assert.equal(sanitizeProgress({
+      version: 1, onboardingComplete, completedChapterIds: ['my-hometown'],
+    }).onboardingComplete, false);
   }
 });
 
-test('invalid preference values fall back and atlas IDs use the real registry mapping', () => {
+test('invalid preferences fall back and atlas IDs use the original registry mapping', () => {
   for (const invalid of ['fr', '', null, 42]) {
     const result = sanitizeProgress({
       version: 1, language: invalid, lastVisitedLocation: 'mountain-resort',
-      completedChapterIds: [], onboardingComplete: false,
     });
-    assert.equal(result.language, createDefaultProgress().language);
+    assert.equal(result.language, 'en');
     assert.equal(result.lastVisitedLocation, null);
   }
   for (const id of chapterIds) {
@@ -104,143 +112,202 @@ test('invalid preference values fall back and atlas IDs use the real registry ma
   }
 });
 
-test('completing My Hometown immutably earns exactly one seal and finishes onboarding', () => {
-  const original = Object.freeze({
-    ...createDefaultProgress(), language: 'zh', completedChapterIds: Object.freeze([]),
-  });
-  const completed = completeChapter(original, 'my-hometown');
-  assert.notEqual(completed, original);
-  assert.deepEqual(original.completedChapterIds, []);
-  assert.deepEqual(completed.completedChapterIds, ['my-hometown']);
-  assert.equal(completed.onboardingComplete, true);
-  assert.equal(completed.language, 'zh');
-  assert.equal(completed.completedChapterIds.length, 1);
-  assert.equal(creditsUnlocked(completed), false);
-});
-
-test('revisiting a completed chapter cannot duplicate its seal', () => {
-  let result = completeChapter(createDefaultProgress(), 'my-hometown');
-  for (let visit = 0; visit < 12; visit += 1) {
-    result = completeChapter(result, 'my-hometown');
-  }
-  assert.deepEqual(result.completedChapterIds, ['my-hometown']);
-  assert.equal(result.onboardingComplete, true);
-});
-
-test('unavailable and unknown chapters cannot award progress', () => {
-  for (const id of [...chapterIds.slice(1), 'mountain-resort', 'unknown', '', null]) {
-    const fresh = createDefaultProgress();
-    assert.deepEqual(completeChapter(fresh, id), fresh);
-    const completed = completeChapter(fresh, 'my-hometown');
-    assert.deepEqual(completeChapter(completed, id), completed);
+test('finishing each valid chapter immutably earns one seal and unlocks only at nine', () => {
+  let progress = createDefaultProgress();
+  for (const [index, id] of chapterIds.entries()) {
+    const previous = progress;
+    progress = completeChapter(previous, id);
+    assert.notEqual(progress, previous);
+    assert.equal(previous.completedChapterIds.length, index);
+    assert.equal(progress.completedChapterIds.length, index + 1);
+    assert.equal(progress.onboardingComplete, true);
+    assert.equal(progress.lastVisitedLocation, id);
+    assert.equal(creditsUnlocked(progress), index === 8);
+    assert.deepEqual(completeChapter(progress, id).completedChapterIds, progress.completedChapterIds);
   }
 });
 
-test('missing or corrupted JSON and malformed stored structures do not crash loading', () => {
+test('unknown IDs and folder aliases cannot earn a seal', () => {
+  for (const id of ['mountain-resort', 'unknown', '', null, '__proto__', 'constructor']) {
+    const progress = completeChapter(createDefaultProgress(), 'my-hometown');
+    assert.deepEqual(completeChapter(progress, id), progress);
+  }
+});
+
+test('missing or corrupted JSON and malformed structures do not crash loading', () => {
   for (const raw of [null, '', '{broken', 'null', '[]', 'false', '"text"',
     '{"version":2,"completedChapterIds":["my-hometown"]}']) {
     assert.deepEqual(loadProgress(memoryStorage(raw)), createDefaultProgress());
   }
 });
 
-test('blocked storage reads and writes degrade without throwing', () => {
+test('blocked storage preserves in-memory bookmarks and fails safely', () => {
   const blocked = {
     getItem() { throw new Error('Storage is blocked'); },
     setItem() { throw new Error('Quota exceeded'); },
   };
   assert.deepEqual(loadProgress(blocked), createDefaultProgress());
-  assert.equal(saveProgress(blocked, createDefaultProgress()), false);
+  const progress = withChapterSection(createDefaultProgress(), 'dujiangyan', 2);
+  assert.equal(saveProgress(blocked, progress), false);
+  assert.deepEqual(progress.chapterReading.dujiangyan, { section: 2, visitedSections: [2] });
+  assert.equal(saveProgress(null, progress), false);
 });
 
-test('a persisted Chinese journey restores exactly 1/9 and its selected location', () => {
+test('all nine completed chapters and Chinese preference survive storage', () => {
   const storage = memoryStorage();
-  const state = completeChapter({
-    ...createDefaultProgress(), language: 'zh', lastVisitedLocation: 'my-hometown',
-  }, 'my-hometown');
-  assert.equal(saveProgress(storage, state), true);
-  const restored = loadProgress(storage);
-  assert.deepEqual(restored, state);
-  assert.equal(restored.language, 'zh');
-  assert.equal(restored.onboardingComplete, true);
-  assert.equal(restored.completedChapterIds.length, 1);
-  assert.equal(creditsUnlocked(restored), false);
+  const progress = chapterIds.reduce(completeChapter, {
+    ...createDefaultProgress(), language: 'zh',
+  });
+  assert.equal(saveProgress(storage, progress), true);
+  assert.deepEqual(loadProgress(storage), progress);
+  assert.equal(creditsUnlocked(loadProgress(storage)), true);
 });
 
-test('ending unlock needs all nine distinct, known chapter IDs', () => {
-  assert.equal(creditsUnlocked({ ...createDefaultProgress(), completedChapterIds: chapterIds }), true);
-  assert.equal(creditsUnlocked({ ...createDefaultProgress(), completedChapterIds: chapterIds.slice(0, 8) }), false);
-  assert.equal(creditsUnlocked({ ...createDefaultProgress(), completedChapterIds: Array(9).fill('my-hometown') }), false);
+test('ending unlock counts only distinct valid completions in supported storage', () => {
+  const completed = { ...createDefaultProgress(), completedChapterIds: chapterIds };
+  assert.equal(creditsUnlocked(completed), true);
+  assert.equal(creditsUnlocked({ ...completed, completedChapterIds: [...chapterIds, 'unknown'] }), true);
+  assert.equal(creditsUnlocked({ ...completed, completedChapterIds: chapterIds.slice(0, 8) }), false);
+  assert.equal(creditsUnlocked({ ...completed, completedChapterIds: Array(9).fill('my-hometown') }), false);
   assert.equal(creditsUnlocked({
-    ...createDefaultProgress(), completedChapterIds: [...chapterIds.slice(0, 8), 'unknown'],
+    ...completed, completedChapterIds: [...chapterIds.slice(0, 8), 'unknown'],
   }), false);
+  for (const invalid of [null, {}, { ...completed, version: 2 }]) {
+    assert.equal(creditsUnlocked(invalid), false);
+  }
 });
 
-test('injected nine-chapter storage cannot unlock unimplemented readers in this milestone', () => {
-  const restored = loadProgress(memoryStorage(JSON.stringify({
-    ...createDefaultProgress(), onboardingComplete: true, completedChapterIds: chapterIds,
-  })));
-  assert.deepEqual(restored.completedChapterIds, ['my-hometown']);
-  assert.equal(creditsUnlocked(restored), false);
-});
-
-test('existing v1 saves keep progress and language with no saved section', () => {
+test('early v1 saves keep progress with empty bookmarks for the new readers', () => {
   const legacy = {
     version: 1, language: 'zh', onboardingComplete: true,
     completedChapterIds: ['my-hometown'], lastVisitedLocation: 'chengde',
   };
   assert.deepEqual(loadProgress(memoryStorage(JSON.stringify(legacy))), {
-    ...legacy, hometownSection: null, hometownVisitedSections: [],
+    ...createDefaultProgress(), ...legacy,
   });
 });
 
-test('all five section indices survive storage and revisiting an earlier section', () => {
+test('legacy hometown bookmarks migrate to the per-chapter shape', () => {
+  const legacy = {
+    version: 1, language: 'zh', hometownSection: 2,
+    hometownVisitedSections: [0, 1, 2, 2, -1, '3', 5],
+  };
+  const progress = loadProgress(memoryStorage(JSON.stringify(legacy)));
+  assert.deepEqual(progress.chapterReading['my-hometown'], { section: 2, visitedSections: [0, 1, 2] });
+  assert.equal(progress.hometownSection, 2);
+  assert.deepEqual(progress.hometownVisitedSections, [0, 1, 2]);
+  assert.notEqual(progress.hometownVisitedSections, progress.chapterReading['my-hometown'].visitedSections);
+  assert.deepEqual(progress.completedChapterIds, []);
+});
+
+test('canonical hometown data wins when both saved shapes exist', () => {
+  const progress = sanitizeProgress({
+    version: 1, hometownSection: 4, hometownVisitedSections: [0, 1, 2, 3, 4],
+    chapterReading: { 'my-hometown': { section: 1, visitedSections: [0, 1] } },
+  });
+  assert.equal(progress.hometownSection, 1);
+  assert.deepEqual(progress.hometownVisitedSections, [0, 1]);
+  const cleared = sanitizeProgress({
+    ...progress, chapterReading: { 'my-hometown': { section: null, visitedSections: [] } },
+  });
+  assert.equal(cleared.hometownSection, null);
+  assert.deepEqual(cleared.hometownVisitedSections, []);
+});
+
+test('both bookmark APIs synchronize the hometown compatibility fields', () => {
+  let progress = withHometownSection(createDefaultProgress(), 2);
+  assert.deepEqual(progress.chapterReading['my-hometown'], { section: 2, visitedSections: [2] });
+  progress = withChapterSection(progress, 'my-hometown', 4);
+  assert.equal(progress.hometownSection, 4);
+  assert.deepEqual(progress.hometownVisitedSections, [2, 4]);
+  progress = withHometownSection(progress, 2);
+  assert.equal(progress.chapterReading['my-hometown'].section, 2);
+  assert.deepEqual(progress.chapterReading['my-hometown'].visitedSections, [2, 4]);
+  assert.equal(withHometownSection(progress, 2), progress);
+});
+
+test('every section boundary is stored, unique, and independent across chapters', () => {
   const storage = memoryStorage();
   let progress = createDefaultProgress();
-  for (const index of [0, 1, 2, 3, 4, 1]) {
-    progress = withHometownSection(progress, index);
-    assert.equal(saveProgress(storage, progress), true);
-    progress = loadProgress(storage);
-    assert.equal(progress.hometownSection, index);
-    assert.deepEqual(progress.completedChapterIds, []);
-    assert.equal(progress.onboardingComplete, false);
-    assert.equal(withHometownSection(progress, index), progress);
+  for (const chapter of chapters) {
+    for (let index = 0; index < chapter.sectionCount; index += 1) {
+      progress = withChapterSection(progress, chapter.id, index);
+      assert.equal(saveProgress(storage, progress), true);
+      progress = loadProgress(storage);
+      assert.equal(progress.chapterReading[chapter.id].section, index);
+      assert.equal(withChapterSection(progress, chapter.id, index), progress);
+    }
+    assert.deepEqual(progress.chapterReading[chapter.id].visitedSections,
+      Array.from({ length: chapter.sectionCount }, (_, index) => index));
   }
-  assert.deepEqual(progress.hometownVisitedSections, [0, 1, 2, 3, 4]);
-  assert.deepEqual(completeChapter(progress, 'my-hometown').completedChapterIds, ['my-hometown']);
-  assert.equal(completeChapter(progress, 'my-hometown').hometownSection, 1);
-  assert.deepEqual(createDefaultProgress().hometownVisitedSections, []);
-  assert.equal(createDefaultProgress().hometownSection, null);
+  assert.deepEqual(progress.completedChapterIds, []);
+  assert.equal(progress.onboardingComplete, false);
+  assert.equal(creditsUnlocked(progress), false);
 });
 
-test('invalid section data cannot overwrite a saved place or discard unrelated progress', () => {
-  const progress = { ...createDefaultProgress(), language: 'zh', hometownSection: 3 };
-  for (const index of [null, undefined, -1, 5, 1.5, '2', true, [], {}, NaN, Infinity]) {
-    assert.equal(withHometownSection(progress, index), progress);
-    assert.deepEqual(sanitizeProgress({ ...progress, hometownSection: index }), {
-      ...progress, hometownSection: null,
-    });
-  }
-});
-
-test('a refused storage write leaves the current in-memory bookmark intact', () => {
-  const progress = withHometownSection(createDefaultProgress(), 4);
-  const storage = { setItem() { throw new Error('Storage blocked'); } };
-  assert.equal(saveProgress(storage, progress), false);
-  assert.equal(progress.hometownSection, 4);
-  assert.deepEqual(progress.hometownVisitedSections, [4]);
-});
-
-test('visited sections accept only distinct valid integers from stored arrays', () => {
-  const state = { ...createDefaultProgress(), hometownSection: 2 };
-  for (const invalid of [null, undefined, true, 3, '0,1,2', {}]) {
-    const loaded = sanitizeProgress({ ...state, hometownVisitedSections: invalid });
-    assert.deepEqual(loaded.hometownVisitedSections, []);
-    assert.deepEqual(withHometownSection(loaded, 2).hometownVisitedSections, [2]);
-  }
-  const loaded = sanitizeProgress({
-    ...state, hometownVisitedSections: ['0', 0, null, 4, 5, 4, 2.1, -1, false],
+test('unknown chapter bookmarks are dropped and invalid section updates are ignored', () => {
+  const progress = withChapterSection(createDefaultProgress(), 'dujiangyan', 1);
+  const stored = sanitizeProgress({
+    ...progress,
+    chapterReading: { ...progress.chapterReading, unknown: { section: 1, visitedSections: [0, 1] } },
   });
-  assert.deepEqual(loaded.hometownVisitedSections, [0, 4]);
-  assert.equal(loaded.hometownSection, 2);
-  assert.deepEqual(loaded.completedChapterIds, []);
+  assert.deepEqual(Object.keys(stored.chapterReading), chapterIds);
+  for (const id of ['unknown', 'mountain-resort', '', null, '__proto__']) {
+    assert.equal(withChapterSection(progress, id, 0), progress);
+  }
+  for (const index of [null, undefined, -1, 3, 4, 1.5, '2', true, [], {}, NaN, Infinity]) {
+    assert.equal(withChapterSection(progress, 'dujiangyan', index), progress);
+  }
+  assert.equal(withHometownSection(progress, 5), progress);
+  assert.equal(withHometownSection(progress, 4).hometownSection, 4);
+});
+
+test('malformed per-chapter records sanitize with each chapter’s section count', () => {
+  for (const invalid of [null, undefined, true, 3, '0,1,2', [], {}]) {
+    const progress = sanitizeProgress({ version: 1, chapterReading: { dujiangyan: invalid } });
+    assert.deepEqual(progress.chapterReading.dujiangyan, { section: null, visitedSections: [] });
+  }
+  const progress = sanitizeProgress({
+    version: 1,
+    chapterReading: {
+      dujiangyan: { section: 4, visitedSections: ['0', 0, 0, 1, 2, 3, 4, 2.5, -1, null, false] },
+      'my-hometown': { section: 4, visitedSections: [0, 2, 3, 4, 5] },
+    },
+  });
+  assert.deepEqual(progress.chapterReading.dujiangyan, { section: null, visitedSections: [0, 1, 2] });
+  assert.deepEqual(progress.chapterReading['my-hometown'], { section: 4, visitedSections: [0, 2, 3, 4] });
+  assert.deepEqual(progress.hometownVisitedSections, [0, 2, 3, 4]);
+});
+
+test('separate reading sessions keep visited sections without awarding completion early', () => {
+  const storage = memoryStorage();
+  let first = withChapterSection(createDefaultProgress(), 'kashgar', 0);
+  first = withChapterSection(first, 'kashgar', 1);
+  saveProgress(storage, first);
+  let second = loadProgress(storage);
+  assert.equal(second.chapterReading.kashgar.section, 1);
+  second = withChapterSection(second, 'kashgar', 2);
+  assert.deepEqual(second.chapterReading.kashgar.visitedSections, [0, 1, 2]);
+  assert.deepEqual(second.completedChapterIds, []);
+  assert.deepEqual(completeChapter(second, 'kashgar').completedChapterIds, ['kashgar']);
+});
+
+test('bookmark updates preserve prior snapshots and reset creates independent empty records', () => {
+  const previous = withHometownSection(createDefaultProgress(), 1);
+  Object.freeze(previous.chapterReading['my-hometown'].visitedSections);
+  Object.freeze(previous.hometownVisitedSections);
+  Object.freeze(previous.chapterReading['my-hometown']);
+  Object.freeze(previous.chapterReading);
+  Object.freeze(previous);
+  const next = withHometownSection(previous, 2);
+  assert.deepEqual(previous.chapterReading['my-hometown'].visitedSections, [1]);
+  assert.deepEqual(next.chapterReading['my-hometown'].visitedSections, [1, 2]);
+  const reset = createDefaultProgress();
+  assert.equal(reset.hometownSection, null);
+  assert.deepEqual(reset.hometownVisitedSections, []);
+  for (const id of chapterIds) {
+    assert.deepEqual(reset.chapterReading[id], { section: null, visitedSections: [] });
+    assert.notEqual(reset.chapterReading[id], next.chapterReading[id]);
+    assert.notEqual(reset.chapterReading[id].visitedSections, next.chapterReading[id].visitedSections);
+  }
 });

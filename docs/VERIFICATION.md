@@ -16,17 +16,14 @@ To test the published site:
 PLAYWRIGHT_BASE_URL=https://james-fu9.github.io/CS571_bittersweet-journey/ npm run test:e2e
 ```
 
-## Recorded results — November 1, 2026
+## Recorded results — November 13, 2026
 
-For application build `1c12e2df299a7e2e215f584293968a16bc17ca4b`:
-
-- Lint and production build passed; dependency audit reported 0 vulnerabilities.
-- 14 unit tests and 21 browser tests passed locally; 21 browser tests also passed on GitHub Pages across Chromium, Firefox and WebKit.
-- Tested routes had no application exceptions, console errors, failed HTTP resources or axe accessibility violations.
-- [Deployment succeeded](https://github.com/james-fu9/CS571_bittersweet-journey/actions/runs/41328132467).
-
-Coverage includes onboarding, bilingual reading, map controls, chapter routes, saved progress, unique seals, reset, storage failures, mobile layouts, audio and WebGL fallback.
+- Lint, 21 unit tests and the production build passed.
+- 36 production-build browser tests passed across Chromium, Firefox and WebKit.
+- Coverage includes all nine readers, bilingual guide content, per-chapter bookmarks, the 9/9 ending unlock and all five ending scenes.
+- A regression check confirms Collect seal saves completion before the animation, even if the reader leaves immediately.
+- Other checks cover onboarding, map controls, reset, storage failures, mobile layouts, audio, WebGL fallback and accessibility.
 
 ## Current limits
 
-My Hometown is complete; eight additional readers and the final ending are in development. Vite reports a nonblocking size advisory for the shared geography dataset (about 2.21 MB, or 0.83 MB gzip). Results cover the tested scenarios and browser versions.
+My Hometown includes its authorized chapter text. Eight other chapters contain original project guides with source links and location maps. Vite reports a nonblocking size advisory for the shared geography dataset (about 2.21 MB, or 0.83 MB gzip). Results cover the tested scenarios and browser versions.

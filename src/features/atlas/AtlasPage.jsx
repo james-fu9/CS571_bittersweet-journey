@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { chapters } from '../../data/chapters';
 import { mountAtlas } from './atlasEngineAdapter';
 import './atlas-original.css';
 import './atlas-react.css';
 
-export default function AtlasPage({ language, completedChapterIds, onSelectChapter, resumeLabel }) {
+export default function AtlasPage({ language, completedChapterIds, chapterReading, onSelectChapter }) {
   const rootRef = useRef(null);
   const engineRef = useRef(null);
   const [selected, setSelected] = useState(null);
@@ -13,8 +14,10 @@ export default function AtlasPage({ language, completedChapterIds, onSelectChapt
   const panelRef = useRef(null);
   const zh = language === 'zh';
   const active = chapters.find(chapter => chapter.id === selected);
-  let enterLabel = zh ? '查看章节进度' : 'View chapter status';
-  if (active?.id === 'my-hometown') enterLabel = resumeLabel ?? (zh ? '沿三条线进入' : 'Follow the three lines');
+  let enterLabel = zh ? '阅读导读' : 'Read guide';
+  if (active?.id === 'my-hometown') enterLabel = zh ? '沿三条线进入' : 'Follow the three lines';
+  const savedSection = chapterReading[active?.id]?.section;
+  if (savedSection != null) enterLabel = zh ? `继续阅读 · 第 ${savedSection + 1} 节` : `Continue reading · Section ${savedSection + 1}`;
   if (traveling) enterLabel = zh ? '旅人正赶往这一章…' : 'On our way…';
 
   useEffect(() => {
@@ -47,6 +50,7 @@ export default function AtlasPage({ language, completedChapterIds, onSelectChapt
         <p className="atlas-eyebrow">{zh ? '九个地点 · 一段文化旅程' : 'NINE PLACES · ONE CULTURAL JOURNEY'}</p>
         <h1>{zh ? <>一部书能够<br /><span className="question-accent">照亮</span>多少中国？</> : <>How much of China<br />can one book <span className="question-accent">illuminate?</span></>}</h1>
         <button className="atlas-guide-toggle" type="button" aria-expanded={guideOpen} onClick={() => setGuideOpen(!guideOpen)}>{zh ? '如何探索' : 'How to explore'} {guideOpen ? '−' : '+'}</button>
+        {completedChapterIds.length === chapters.length && <Link className="atlas-ending-link" to="/ending">{zh ? '九枚图章已集齐 · 进入终章' : 'Nine seals collected · Open the ending'} ↗</Link>}
         {guideOpen && <div className="cta-callout"><span className="cta-text"><strong>{zh ? '提灯寻路，让山河慢慢亮起' : 'Follow the lantern. Let the landscape unfold.'}</strong><em>{zh ? '拖动地图探索，滚轮或双指缩放。选择地点，打开章节。键盘可用方向键、加减键和 Home 键操作地图。' : 'Drag to explore; scroll or pinch to zoom. Select a place to open its chapter. On the map, use arrow keys, +/− and Home.'}</em><small>{zh ? '完成章节后，印章与光圈会留在地图上。' : 'Complete a chapter to leave its seal and a circle of light.'}</small></span></div>}
       </div>
       <div className="atlas-map-stage" aria-label={zh ? '可拖动及缩放的地图' : 'Pannable and zoomable map'} />
@@ -58,7 +62,7 @@ export default function AtlasPage({ language, completedChapterIds, onSelectChapt
         <button className="atlas-panel-close" type="button" onClick={() => setSelected(null)} aria-label={zh ? '关闭地点详情' : 'Close location details'}>×</button>
         <p className="atlas-location-number">{zh ? '第' : 'CHAPTER '}{String(active.number).padStart(2, '0')}{zh ? '章' : ''}</p>
         <h2 id="location-title">{active.title[language]}</h2>
-        <p>{active.implemented ? (zh ? '沿黄河、长江与雨的痕迹，重新认识这片土地。' : 'Follow the Yellow River, the Yangtze, and the traces of rain to see this land anew.') : (zh ? '这个地点的阅读体验将在下一阶段开放。' : 'This chapter’s reading experience is coming in the next milestone.')}</p>
+        <p>{active.id === 'my-hometown' ? (zh ? '沿黄河、长江与雨的痕迹，重新认识这片土地。' : 'Follow the Yellow River, the Yangtze, and the traces of rain to see this land anew.') : (zh ? '阅读三节中英文原创导读，探索地点背景、地图与思考问题。' : 'Explore this place through three bilingual guide sections, a location map and questions for reflection.')}</p>
         {completedChapterIds.includes(active.id) && <p className="atlas-completed-note">{zh ? '印章已收藏' : 'Seal collected'}</p>}
         <button type="button" className="atlas-enter" onClick={enterChapter} disabled={traveling}>{enterLabel} <span aria-hidden="true">↗</span></button>
       </aside>}
