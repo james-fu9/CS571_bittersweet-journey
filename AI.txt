@@ -1,9 +1,11 @@
 AI use in Bittersweet Journey
 
-Yanbing Chen and Ganrong(James) Fu proposed the bilingual literary atlas and its interactive reading design. James specified the React approach, feature behavior, credits, testing expectations and public GitHub Pages deployment.
+Project authors: Yanbing Chen and Ganrong(James) Fu.
+
+Ganrong(James) Fu mainly handled AI-assisted programming and website development. He defined requirements and used Codex to help build the React pages, connect the reading flow, implement saved progress, debug issues and publish the website on GitHub Pages. Since the Publish milestone, he has spent approximately 4.5 hours on this work.
+
+Yanbing Chen mainly handled the content. She worked on chapter topics, descriptions and reading prompts, focusing on clear and organized content for the bilingual reading experience. Since the Publish milestone, she has spent approximately 4.5 hours on this work.
 
 OpenAI Codex drafted most of the new React interface and progress logic, including section bookmarks, chapter seals and the ending. It also drafted eight original bilingual project guides using the cited background sources, helped integrate the credited map code, wrote and ran tests, troubleshot browser issues, configured deployment and edited documentation.
 
-Our group's current rough estimate is that approximately 80% of the application code was generated with AI assistance, including AI-drafted and AI-reworked code. This is the group's overall assessment of AI use during development. Literary text, artwork, datasets and dependencies are outside this code estimate.
-
-Before submission, both authors should confirm their individual contributions, actual work hours and any additional AI tools used in the source project or outside this repository.
+Our group's rough estimate is that approximately 80% of the application code was generated with AI assistance, including AI-drafted and AI-reworked code. This is the group's overall assessment of AI use during development. Literary text, artwork, datasets and dependencies are outside this code estimate.
