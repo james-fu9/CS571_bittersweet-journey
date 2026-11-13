@@ -20,6 +20,7 @@ PLAYWRIGHT_BASE_URL=https://james-fu9.github.io/CS571_bittersweet-journey/ npm r
 
 - Lint, 21 unit tests and the production build passed.
 - 36 production-build browser tests passed across Chromium, Firefox and WebKit.
+- The same 36 browser tests passed against the published GitHub Pages site. Refresh checks wait for fonts and image decoding before deliberately replacing the page.
 - Coverage includes all nine readers, bilingual guide content, per-chapter bookmarks, the 9/9 ending unlock and all five ending scenes.
 - A regression check confirms Collect seal saves completion before the animation, even if the reader leaves immediately.
 - Other checks cover onboarding, map controls, reset, storage failures, mobile layouts, audio, WebGL fallback and accessibility.

@@ -23,6 +23,16 @@ test.beforeEach(async ({ page }) => {
 });
 test.afterEach(async ({ page }) => { expect(page.testErrors).toEqual([]); });
 
+// Finish loading the rendered view before deliberately replacing its document.
+// Firefox reports cancelled font/image downloads when a test reloads mid-load.
+async function reloadAfterAssets(page) {
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await Promise.all([...document.images].map(image => image.decode()));
+  });
+  await page.reload();
+}
+
 async function visitAllSections(page) {
   for (let i = 1; i <= 5; i++) await page.getByRole('button', { name: `Section ${i}`, exact: true }).click();
   await page.locator('.reader-scroll').evaluate(element => { element.scrollTop = element.scrollHeight; });
@@ -49,7 +59,7 @@ test('first visit, all six prologue scenes, real reader completion, reload and u
   await expect(page.getByTestId('progress-count')).toHaveText('1 / 9');
   await expect(page.locator('.journey-atlas')).toHaveClass(/my-hometown-complete/);
   await expect(page.locator('.journey-fog')).toHaveAttribute('data-completed', '1');
-  await page.reload();
+  await reloadAfterAssets(page);
   await expect(page.locator('.story-point')).toHaveCount(9);
   await expect(page.getByTestId('progress-count')).toHaveText('1 / 9');
   await page.goto('./#/read/my-hometown');
@@ -91,7 +101,7 @@ test('atlas camera, keyboard pins and all nine available chapter routes', async 
     await expect(page.locator('.reading-section')).toHaveCount(3);
     await expect(page.locator('.guide-sources a').first()).toHaveAttribute('href', /^https:\/\//);
     await expect(page.locator('.finish-chapter')).toBeDisabled();
-    await page.reload();
+    await reloadAfterAssets(page);
     await expect(page.getByRole('button', { name: 'Back to atlas', exact: false })).toBeVisible();
     await expect(page.getByTestId('progress-count')).toHaveText('0 / 9');
   }
@@ -107,7 +117,7 @@ test('collecting a seal saves immediately even when leaving during the animation
   await page.locator('.finish-chapter').click();
   await page.locator('.site-header').getByRole('link', { name: /My seals/ }).click();
   await expect(page.getByTestId('progress-count')).toHaveText('1 / 9');
-  await page.reload();
+  await reloadAfterAssets(page);
   await expect(page.locator('.seal-card.earned')).toHaveCount(1);
 });
 
@@ -136,7 +146,7 @@ test('read all nine chapters to earn unique seals and unlock the complete biling
   await expect(page.getByRole('heading', { name: '继续走下去', exact: true })).toBeVisible();
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   expect(result.violations.map(item => item.id)).toEqual([]);
-  await page.reload();
+  await reloadAfterAssets(page);
   await expect(page.getByTestId('progress-count')).toHaveText('9 / 9');
 });
 
@@ -154,7 +164,7 @@ test('guide mobile resume, language, map controls, immediate completion and acce
   await page.getByRole('button', { name: 'Zoom in on location map' }).click();
   await expect(map).not.toHaveAttribute('viewBox', view);
   await page.locator('.site-header').getByRole('button', { name: '中文', exact: true }).click();
-  await page.reload();
+  await reloadAfterAssets(page);
   await expect(page.getByRole('button', { name: '第 2 节', exact: true })).toHaveAttribute('aria-current', 'step');
   await expect(page.locator('[data-section-heading="1"]')).toBeInViewport();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -170,7 +180,7 @@ test('guide mobile resume, language, map controls, immediate completion and acce
 test('Chinese persists, corrupt storage recovers, reset needs confirmation', async ({ page }) => {
   await page.goto('./#/atlas');
   await page.locator('.site-header').getByRole('button', { name: '中文', exact: true }).click();
-  await page.reload();
+  await reloadAfterAssets(page);
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hans');
   await expect(page.locator('.journey-atlas')).toHaveAttribute('data-language', 'zh');
   await page.goto('./#/read/my-hometown');
@@ -295,7 +305,7 @@ test('resume from the atlas after scrolling and finish a chapter across two visi
   await expect(page.locator('.finish-chapter')).toBeDisabled();
 
   await page.locator('.site-header').getByRole('button', { name: '中文', exact: true }).click();
-  await page.reload();
+  await reloadAfterAssets(page);
   await expect(page.getByRole('button', { name: '第 3 节', exact: true })).toHaveAttribute('aria-current', 'step');
   for (const number of [4, 5]) {
     await page.getByRole('button', { name: `第 ${number} 节`, exact: true }).click();
@@ -328,7 +338,7 @@ test.describe('Continue reading on a phone', () => {
 
     await reopened.setViewportSize({ width: 390, height: 844 });
     await expect(reopened.locator('.rotate-gate')).toBeVisible();
-    await reopened.reload();
+    await reloadAfterAssets(reopened);
     await expect(reopened.locator('.reading-section')).toHaveCount(5);
     await reopened.setViewportSize({ width: 844, height: 390 });
     await expect(reopened.locator('.rotate-gate')).not.toBeVisible();
