@@ -4,6 +4,6 @@ Yanbing Chen and Ganrong(James) Fu proposed the bilingual literary atlas and its
 
 OpenAI Codex drafted most of the new React interface and progress logic, including section bookmarks and chapter seals. It also helped integrate the credited map code, write and run tests, troubleshoot browser issues, configure deployment and edit documentation.
 
-We estimate that Codex generated about 16% of the website's runtime code by line count. Roughly 900 of 5,700 nonblank JavaScript, JSX and CSS lines under src are in the new interface, layout and state files drafted with Codex. The total includes hand-written, reused and adapted code. We counted mixed-source map and reader files only in the total. This estimate excludes chapter text, assets, datasets, dependencies, tests, configuration and documentation.
+Our group's current rough estimate is that approximately 80% of the application code was generated with AI assistance, including AI-drafted and AI-reworked code. This is the group's overall assessment of AI use during development. Literary text, artwork, datasets and dependencies are outside this code estimate.
 
-Before submission, both authors should confirm their individual contributions and any AI use in the source project or outside this repository, then update this estimate if needed.
+Before submission, both authors should confirm their individual contributions, actual work hours and any additional AI tools used in the source project or outside this repository.
